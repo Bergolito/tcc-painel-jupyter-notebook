@@ -502,6 +502,43 @@ with tab07:
     
     st.altair_chart(grafico)
 
+    df_envolvidos = pd.read_csv('correlacao_classificacao_2023.csv')
+    
+    # Define os dados
+    dados = df_envolvidos.set_index('classificacao').T.reset_index().melt(id_vars='index', var_name='classificacao', value_name='value')
+
+    # Cria o gráfico de calor
+    heatmap = alt.Chart(dados).mark_rect().encode(
+        x=alt.X('index:O', title=None, axis=alt.Axis(orient='top')),  # Define a orientação do eixo x como 'top'
+        y=alt.Y('classificacao:O', title=None),
+        color=alt.Color('value:Q'),
+        #color=alt.Color('value:Q', scale=alt.Scale(scheme='yellowgreenblue')),
+        #color=alt.Color('value:Q', scale=alt.Scale(scheme='viridis')),
+        # color_scale='category10'        
+    )
+
+    # Adiciona o texto dentro de cada célula com o valor real e ajusta a cor do texto
+    text = alt.Chart(dados).mark_text(baseline='middle', fontSize=10).encode(
+        x='index:O',
+        y='classificacao:O',
+        text=alt.Text('value:Q', format='.0f'),
+        color=alt.condition(
+            alt.datum['value'] > (dados['value'].max() - dados['value'].min()) / 2,
+            alt.value('white'),
+            alt.value('black')
+        )
+    )
+
+    # Combina o gráfico de calor com o texto
+    heatmap_with_text = (heatmap + text).properties(
+        width=800,
+        height=600,
+        title=f'Mapa de Calor dos Envolvidos nos acidentes (aaa)'
+    )
+
+    # Exibe o gráfico    
+    st.altair_chart(heatmap_with_text)
+
 # ==============================================================================
 with tab08:
 
