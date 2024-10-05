@@ -18,7 +18,7 @@ from vega_datasets import data
 # =======================================================
 # Datasets
 # =======================================================
-df_acidentes_geral_ufs       = pd.read_csv('acidentes_geral_ufs.csv', sep=',', encoding="UTF-8") 
+df_acidentes_geral_por_uf    = pd.read_csv('acidentes_geral_por_uf.csv', sep=',', encoding="UTF-8") 
 df_acidentes_geral_por_tipo  = pd.read_csv('acidentes_geral_por_tipo.csv', sep=',', encoding="UTF-8") 
 df_acidentes_geral_por_br    = pd.read_csv('acidentes_geral_por_br.csv', sep=',', encoding="UTF-8") 
 df_acidentes_geral_por_causa = pd.read_csv('acidentes_geral_por_causa.csv', sep=',', encoding="UTF-8") 
@@ -203,7 +203,7 @@ with tab01:
 
     # aba 01
     if ano_selecionado != OPCAO_TODOS:
-      df_filtrado_uf = df_acidentes_geral_ufs[(df_acidentes_geral_ufs[COLUNA_ANO] == int(ano_selecionado))]
+      df_filtrado_uf = df_acidentes_geral_por_uf[(df_acidentes_geral_por_uf[COLUNA_ANO] == int(ano_selecionado))]
       titulo = f'Acidentes por UF em {ano_selecionado}'
       grafico_aba_01 = gera_grafico_barras_horizontal_por_uf(titulo, df_filtrado_uf)
 
@@ -221,7 +221,7 @@ with tab01:
         
     else:
       titulo = f'Acidentes por UF (Geral)'    
-      grafico_aba_01 = gera_grafico_barras_horizontal_por_uf(titulo, df_acidentes_geral_ufs)
+      grafico_aba_01 = gera_grafico_barras_horizontal_por_uf(titulo, df_acidentes_geral_por_uf)
 
       titulo = f'Acidentes por Tipo (Geral)'    
       grafico_aba_02 = gera_grafico_barras_horizontal_por_tipo(titulo, df_acidentes_geral_por_tipo)
@@ -245,7 +245,7 @@ with tab02:
     titulo = f'<h2> Ranking dos Acidentes por UF (2007 a 2024)'
     st.markdown(titulo, unsafe_allow_html=True)  
    
-    grafico1 = alt.Chart(df_acidentes_geral_ufs).mark_line(point=True).encode(
+    grafico1 = alt.Chart(df_acidentes_geral_por_uf).mark_line(point=True).encode(
         x=alt.X('ano:O', title='Ano'),
         y="rank:O",
         color=alt.Color("UF:N")
@@ -265,7 +265,7 @@ with tab02:
     df_ordenado_ano = df_ranking_uf.sort_values('ano')
     
     # Criar o gráfico de linhas interativo
-    grafico2 = alt.Chart(df_acidentes_geral_ufs).mark_line(point=True).encode(
+    grafico2 = alt.Chart(df_acidentes_geral_por_uf).mark_line(point=True).encode(
       x=alt.X('ano:N', axis=alt.Axis(title='Ano')),
       y=alt.Y('Qtd:Q', axis=alt.Axis(title='Quantidade de Acidentes')),
       color='UF:N',
@@ -383,51 +383,98 @@ with tab05:
 
 # ==============================================================================
 with tab06:
+    
+    # ==========================================================================
+    # Funções da Aba 06 
+    # ==========================================================================
+    def grafico_barras_empilhadas_por_uf(titulo, df):
+        grafico = alt.Chart(df).mark_bar(width=20).encode(
+            x='ano',
+            y='sum(Qtd)',
+            color='UF'
+        ).properties(
+              title=titulo,
+              width=800, height=600
+        ).interactive()   
+        
+        return grafico
+    # ==========================================================================
+    def grafico_barras_empilhadas_por_br(titulo, df):
+        grafico = alt.Chart(df).mark_bar(width=20).encode(
+            x='ano',
+            y='sum(qtd)',
+            color='br:N'
+        ).properties(
+              title=titulo,
+              width=800, height=600
+        ).interactive()   
 
+        return grafico
+    # ==========================================================================
+    def grafico_barras_empilhadas_por_tipo(titulo, df):
+
+        grafico = alt.Chart(df).mark_bar(width=20).encode(
+            x='ano',
+            y='sum(qtd)',
+            color='tipo_acidente'
+        ).properties(
+              title=titulo,
+              width=800, height=600
+        ).interactive()   
+    
+        return grafico
+    # ==========================================================================
+    def grafico_barras_empilhadas_por_causa(titulo, df):
+            
+        grafico = alt.Chart(df).mark_bar(width=20).encode(
+            x='ano',
+            y='sum(qtd)',
+            color='causa_acidente'
+        ).properties(
+              title=titulo,
+              width=800, height=600
+        ).interactive()   
+
+        return grafico
+    # ==========================================================================
+            
     # aba 06
     titulo = f'<H2> Gráficos de Barras Empilhadas'
     st.markdown(titulo, unsafe_allow_html=True)    
-   
-    grafico1 = alt.Chart(df_acidentes_geral_ufs).mark_bar(width=20).encode(
-        x='ano',
-        y='sum(Qtd)',
-        color='UF'
-    ).properties(
-          title='Barras Empilhadas por UF (2007-2024)',
-          width=800, height=600
-    ).interactive()   
-    st.altair_chart(grafico1)        
-    
-    grafico2 = alt.Chart(df_acidentes_geral_por_br).mark_bar(width=20).encode(
-        x='ano',
-        y='sum(qtd)',
-        color='br:N'
-    ).properties(
-          title='Barras Empilhadas por BR (2007-2024)',
-          width=800, height=600
-    ).interactive()   
-    st.altair_chart(grafico2)        
 
-    grafico3 = alt.Chart(df_acidentes_geral_por_tipo).mark_bar(width=20).encode(
-        x='ano',
-        y='sum(qtd)',
-        color='tipo_acidente'
-    ).properties(
-          title='Barras Empilhadas por Tipos de Acidentes (2007-2024)',
-          width=800, height=600
-    ).interactive()   
+    # aba 06
+    if ano_selecionado != OPCAO_TODOS:
+
+      # por UF      
+      df_filtrado_uf = df_acidentes_geral_por_uf[(df_acidentes_geral_por_uf[COLUNA_ANO] == int(ano_selecionado))]
+      titulo = f'Barras Empilhadas por UF em {ano_selecionado}'
+      grafico1 = grafico_barras_empilhadas_por_uf(titulo, df_filtrado_uf)        
+
+      # por BR    
+      df_filtrado_br = df_acidentes_geral_por_br[(df_acidentes_geral_por_br[COLUNA_ANO] == int(ano_selecionado))]
+      titulo = f'Barras Empilhadas por BR em {ano_selecionado}'
+      grafico2 = grafico_barras_empilhadas_por_br(titulo, df_filtrado_br)  
+
+      # por Tipo 
+      df_filtrado_tipo = df_acidentes_geral_por_tipo[(df_acidentes_geral_por_tipo[COLUNA_ANO] == int(ano_selecionado))]
+      titulo = f'Barras Empilhadas por Tipo em {ano_selecionado}'
+      grafico3 = grafico_barras_empilhadas_por_tipo(titulo, df_filtrado_tipo)  
+
+      # por Causa 
+      df_filtrado_causa = df_acidentes_geral_por_causa[(df_acidentes_geral_por_causa[COLUNA_ANO] == int(ano_selecionado))]
+      titulo = f'Barras Empilhadas por Causa de Acidente em {ano_selecionado}'
+      grafico4 = grafico_barras_empilhadas_por_causa(titulo, df_filtrado_causa)  
+
+    else:
+      grafico1 = grafico_barras_empilhadas_por_uf('Barras Empilhadas por UF (2007 a 2024)', df_acidentes_geral_por_uf)            
+      grafico2 = grafico_barras_empilhadas_por_br('Barras Empilhadas por BR (2007 a 2024)', df_acidentes_geral_por_br)  
+      grafico3 = grafico_barras_empilhadas_por_tipo('Barras Empilhadas por Tipos de Acidentes (2007-2024)', df_acidentes_geral_por_tipo)    
+      grafico4 = grafico_barras_empilhadas_por_causa('Barras Empilhadas por Causa de Acidentes (2007-2024)', df_acidentes_geral_por_causa)      
+    
+    st.altair_chart(grafico1)                  
+    st.altair_chart(grafico2)     
     st.altair_chart(grafico3)        
-
-    grafico4 = alt.Chart(df_acidentes_geral_por_causa).mark_bar(width=20).encode(
-        x='ano',
-        y='sum(qtd)',
-        color='causa_acidente'
-    ).properties(
-          title='Barras Empilhadas por Causa de Acidente (2007-2024)',
-          width=800, height=600
-    ).interactive()   
-    st.altair_chart(grafico4)        
-    
+    st.altair_chart(grafico4)           
 
 # ==============================================================================
 with tab07:
