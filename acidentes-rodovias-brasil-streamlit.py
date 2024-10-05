@@ -190,8 +190,8 @@ tab01, tab02, tab03, tab04, tab05, tab06, tab07, tab08, tab09 = st.tabs(
     "Ranking por UF", 
     "Ranking por Tipo", 
     "Ranking por BR",
-    "Streamgraph",
-    "Stacked Bar Chart",
+    "Gráficos de Fluxo",
+    "Gráficos de Barras Empilhadas",
     "Mapa de Calor",
     "Mapa Interativo",
     "Scatter Plot"  
@@ -366,35 +366,68 @@ with tab04:
 with tab05:
 
     # aba 05
-    titulo = f'https://altair-viz.github.io/gallery/streamgraph.html'
+    titulo = f'<H2> Gráficos de Fluxo'
     st.markdown(titulo, unsafe_allow_html=True)
 
-    source = data.unemployment_across_industries.url
-    
-    grafico = alt.Chart(source).mark_area().encode(
-        alt.X('yearmonth(date):T').axis(format='%Y', domain=False, tickSize=0),
-        alt.Y('sum(count):Q').stack('center').axis(None),
-        alt.Color('series:N').scale(scheme='category20b')
+    grafico1 = alt.Chart(df_acidentes_geral_por_tipo).mark_area().encode(
+        alt.X('ano:Q').axis(domain=False, tickSize=0),
+        alt.Y('sum(qtd):Q').stack('center').axis(None),
+        alt.Color('tipo_acidente:N').scale(scheme='category20b')
+    ).properties(
+      title='Gráfico de Fluxo - Tipos de Acidentes (2007 a 2024)',
+      width=800, height=600
+            
     ).interactive()
 
-    st.altair_chart(grafico)
+    st.altair_chart(grafico1)
 
 # ==============================================================================
 with tab06:
 
     # aba 06
-    titulo = f'https://altair-viz.github.io/gallery/stacked_bar_chart.html'
+    titulo = f'<H2> Gráficos de Barras Empilhadas'
     st.markdown(titulo, unsafe_allow_html=True)    
    
-    source = data.barley()
+    grafico1 = alt.Chart(df_acidentes_geral_ufs).mark_bar(width=20).encode(
+        x='ano',
+        y='sum(Qtd)',
+        color='UF'
+    ).properties(
+          title='Barras Empilhadas por UF (2007-2024)',
+          width=800, height=600
+    ).interactive()   
+    st.altair_chart(grafico1)        
     
-    grafico = alt.Chart(source).mark_bar().encode(
-        x='variety',
-        y='sum(yield)',
-        color='site'
-    )
+    grafico2 = alt.Chart(df_acidentes_geral_por_br).mark_bar(width=20).encode(
+        x='ano',
+        y='sum(qtd)',
+        color='br:N'
+    ).properties(
+          title='Barras Empilhadas por BR (2007-2024)',
+          width=800, height=600
+    ).interactive()   
+    st.altair_chart(grafico2)        
 
-    st.altair_chart(grafico)
+    grafico3 = alt.Chart(df_acidentes_geral_por_tipo).mark_bar(width=20).encode(
+        x='ano',
+        y='sum(qtd)',
+        color='tipo_acidente'
+    ).properties(
+          title='Barras Empilhadas por Tipos de Acidentes (2007-2024)',
+          width=800, height=600
+    ).interactive()   
+    st.altair_chart(grafico3)        
+
+    grafico4 = alt.Chart(df_acidentes_geral_por_causa).mark_bar(width=20).encode(
+        x='ano',
+        y='sum(qtd)',
+        color='causa_acidente'
+    ).properties(
+          title='Barras Empilhadas por Causa de Acidente (2007-2024)',
+          width=800, height=600
+    ).interactive()   
+    st.altair_chart(grafico4)        
+    
 
 # ==============================================================================
 with tab07:
