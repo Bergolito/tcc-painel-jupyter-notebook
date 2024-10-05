@@ -242,13 +242,11 @@ with tab01:
 with tab02:
 
     # aba 02
-    titulo = f'Ranking por UF'
+    titulo = f'<h2> Ranking dos Acidentes por UF (2007 a 2024)'
     st.markdown(titulo, unsafe_allow_html=True)  
-
-    df_acidentes_geral_ufs
-    
+   
     grafico1 = alt.Chart(df_acidentes_geral_ufs).mark_line(point=True).encode(
-        x=alt.X('ano:O', timeUnit='year', title='Ano'),
+        x=alt.X('ano:O', title='Ano'),
         y="rank:O",
         color=alt.Color("UF:N")
     ).transform_window(
@@ -256,9 +254,9 @@ with tab02:
         sort=[alt.SortField("Qtd", order="descending")],
         groupby=["ano"]
     ).properties(
-        title="Ranking das 10 UFs com mais Acidentes entre 2007 e 2023",
+        title="Ranking das 10 UFs com mais Acidentes (2007 a 2024)",
         width=800,
-        height=400,
+        height=600,
     )
 
     st.altair_chart(grafico1)
@@ -273,8 +271,8 @@ with tab02:
       color='UF:N',
       tooltip=['UF', 'Qtd', 'ano']
     ).properties(
-      title='Evolução da Quantidade de Acidentes por UF (2007-2023)',
-      width=1024, height=500
+      title='Evolução da Quantidade de Acidentes por UF  (2007 a 2024)',
+      width=800, height=600
     ).add_selection(
       alt.selection_single(fields=['ano'], bind='legend')
     ).interactive()
@@ -286,13 +284,11 @@ with tab02:
 with tab03:
 
     # aba 03
-    titulo = f'Ranking por Tipo'
-    st.markdown(titulo, unsafe_allow_html=True)
-
-    df_acidentes_geral_por_tipo
-    
-    grafico = alt.Chart(df_acidentes_geral_por_tipo).mark_line(point=True).encode(
-        x=alt.X('ano:O', timeUnit='year', title='Ano'),
+    titulo = f'<h2> Ranking dos Acidentes por Tipo (2007 e 2024)'
+    st.markdown(titulo, unsafe_allow_html=True)   
+   
+    grafico1 = alt.Chart(df_acidentes_geral_por_tipo).mark_line(point=True).encode(
+        x=alt.X('ano:O', title='Ano'),
         y="rank:O",
         color=alt.Color("tipo_acidente:N")
     ).transform_window(
@@ -300,24 +296,40 @@ with tab03:
         sort=[alt.SortField("qtd", order="descending")],
         groupby=["ano"]
     ).properties(
-        title="Ranking dos Tipos de Acidentes entre 2007 e 2023",
+        title="Ranking dos Tipos de Acidentes (2007 a 2024)",
         width=800,
-        height=400,
+        height=600,
     )
 
-    st.altair_chart(grafico)
+    st.altair_chart(grafico1)
+   
+    # Ordenar o DataFrame por ano
+    df_ordenado_ano = df_ranking_uf.sort_values('ano')
+    
+    # Criar o gráfico de linhas interativo
+    grafico2 = alt.Chart(df_acidentes_geral_por_tipo).mark_line(point=True).encode(
+      x=alt.X('ano:N', axis=alt.Axis(title='Ano')),
+      y=alt.Y('qtd:Q', axis=alt.Axis(title='Quantidade de Acidentes')),
+      color='tipo_acidente:N',
+      tooltip=['tipo_acidente', 'qtd', 'ano']
+    ).properties(
+      title='Evolução da Quantidade de Acidentes por Tipo  (2007 a 2024)',
+      width=800, height=600
+    ).add_selection(
+      alt.selection_single(fields=['ano'], bind='legend')
+    ).interactive()
+    
+    st.altair_chart(grafico2)
     
 # ==============================================================================
 with tab04:
 
     # aba 04
-    titulo = f'Ranking por BR'
+    titulo = f'<h2> Ranking dos Acidentes por BR (2007 e 2024)'
     st.markdown(titulo, unsafe_allow_html=True)
-
-    df_acidentes_geral_por_br
-    
-    grafico_ranking_br = alt.Chart(df_acidentes_geral_por_br).mark_line(point=True).encode(
-        x=alt.X('ano:O', timeUnit='year', title='Ano'),
+  
+    grafico_ranking_br_01 = alt.Chart(df_acidentes_geral_por_br).mark_line(point=True).encode(
+        x=alt.X('ano:O', title='Ano'),
         y="rank:O",
         color=alt.Color("br:N")
     ).transform_window(
@@ -325,12 +337,30 @@ with tab04:
         sort=[alt.SortField("qtd", order="descending")],
         groupby=["ano"]
     ).properties(
-        title="Ranking das 20 BRs com mais acidentes entre 2007 e 2023",
+        title="Ranking das 20 BRs com mais acidentes  (2007 a 2024)",
         width=800,
-        height=400,
+        height=600,
     )
 
-    st.altair_chart(grafico_ranking_br)
+    st.altair_chart(grafico_ranking_br_01)
+
+    # Ordenar o DataFrame por ano
+    df_ordenado_ano = df_ranking_br.sort_values('ano')
+    
+    # Criar o gráfico de linhas interativo
+    grafico_ranking_br_02 = alt.Chart(df_acidentes_geral_por_br).mark_line(point=True).encode(
+      x=alt.X('ano:N', axis=alt.Axis(title='Ano')),
+      y=alt.Y('qtd:Q', axis=alt.Axis(title='Quantidade de Acidentes')),
+      color='br:N',
+      tooltip=['br', 'qtd', 'ano']
+    ).properties(
+      title='Evolução da Quantidade de Acidentes por BR (2007-2023)',
+      width=800, height=600
+    ).add_selection(
+      alt.selection_single(fields=['ano'], bind='legend')
+    ).interactive()
+    
+    st.altair_chart(grafico_ranking_br_02)
 
 # ==============================================================================
 with tab05:
