@@ -14,7 +14,6 @@ import matplotlib.pyplot as plt
 
 from vega_datasets import data
 
-
 # =======================================================
 # Datasets
 # =======================================================
@@ -22,6 +21,8 @@ df_acidentes_geral_por_uf    = pd.read_csv('acidentes_geral_por_uf.csv', sep=','
 df_acidentes_geral_por_tipo  = pd.read_csv('acidentes_geral_por_tipo.csv', sep=',', encoding="UTF-8") 
 df_acidentes_geral_por_br    = pd.read_csv('acidentes_geral_por_br.csv', sep=',', encoding="UTF-8") 
 df_acidentes_geral_por_causa = pd.read_csv('acidentes_geral_por_causa.csv', sep=',', encoding="UTF-8") 
+df_acidentes_geral_por_classificacao = pd.read_csv('acidentes_geral_por_classificacao.csv', sep=',', encoding="UTF-8") 
+df_acidentes_geral_por_fasedia = pd.read_csv('acidentes_geral_por_fase_dia.csv', sep=',', encoding="UTF-8") 
 
 # =======================================================
 # Rankings
@@ -32,11 +33,6 @@ df_ranking_br = pd.read_csv('ranking_acidentes_br.csv', sep=',', encoding="UTF-8
 
 # =======================================================
 # Funções
-# =======================================================
-def agrupamento_acidentes_por_ano_por_uf(df):
-  contagem_por_uf = df['uf'].value_counts().reset_index()
-  contagem_por_uf.columns = ['UF', 'Qtd']
-  return contagem_por_uf
 # =======================================================
 def gera_grafico_barras_horizontal_por_uf(titulo, contagem_por_uf_ano):
 
@@ -51,6 +47,7 @@ def gera_grafico_barras_horizontal_por_uf(titulo, contagem_por_uf_ano):
       y=alt.Y('UF:N', sort='-x', axis=alt.Axis(labelLimit=200)),
       x=alt.X('Qtd:Q', axis=alt.Axis(labelAngle=-45)),
       tooltip=['UF', 'Qtd'],
+      #scale=alt.Scale(scheme='yellowgreenblue')
       color=alt.Color('UF:N', scale=lista_cores)
 
   ).properties(
@@ -62,13 +59,6 @@ def gera_grafico_barras_horizontal_por_uf(titulo, contagem_por_uf_ano):
   ).interactive()
 
   return chart_uf
-
-# =======================================================
-def contagem_por_tipo_acidente(df_ocorrencia_acidentes):
-  contagem_por_tipo = df_ocorrencia_acidentes['tipo_acidente'].value_counts().reset_index(name='qtd').rename(columns={'index': 'UF'})
-  contagem_por_tipo.columns = ['tipo_acidente', 'qtd']
-
-  return contagem_por_tipo
 # =======================================================
 def gera_grafico_barras_horizontal_por_tipo(titulo, contagem_por_tipo_ano):
 
@@ -86,7 +76,6 @@ def gera_grafico_barras_horizontal_por_tipo(titulo, contagem_por_tipo_ano):
       color=alt.Color('tipo_acidente:N', scale=lista_cores)
 
   ).properties(
-      #title=f'Acidentes por Tipo no Ano de {ano}',
       title=titulo,
       width=800,
       height=600           
@@ -110,7 +99,6 @@ def gera_grafico_barras_horizontal_por_br(titulo, contagem_por_br_ano):
       color=alt.Color('br:N', scale=lista_cores)
 
   ).properties(
-      #title=f'Acidentes por BR no Ano de {ano}'
       title=titulo,
       width=800,
       height=600           
@@ -141,10 +129,51 @@ def gera_grafico_barras_horizontal_por_causa(titulo, contagem_por_causa_ano):
 
   return chart
 # =======================================================
-def agrupamento_acidentes_por_ano_por_uf(df):
-  contagem_por_uf = df['uf'].value_counts().reset_index()
-  contagem_por_uf.columns = ['UF', 'Qtd']
-  return contagem_por_uf
+def gera_grafico_por_classificacao(titulo, contagem_por_classificacao_ano):
+
+  lista_cores = alt.Scale(domain=contagem_por_classificacao_ano['classificacao_acidente'].unique(),
+      range=[
+        '#007bff', '#28a745', '#ffc107', '#dc3545', '#6c757d', '#d95b43', '#5bc0de', '#4caf50', '#ffeb3b', '#c497d9',
+        '#00BFFF', '#32CD32', '#FF00FF', '#FFA500', '#5A87E8', '#00CED1', '#FF7F50', '#228B22', '#FFD700', '#000080',
+        '#FF1493', '#4B0082', '#8A2BE2', '#7FFF00', '#00FFFF', '#008000'
+      ])
+
+  chart = alt.Chart(contagem_por_classificacao_ano).mark_bar().encode(
+      y=alt.Y('classificacao_acidente:N', sort='-x', axis=alt.Axis(labelLimit=200)),
+      x=alt.X('qtd:Q', axis=alt.Axis(labelAngle=-45)),
+      tooltip=['classificacao_acidente', 'qtd'],
+      color=alt.Color('classificacao_acidente:N', scale=lista_cores)
+
+  ).properties(
+      title=titulo,
+      width=800,
+      height=600         
+  ).interactive()
+
+  return chart    
+# =======================================================
+def gera_grafico_por_fase_dia(titulo, contagem_por_fase_dia):
+
+  lista_cores = alt.Scale(domain=contagem_por_fase_dia['fase_dia'].unique(),
+      range=[
+        '#007bff', '#28a745', '#ffc107', '#dc3545', '#6c757d', '#d95b43', '#5bc0de', '#4caf50', '#ffeb3b', '#c497d9',
+        '#00BFFF', '#32CD32', '#FF00FF', '#FFA500', '#5A87E8', '#00CED1', '#FF7F50', '#228B22', '#FFD700', '#000080',
+        '#FF1493', '#4B0082', '#8A2BE2', '#7FFF00', '#00FFFF', '#008000'
+      ])
+
+  chart = alt.Chart(contagem_por_fase_dia).mark_bar().encode(
+      y=alt.Y('fase_dia:N', sort='-x', axis=alt.Axis(labelLimit=200)),
+      x=alt.X('qtd:Q', axis=alt.Axis(labelAngle=-45)),
+      tooltip=['fase_dia', 'qtd'],
+      color=alt.Color('fase_dia:N', scale=lista_cores)
+
+  ).properties(
+      title=titulo,
+      width=800,
+      height=600         
+  ).interactive()
+
+  return chart
 # =======================================================
 
 
@@ -186,7 +215,8 @@ horario_acidente = st.sidebar.slider(
 # Definição de abas
 tab01, tab02, tab03, tab04, tab05, tab06, tab07, tab08, tab09 = st.tabs(
   [
-    "Acidentes por UF / por Tipo / por BR / por Causa",
+    #"Acidentes por UF / por Tipo / por BR / por Causa / por Classificação / por Fase do Dia",  
+    "Acidentes por Vários Critérios",
     "Ranking por UF", 
     "Ranking por Tipo", 
     "Ranking por BR",
@@ -201,6 +231,10 @@ tab01, tab02, tab03, tab04, tab05, tab06, tab07, tab08, tab09 = st.tabs(
 # ==============================================================================
 with tab01:
 
+    # aba 01
+    titulo = f'<h2> Acidentes por UF / por Tipo / por BR / por Causa / por Classificação / por Fase do Dia '
+    st.markdown(titulo, unsafe_allow_html=True)  
+    
     # aba 01
     if ano_selecionado != OPCAO_TODOS:
       df_filtrado_uf = df_acidentes_geral_por_uf[(df_acidentes_geral_por_uf[COLUNA_ANO] == int(ano_selecionado))]
@@ -218,7 +252,15 @@ with tab01:
       df_filtrado_causa = df_acidentes_geral_por_causa[(df_acidentes_geral_por_causa[COLUNA_ANO] == int(ano_selecionado))]
       titulo = f'Acidentes por Causa em {ano_selecionado}'  
       grafico_aba_04 = gera_grafico_barras_horizontal_por_causa(titulo, df_filtrado_causa)
-        
+
+      df_filtrado_classificacao = df_acidentes_geral_por_classificacao[(df_acidentes_geral_por_classificacao[COLUNA_ANO] == int(ano_selecionado))]
+      titulo = f'Acidentes por Classificacao em {ano_selecionado}'  
+      grafico_aba_05 = gera_grafico_por_classificacao(titulo, df_filtrado_classificacao)
+
+      df_filtrado_fasedia = df_acidentes_geral_por_fasedia[(df_acidentes_geral_por_fasedia[COLUNA_ANO] == int(ano_selecionado))]
+      titulo = f'Acidentes por Fase do Dia em {ano_selecionado}'  
+      grafico_aba_06 = gera_grafico_por_fase_dia(titulo, df_filtrado_fasedia)
+
     else:
       titulo = f'Acidentes por UF (Geral)'    
       grafico_aba_01 = gera_grafico_barras_horizontal_por_uf(titulo, df_acidentes_geral_por_uf)
@@ -231,12 +273,20 @@ with tab01:
 
       titulo = f'Acidentes por Causa (Geral)'    
       grafico_aba_04 = gera_grafico_barras_horizontal_por_causa(titulo, df_acidentes_geral_por_causa)
+
+      titulo = f'Acidentes por Classificacao (Geral)'    
+      grafico_aba_05 = gera_grafico_por_classificacao(titulo, df_acidentes_geral_por_classificacao)
+
+      titulo = f'Acidentes por Fase do Dia (Geral)'    
+      grafico_aba_06 = gera_grafico_por_fase_dia(titulo, df_acidentes_geral_por_fasedia)
     
     # Exibir o gráfico de barras empilhadas
     st.altair_chart(grafico_aba_01)
     st.altair_chart(grafico_aba_02)
     st.altair_chart(grafico_aba_03)
     st.altair_chart(grafico_aba_04)
+    st.altair_chart(grafico_aba_05)
+    st.altair_chart(grafico_aba_06)
 
 # ==============================================================================
 with tab02:
@@ -278,7 +328,6 @@ with tab02:
     ).interactive()
     
     st.altair_chart(grafico2)
-
 
 # ==============================================================================
 with tab03:
@@ -512,9 +561,6 @@ with tab07:
         x=alt.X('index:O', title=None, axis=alt.Axis(orient='top')),  # Define a orientação do eixo x como 'top'
         y=alt.Y('classificacao:O', title=None),
         color=alt.Color('value:Q'),
-        #color=alt.Color('value:Q', scale=alt.Scale(scheme='yellowgreenblue')),
-        #color=alt.Color('value:Q', scale=alt.Scale(scheme='viridis')),
-        # color_scale='category10'        
     )
 
     # Adiciona o texto dentro de cada célula com o valor real e ajusta a cor do texto
