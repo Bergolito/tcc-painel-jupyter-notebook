@@ -23,6 +23,7 @@ df_acidentes_geral_por_br    = pd.read_csv('acidentes_geral_por_br.csv', sep=','
 df_acidentes_geral_por_causa = pd.read_csv('acidentes_geral_por_causa.csv', sep=',', encoding="UTF-8") 
 df_acidentes_geral_por_classificacao = pd.read_csv('acidentes_geral_por_classificacao.csv', sep=',', encoding="UTF-8") 
 df_acidentes_geral_por_fasedia = pd.read_csv('acidentes_geral_por_fase_dia.csv', sep=',', encoding="UTF-8") 
+df_acidentes_geral_por_condicaometereologica = pd.read_csv('acidentes_geral_por_condicao_metereologica.csv', sep=',', encoding="UTF-8") 
 
 # =======================================================
 # Rankings
@@ -46,9 +47,8 @@ def gera_grafico_barras_horizontal_por_uf(titulo, contagem_por_uf_ano):
   chart_uf = alt.Chart(contagem_por_uf_ano).mark_bar().encode(
       y=alt.Y('UF:N', sort='-x', axis=alt.Axis(labelLimit=200)),
       x=alt.X('Qtd:Q', axis=alt.Axis(labelAngle=-45)),
-      tooltip=['UF', 'Qtd'],
-      #scale=alt.Scale(scheme='yellowgreenblue')
-      color=alt.Color('UF:N', scale=lista_cores)
+      tooltip=['UF', 'Qtd'],      
+      color=alt.Color('UF:N', scale=lista_cores)     
 
   ).properties(
       title=alt.Title(
@@ -175,6 +175,29 @@ def gera_grafico_por_fase_dia(titulo, contagem_por_fase_dia):
 
   return chart
 # =======================================================
+def gera_grafico_por_condicao_metereologica(titulo, contagem_por_condicao_metereologica):
+
+  lista_cores = alt.Scale(domain=contagem_por_condicao_metereologica['condicao_metereologica'].unique(),
+      range=[
+        '#007bff', '#28a745', '#ffc107', '#dc3545', '#6c757d', '#d95b43', '#5bc0de', '#4caf50', '#ffeb3b', '#c497d9',
+        '#00BFFF', '#32CD32', '#FF00FF', '#FFA500', '#5A87E8', '#00CED1', '#FF7F50', '#228B22', '#FFD700', '#000080',
+        '#FF1493', '#4B0082', '#8A2BE2', '#7FFF00', '#00FFFF', '#008000'
+      ])
+
+  chart = alt.Chart(contagem_por_condicao_metereologica).mark_bar().encode(
+      y=alt.Y('condicao_metereologica:N', sort='-x', axis=alt.Axis(labelLimit=200)),
+      x=alt.X('qtd:Q', axis=alt.Axis(labelAngle=-45)),
+      tooltip=['condicao_metereologica', 'qtd'],
+      color=alt.Color('condicao_metereologica:N', scale=lista_cores)
+
+  ).properties(
+      title=titulo,
+      width=800,
+      height=600         
+  ).interactive()
+
+  return chart
+# =======================================================
 
 
 # =======================================================
@@ -198,33 +221,35 @@ ano_selecionado = st.sidebar.selectbox(
 
 print(f'Ano Selecionado = {ano_selecionado}')
 
-meses_selecionados = st.sidebar.multiselect(
-    'Quais meses deseja visualizar?',
-    [OPCAO_TODOS, 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro','Outubro','Novembro','Dezembro'],
-  )
+#meses_selecionados = st.sidebar.multiselect(
+#    'Quais meses deseja visualizar?',
+#    [OPCAO_TODOS, 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro','Outubro','Novembro','Dezembro'],
+#  )
 
 #st.sidebar.write("Meses selecionados:", meses_selecionados)
 #print(f'Meses selecionados: {meses_selecionados}')
 
 # Add a slider to the sidebar:
-horario_acidente = st.sidebar.slider(
-    'Horário do acidente:',
-    0, 24, (0, 24)
-)
+#horario_acidente = st.sidebar.slider(
+#    'Horário do acidente:',
+#    0, 24, (0, 24)
+#)
 
 # Definição de abas
-tab01, tab02, tab03, tab04, tab05, tab06, tab07, tab08, tab09 = st.tabs(
+tab01, tab02, tab03, tab04, tab05, tab06, tab07, tab08, tab09, tab10, tab11 = st.tabs(
   [
     #"Acidentes por UF / por Tipo / por BR / por Causa / por Classificação / por Fase do Dia",  
-    "Acidentes por Vários Critérios",
+    "Acidentes por Critérios",
     "Ranking por UF", 
     "Ranking por Tipo", 
     "Ranking por BR",
-    "Gráficos de Fluxo",
-    "Gráficos de Barras Empilhadas",
+    "Ranking por Classificação",
+    "Ranking por Fase do Dia",
     "Mapa de Calor",
     "Mapa Interativo",
-    "Scatter Plot"  
+    "Scatter Plot",
+    "Gráficos de Fluxo",
+    "Gráficos de Barras Empilhadas",
   ]
 )
 
@@ -232,7 +257,7 @@ tab01, tab02, tab03, tab04, tab05, tab06, tab07, tab08, tab09 = st.tabs(
 with tab01:
 
     # aba 01
-    titulo = f'<h2> Acidentes por UF / por Tipo / por BR / por Causa / por Classificação / por Fase do Dia '
+    titulo = f'<h2> Acidentes por UF / por Tipo / por BR / por Causa / por Classificação / por Fase do Dia / por Condição Metereológica '
     st.markdown(titulo, unsafe_allow_html=True)  
     
     # aba 01
@@ -261,6 +286,10 @@ with tab01:
       titulo = f'Acidentes por Fase do Dia em {ano_selecionado}'  
       grafico_aba_06 = gera_grafico_por_fase_dia(titulo, df_filtrado_fasedia)
 
+      df_filtrado_condicaometereologica = df_acidentes_geral_por_condicaometereologica[(df_acidentes_geral_por_condicaometereologica[COLUNA_ANO] == int(ano_selecionado))]
+      titulo = f'Acidentes por Condição Metereológica em {ano_selecionado}'  
+      grafico_aba_07 = gera_grafico_por_condicao_metereologica(titulo, df_filtrado_condicaometereologica)
+    
     else:
       titulo = f'Acidentes por UF (Geral)'    
       grafico_aba_01 = gera_grafico_barras_horizontal_por_uf(titulo, df_acidentes_geral_por_uf)
@@ -279,7 +308,10 @@ with tab01:
 
       titulo = f'Acidentes por Fase do Dia (Geral)'    
       grafico_aba_06 = gera_grafico_por_fase_dia(titulo, df_acidentes_geral_por_fasedia)
-    
+
+      titulo = f'Acidentes por Condição Metereológica (Geral)'    
+      grafico_aba_07 = gera_grafico_por_condicao_metereologica(titulo, df_acidentes_geral_por_condicaometereologica)
+
     # Exibir o gráfico de barras empilhadas
     st.altair_chart(grafico_aba_01)
     st.altair_chart(grafico_aba_02)
@@ -287,6 +319,7 @@ with tab01:
     st.altair_chart(grafico_aba_04)
     st.altair_chart(grafico_aba_05)
     st.altair_chart(grafico_aba_06)
+    st.altair_chart(grafico_aba_07)
 
 # ==============================================================================
 with tab02:
@@ -298,7 +331,7 @@ with tab02:
     grafico1 = alt.Chart(df_acidentes_geral_por_uf).mark_line(point=True).encode(
         x=alt.X('ano:O', title='Ano'),
         y="rank:O",
-        color=alt.Color("UF:N")
+        color=alt.Color("UF:N") #.scale(scheme='category20b')
     ).transform_window(
         rank="rank()",
         sort=[alt.SortField("Qtd", order="descending")],
@@ -310,9 +343,6 @@ with tab02:
     )
 
     st.altair_chart(grafico1)
-
-    # Ordenar o DataFrame por ano
-    df_ordenado_ano = df_ranking_uf.sort_values('ano')
     
     # Criar o gráfico de linhas interativo
     grafico2 = alt.Chart(df_acidentes_geral_por_uf).mark_line(point=True).encode(
@@ -350,10 +380,7 @@ with tab03:
         height=600,
     )
 
-    st.altair_chart(grafico1)
-   
-    # Ordenar o DataFrame por ano
-    df_ordenado_ano = df_ranking_uf.sort_values('ano')
+    st.altair_chart(grafico1)   
     
     # Criar o gráfico de linhas interativo
     grafico2 = alt.Chart(df_acidentes_geral_por_tipo).mark_line(point=True).encode(
@@ -392,10 +419,7 @@ with tab04:
     )
 
     st.altair_chart(grafico_ranking_br_01)
-
-    # Ordenar o DataFrame por ano
-    df_ordenado_ano = df_ranking_br.sort_values('ano')
-    
+   
     # Criar o gráfico de linhas interativo
     grafico_ranking_br_02 = alt.Chart(df_acidentes_geral_por_br).mark_line(point=True).encode(
       x=alt.X('ano:N', axis=alt.Axis(title='Ano')),
@@ -415,116 +439,83 @@ with tab04:
 with tab05:
 
     # aba 05
-    titulo = f'<H2> Gráficos de Fluxo'
+    titulo = f'<H2> Ranking por Classificação'
     st.markdown(titulo, unsafe_allow_html=True)
 
-    grafico1 = alt.Chart(df_acidentes_geral_por_tipo).mark_area().encode(
-        alt.X('ano:Q').axis(domain=False, tickSize=0),
-        alt.Y('sum(qtd):Q').stack('center').axis(None),
-        alt.Color('tipo_acidente:N').scale(scheme='category20b')
+    grafico_ranking_classif_01 = alt.Chart(df_acidentes_geral_por_classificacao).mark_line(point=True).encode(
+        x=alt.X('ano:O', title='Ano'),
+        y="rank:O",
+        color=alt.Color("classificacao_acidente:N")
+    ).transform_window(
+        rank="rank()",
+        sort=[alt.SortField("qtd", order="descending")],
+        groupby=["ano"]
     ).properties(
-      title='Gráfico de Fluxo - Tipos de Acidentes (2007 a 2024)',
+        title="Ranking das Classificações dos Acidentes (2007 a 2024)",
+        width=800, height=600,
+    )
+
+    st.altair_chart(grafico_ranking_classif_01)
+    
+    # Criar o gráfico de linhas interativo
+    grafico_ranking_classif_02 = alt.Chart(df_acidentes_geral_por_classificacao).mark_line(point=True).encode(
+      x=alt.X('ano:N', axis=alt.Axis(title='Ano')),
+      y=alt.Y('qtd:Q', axis=alt.Axis(title='Quantidade de Acidentes')),
+      color='classificacao_acidente:N',
+      tooltip=['classificacao_acidente', 'qtd', 'ano']
+        
+    ).properties(
+      title='Evolução da Quantidade de Acidentes por Classificação (2007-2024)',
       width=800, height=600
-            
+        
+    ).add_selection(
+      alt.selection_single(fields=['ano'], bind='legend')
+        
     ).interactive()
-
-    st.altair_chart(grafico1)
-
+    
+    st.altair_chart(grafico_ranking_classif_02)
+    
 # ==============================================================================
 with tab06:
     
-    # ==========================================================================
-    # Funções da Aba 06 
-    # ==========================================================================
-    def grafico_barras_empilhadas_por_uf(titulo, df):
-        grafico = alt.Chart(df).mark_bar(width=20).encode(
-            x='ano',
-            y='sum(Qtd)',
-            color='UF'
-        ).properties(
-              title=titulo,
-              width=800, height=600
-        ).interactive()   
+    # aba 06
+    titulo = f'<H2> Ranking por Fase do Dia'
+    st.markdown(titulo, unsafe_allow_html=True)
+
+    grafico_ranking_fasedia_01 = alt.Chart(df_acidentes_geral_por_fasedia).mark_line(point=True).encode(
+        x=alt.X('ano:O', title='Ano'),
+        y="rank:O",
+        color=alt.Color("fase_dia:N")
+    ).transform_window(
+        rank="rank()",
+        sort=[alt.SortField("qtd", order="descending")],
+        groupby=["ano"]
+    ).properties(
+        title="Ranking das Fases dos Acidentes (2007 a 2024)",
+        width=800, height=600,
+    )
+
+    st.altair_chart(grafico_ranking_fasedia_01)
+    
+    # Criar o gráfico de linhas interativo
+    grafico_ranking_fasedia_02 = alt.Chart(df_acidentes_geral_por_fasedia).mark_line(point=True).encode(
+      x=alt.X('ano:N', axis=alt.Axis(title='Ano')),
+      y=alt.Y('qtd:Q', axis=alt.Axis(title='Quantidade de Acidentes')),
+      color='fase_dia:N',
+      tooltip=['fase_dia', 'qtd', 'ano']
         
-        return grafico
-    # ==========================================================================
-    def grafico_barras_empilhadas_por_br(titulo, df):
-        grafico = alt.Chart(df).mark_bar(width=20).encode(
-            x='ano',
-            y='sum(qtd)',
-            color='br:N'
-        ).properties(
-              title=titulo,
-              width=800, height=600
-        ).interactive()   
-
-        return grafico
-    # ==========================================================================
-    def grafico_barras_empilhadas_por_tipo(titulo, df):
-
-        grafico = alt.Chart(df).mark_bar(width=20).encode(
-            x='ano',
-            y='sum(qtd)',
-            color='tipo_acidente'
-        ).properties(
-              title=titulo,
-              width=800, height=600
-        ).interactive()   
+    ).properties(
+      title='Evolução da Quantidade de Acidentes por Fase do Dia (2007-2024)',
+      width=800, height=600
+        
+    ).add_selection(
+      alt.selection_single(fields=['ano'], bind='legend')
+        
+    ).interactive()
     
-        return grafico
-    # ==========================================================================
-    def grafico_barras_empilhadas_por_causa(titulo, df):
-            
-        grafico = alt.Chart(df).mark_bar(width=20).encode(
-            x='ano',
-            y='sum(qtd)',
-            color='causa_acidente'
-        ).properties(
-              title=titulo,
-              width=800, height=600
-        ).interactive()   
+    st.altair_chart(grafico_ranking_fasedia_02)
 
-        return grafico
-    # ==========================================================================
-            
-    # aba 06
-    titulo = f'<H2> Gráficos de Barras Empilhadas'
-    st.markdown(titulo, unsafe_allow_html=True)    
-
-    # aba 06
-    if ano_selecionado != OPCAO_TODOS:
-
-      # por UF      
-      df_filtrado_uf = df_acidentes_geral_por_uf[(df_acidentes_geral_por_uf[COLUNA_ANO] == int(ano_selecionado))]
-      titulo = f'Barras Empilhadas por UF em {ano_selecionado}'
-      grafico1 = grafico_barras_empilhadas_por_uf(titulo, df_filtrado_uf)        
-
-      # por BR    
-      df_filtrado_br = df_acidentes_geral_por_br[(df_acidentes_geral_por_br[COLUNA_ANO] == int(ano_selecionado))]
-      titulo = f'Barras Empilhadas por BR em {ano_selecionado}'
-      grafico2 = grafico_barras_empilhadas_por_br(titulo, df_filtrado_br)  
-
-      # por Tipo 
-      df_filtrado_tipo = df_acidentes_geral_por_tipo[(df_acidentes_geral_por_tipo[COLUNA_ANO] == int(ano_selecionado))]
-      titulo = f'Barras Empilhadas por Tipo em {ano_selecionado}'
-      grafico3 = grafico_barras_empilhadas_por_tipo(titulo, df_filtrado_tipo)  
-
-      # por Causa 
-      df_filtrado_causa = df_acidentes_geral_por_causa[(df_acidentes_geral_por_causa[COLUNA_ANO] == int(ano_selecionado))]
-      titulo = f'Barras Empilhadas por Causa de Acidente em {ano_selecionado}'
-      grafico4 = grafico_barras_empilhadas_por_causa(titulo, df_filtrado_causa)  
-
-    else:
-      grafico1 = grafico_barras_empilhadas_por_uf('Barras Empilhadas por UF (2007 a 2024)', df_acidentes_geral_por_uf)            
-      grafico2 = grafico_barras_empilhadas_por_br('Barras Empilhadas por BR (2007 a 2024)', df_acidentes_geral_por_br)  
-      grafico3 = grafico_barras_empilhadas_por_tipo('Barras Empilhadas por Tipos de Acidentes (2007-2024)', df_acidentes_geral_por_tipo)    
-      grafico4 = grafico_barras_empilhadas_por_causa('Barras Empilhadas por Causa de Acidentes (2007-2024)', df_acidentes_geral_por_causa)      
     
-    st.altair_chart(grafico1)                  
-    st.altair_chart(grafico2)     
-    st.altair_chart(grafico3)        
-    st.altair_chart(grafico4)           
-
 # ==============================================================================
 with tab07:
 
@@ -676,3 +667,119 @@ with tab09:
     ).interactive()
 
     st.altair_chart(grafico)
+    
+# ==============================================================================
+with tab10:
+
+    # aba 10
+    titulo = f'<H2> Gráficos de Fluxo'
+    st.markdown(titulo, unsafe_allow_html=True)
+
+    grafico1 = alt.Chart(df_acidentes_geral_por_tipo).mark_area().encode(
+        alt.X('ano:Q').axis(domain=False, tickSize=0),
+        alt.Y('sum(qtd):Q').stack('center').axis(None),
+        alt.Color('tipo_acidente:N').scale(scheme='category20b')
+    ).properties(
+      title='Gráfico de Fluxo - Tipos de Acidentes (2007 a 2024)',
+      width=800, height=600
+            
+    ).interactive()
+
+    st.altair_chart(grafico1)
+    
+# ==============================================================================  
+with tab11:
+    
+    # ==========================================================================
+    # Funções da Aba 11 
+    # ==========================================================================
+    def grafico_barras_empilhadas_por_uf(titulo, df):
+        grafico = alt.Chart(df).mark_bar(width=20).encode(
+            x='ano',
+            y='sum(Qtd)',
+            color='UF'
+        ).properties(
+              title=titulo,
+              width=800, height=600
+        ).interactive()   
+        
+        return grafico
+    # ==========================================================================
+    def grafico_barras_empilhadas_por_br(titulo, df):
+        grafico = alt.Chart(df).mark_bar(width=20).encode(
+            x='ano',
+            y='sum(qtd)',
+            color='br:N'
+        ).properties(
+              title=titulo,
+              width=800, height=600
+        ).interactive()   
+
+        return grafico
+    # ==========================================================================
+    def grafico_barras_empilhadas_por_tipo(titulo, df):
+
+        grafico = alt.Chart(df).mark_bar(width=20).encode(
+            x='ano',
+            y='sum(qtd)',
+            color='tipo_acidente'
+        ).properties(
+              title=titulo,
+              width=800, height=600
+        ).interactive()   
+    
+        return grafico
+    # ==========================================================================
+    def grafico_barras_empilhadas_por_causa(titulo, df):
+            
+        grafico = alt.Chart(df).mark_bar(width=20).encode(
+            x='ano',
+            y='sum(qtd)',
+            color='causa_acidente'
+        ).properties(
+              title=titulo,
+              width=800, height=600
+        ).interactive()   
+
+        return grafico
+    # ==========================================================================
+            
+    # aba 06
+    titulo = f'<H2> Gráficos de Barras Empilhadas'
+    st.markdown(titulo, unsafe_allow_html=True)    
+
+    # aba 06
+    if ano_selecionado != OPCAO_TODOS:
+
+      # por UF      
+      df_filtrado_uf = df_acidentes_geral_por_uf[(df_acidentes_geral_por_uf[COLUNA_ANO] == int(ano_selecionado))]
+      titulo = f'Barras Empilhadas por UF em {ano_selecionado}'
+      grafico1 = grafico_barras_empilhadas_por_uf(titulo, df_filtrado_uf)        
+
+      # por BR    
+      df_filtrado_br = df_acidentes_geral_por_br[(df_acidentes_geral_por_br[COLUNA_ANO] == int(ano_selecionado))]
+      titulo = f'Barras Empilhadas por BR em {ano_selecionado}'
+      grafico2 = grafico_barras_empilhadas_por_br(titulo, df_filtrado_br)  
+
+      # por Tipo 
+      df_filtrado_tipo = df_acidentes_geral_por_tipo[(df_acidentes_geral_por_tipo[COLUNA_ANO] == int(ano_selecionado))]
+      titulo = f'Barras Empilhadas por Tipo em {ano_selecionado}'
+      grafico3 = grafico_barras_empilhadas_por_tipo(titulo, df_filtrado_tipo)  
+
+      # por Causa 
+      df_filtrado_causa = df_acidentes_geral_por_causa[(df_acidentes_geral_por_causa[COLUNA_ANO] == int(ano_selecionado))]
+      titulo = f'Barras Empilhadas por Causa de Acidente em {ano_selecionado}'
+      grafico4 = grafico_barras_empilhadas_por_causa(titulo, df_filtrado_causa)  
+
+    else:
+      grafico1 = grafico_barras_empilhadas_por_uf('Barras Empilhadas por UF (2007 a 2024)', df_acidentes_geral_por_uf)            
+      grafico2 = grafico_barras_empilhadas_por_br('Barras Empilhadas por BR (2007 a 2024)', df_acidentes_geral_por_br)  
+      grafico3 = grafico_barras_empilhadas_por_tipo('Barras Empilhadas por Tipos de Acidentes (2007-2024)', df_acidentes_geral_por_tipo)    
+      grafico4 = grafico_barras_empilhadas_por_causa('Barras Empilhadas por Causa de Acidentes (2007-2024)', df_acidentes_geral_por_causa)      
+    
+    st.altair_chart(grafico1)                  
+    st.altair_chart(grafico2)     
+    st.altair_chart(grafico3)        
+    st.altair_chart(grafico4)           
+
+# ==============================================================================
