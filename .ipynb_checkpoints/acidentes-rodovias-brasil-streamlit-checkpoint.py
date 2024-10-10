@@ -12,7 +12,7 @@ import streamlit as st
 import altair as alt
 #import matplotlib.pyplot as plt
 
-#from vega_datasets import data
+from vega_datasets import data
 
 # =======================================================
 # Datasets
