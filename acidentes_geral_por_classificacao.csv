@@ -1,13 +1,14 @@
 classificacao_acidente,qtd,ano
-Sem Vítimas,64864,2016
-Sem Vítimas,66462,2017
-Sem Vítimas,34257,2018
-Sem Vítimas,25880,2019
-Sem Vítimas,25475,2020
-Sem Vítimas,25527,2021
-Sem Vítimas,26332,2022
-Sem Vítimas,25517,2023
-Sem Vítimas,17750,2024
+Com Vítimas Fatais,16711,2016
+Com Vítimas Fatais,18508,2017
+Com Vítimas Fatais,16531,2018
+Com Vítimas Fatais,16543,2019
+Com Vítimas Fatais,15303,2020
+Com Vítimas Fatais,16633,2021
+Com Vítimas Fatais,17247,2022
+Com Vítimas Fatais,18254,2023
+Com Vítimas Fatais,12517,2024
+Ignorado,1878,2016
 Com Vítimas Feridas,111833,2007
 Com Vítimas Feridas,120499,2008
 Com Vítimas Feridas,133950,2009
@@ -26,13 +27,12 @@ Com Vítimas Feridas,124127,2021
 Com Vítimas Feridas,127233,2022
 Com Vítimas Feridas,139581,2023
 Com Vítimas Feridas,97856,2024
-Com Vítimas Fatais,16711,2016
-Com Vítimas Fatais,18508,2017
-Com Vítimas Fatais,16531,2018
-Com Vítimas Fatais,16543,2019
-Com Vítimas Fatais,15303,2020
-Com Vítimas Fatais,16633,2021
-Com Vítimas Fatais,17247,2022
-Com Vítimas Fatais,18254,2023
-Com Vítimas Fatais,12517,2024
-Ignorado,1878,2016
+Sem Vítimas,64864,2016
+Sem Vítimas,66462,2017
+Sem Vítimas,34257,2018
+Sem Vítimas,25880,2019
+Sem Vítimas,25475,2020
+Sem Vítimas,25527,2021
+Sem Vítimas,26332,2022
+Sem Vítimas,25517,2023
+Sem Vítimas,17750,2024

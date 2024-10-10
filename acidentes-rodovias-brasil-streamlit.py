@@ -236,7 +236,7 @@ print(f'Ano Selecionado = {ano_selecionado}')
 #)
 
 # Definição de abas
-tab01, tab02, tab03, tab04, tab05, tab06, tab07, tab08, tab09, tab10, tab11 = st.tabs(
+tab01, tab02, tab03, tab04, tab05, tab06, tab07, tab08, tab09, tab10, tab11, tab12 = st.tabs(
   [
     #"Acidentes por UF / por Tipo / por BR / por Causa / por Classificação / por Fase do Dia",  
     "Acidentes por Critérios",
@@ -250,6 +250,7 @@ tab01, tab02, tab03, tab04, tab05, tab06, tab07, tab08, tab09, tab10, tab11 = st
     "Scatter Plot",
     "Gráficos de Fluxo",
     "Gráficos de Barras Empilhadas",
+    "Gráficos de Boxplots",
   ]
 )
 
@@ -744,11 +745,9 @@ with tab11:
         return grafico
     # ==========================================================================
             
-    # aba 06
     titulo = f'<H2> Gráficos de Barras Empilhadas'
     st.markdown(titulo, unsafe_allow_html=True)    
 
-    # aba 06
     if ano_selecionado != OPCAO_TODOS:
 
       # por UF      
@@ -783,3 +782,90 @@ with tab11:
     st.altair_chart(grafico4)           
 
 # ==============================================================================
+with tab12:
+
+    # aba 10
+    titulo = f'<H2> Distribuição de Acidentes por UF / por Tipo / por BR / por Classificação / por Fase do Dia / por Condição Metereológica '
+    st.markdown(titulo, unsafe_allow_html=True)
+
+    grafico01 = alt.Chart(df_acidentes_geral_por_uf).mark_boxplot(extent='min-max').encode(
+        x='UF:N',
+        y='Qtd:Q'
+        #color=alt.Color('categoria', scale=alt.Scale(
+        #     range=[
+        #        '#007bff', '#28a745', '#ffc107', '#dc3545', '#6c757d', '#d95b43', '#5bc0de', '#4caf50', '#ffeb3b', '#c497d9',
+        #        '#00BFFF', '#32CD32', '#FF00FF', '#FFA500', '#5A87E8', '#00CED1', '#FF7F50', '#228B22', '#FFD700', '#000080',
+        #        '#FF1493', '#4B0082', '#8A2BE2', '#7FFF00', '#00FFFF', '#008000'
+        #     ])))
+         
+    ).properties(
+        width=800,
+        height=600,
+        title='Distribuição de Acidentes por UF (2007 a 2024)'
+    )
+
+    grafico02 = alt.Chart(df_acidentes_geral_por_tipo).mark_boxplot(extent='min-max').encode(
+        x='tipo_acidente:N',
+        y='qtd:Q'
+    ).properties(
+        width=800,
+        height=600,
+        title='Distribuição de Acidentes por Tipo (2007 a 2024)'
+    )
+
+    grafico03 = alt.Chart(df_acidentes_geral_por_br).mark_boxplot(extent='min-max').encode(
+        x='br:N',
+        y='qtd:Q'
+    ).properties(
+        width=800,
+        height=600,
+        title='Distribuição de Acidentes por BR (2007 a 2024)'
+    )
+
+    grafico04 = alt.Chart(df_acidentes_geral_por_classificacao).mark_boxplot(extent='min-max').encode(
+        x='classificacao_acidente:N',
+        y='qtd:Q'
+    ).properties(
+        width=800,
+        height=600,
+        title='Distribuição de Acidentes por Classificação (2007 a 2024)'
+    )
+
+    grafico05 = alt.Chart(df_acidentes_geral_por_causa).mark_boxplot(extent='min-max').encode(
+        x='causa_acidente:N',
+        y='qtd:Q'
+    ).properties(
+        width=800,
+        height=600,
+        title='Distribuição de Acidentes por Causa (2007 a 2024)'
+    )
+
+    grafico06 = alt.Chart(df_acidentes_geral_por_fasedia).mark_boxplot(extent='min-max').encode(
+        x='fase_dia:N',
+        y='qtd:Q'
+    ).properties(
+        width=800,
+        height=600,
+        title='Distribuição de Acidentes por Fase do Dia (2007 a 2024)'
+    )
+
+    grafico07 = alt.Chart(df_acidentes_geral_por_condicaometereologica).mark_boxplot(extent='min-max').encode(
+        x='condicao_metereologica:N',
+        y='qtd:Q'
+    ).properties(
+        width=800,
+        height=600,
+        title='Distribuição de Acidentes por Condição Metereológica (2007 a 2024)'
+    )
+    
+    st.altair_chart(grafico01)
+    st.altair_chart(grafico02)
+    st.altair_chart(grafico03)
+    st.altair_chart(grafico04)
+    st.altair_chart(grafico05)
+    st.altair_chart(grafico06)
+    st.altair_chart(grafico07)
+# ==============================================================================
+    
+
+    
