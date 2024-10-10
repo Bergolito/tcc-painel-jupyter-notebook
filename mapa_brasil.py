@@ -24,18 +24,21 @@ def get_df(url):
 
 @st.cache_data
 def get_estados():    
-    df_estados= get_df("https://drive.google.com/file/d/1qPMUuto04pQVnxaayg7Ubs9ZlxfiDwcX/view?usp=sharing")
+    #df_estados= get_df("https://drive.google.com/file/d/1qPMUuto04pQVnxaayg7Ubs9ZlxfiDwcX/view?usp=sharing")
+    df_estados= pd.read_csv("mapa_brasil/estados.csv", sep=",")
     df_estados.rename(columns={"nome":"NM_UF"}, inplace=True)
     return df_estados
 
 @st.cache_data    
 def get_municipios_ibge():
-    df_municipios_ibge = get_df("https://drive.google.com/file/d/1gcbOM3S0un4xTUxgXxp0be1MzyFHWRoi/view?usp=sharing")
+    #df_municipios_ibge = get_df("https://drive.google.com/file/d/1gcbOM3S0un4xTUxgXxp0be1MzyFHWRoi/view?usp=sharing")
+    df_municipios_ibge = pd.read_csv("mapa_brasil/municipios_ibge_lat_long.csv", sep=",")
     return df_municipios_ibge
 
 @st.cache_data    
 def get_municipios_tse():
-    df_municipios_tse = get_df("https://drive.google.com/file/d/1NJvtXR9BBMSi-Y5511RS5nObbgLQdsSm/view?usp=sharing")
+    #df_municipios_tse = get_df("https://drive.google.com/file/d/1NJvtXR9BBMSi-Y5511RS5nObbgLQdsSm/view?usp=sharing")
+    df_municipios_tse = pd.read_csv("mapa_brasil/municipios_brasileiros_tse.csv", sep=",")
     return df_municipios_tse
 ##########################################################################################
 ##                               Carga de dados regionais                               ##
