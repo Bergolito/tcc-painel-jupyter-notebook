@@ -62,7 +62,7 @@ print(f'Ano Selecionado = {ano_selecionado}')
 #)
 
 # Definição de abas
-tab01, tab02, tab03, tab04, tab05, tab06, tab07, tab08, tab09, tab10, tab11, tab12, tab13 = st.tabs(
+tab01, tab02, tab03, tab04, tab05, tab06, tab07, tab08, tab09, tab10, tab11, tab12, tab13, tab14 = st.tabs(
   [
     #"Acidentes por UF / por Tipo / por BR / por Causa / por Classificação / por Fase do Dia",  
     "Acidentes por Critérios",
@@ -78,6 +78,7 @@ tab01, tab02, tab03, tab04, tab05, tab06, tab07, tab08, tab09, tab10, tab11, tab
     "Gráficos Barras Empilhadas",
     "Gráficos Boxplots",
     "Mapa do Brasil",
+    "Teste Map",
   ]
 )
 
@@ -1133,4 +1134,20 @@ with tab13:
         st.altair_chart(plot_br_map(title="Título do Mapa"), use_container_width=True)
 
 
+# ==============================================================================  
+with tab14:    
+
+    df_semaforos = pd.read_csv('geo/acidentes_localizacao_2024_br_101_km_733.csv', sep=';', decimal='.')
+    df_semaforos
+    # Aplicar a função para criar a nova coluna 'cor'
+    #df_semaforos['cor'] = df_semaforos[coluna_dados].apply(definir_cor)
     
+    #st.map(df_semaforos,
+    #    latitude='latitude',
+    #    longitude='longitude',
+    #    size=10,
+    #    color='#FF0000',
+    #    use_container_width=False)
+
+    st.map(df_semaforos,     
+        use_container_width=False)
