@@ -1137,17 +1137,19 @@ with tab13:
 # ==============================================================================  
 with tab14:    
 
+    # ver https://folium.streamlit.app/draw_support
+    
     df_semaforos = pd.read_csv('geo/acidentes_localizacao_2024_br_101_km_733.csv', sep=';', decimal='.')
     df_semaforos
     # Aplicar a função para criar a nova coluna 'cor'
     #df_semaforos['cor'] = df_semaforos[coluna_dados].apply(definir_cor)
     
-    #st.map(df_semaforos,
-    #    latitude='latitude',
-    #    longitude='longitude',
-    #    size=10,
-    #    color='#FF0000',
-    #    use_container_width=False)
-
-    st.map(df_semaforos,     
+    st.map(df_semaforos,
+        latitude='latitude',
+        longitude='longitude',
+        size=10,
+        color='#FF0000',
         use_container_width=False)
+
+    #st.map(df_semaforos,     
+    #    use_container_width=False)
