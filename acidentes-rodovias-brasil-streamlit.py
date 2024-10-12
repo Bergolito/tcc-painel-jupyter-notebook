@@ -20,6 +20,19 @@ df_acidentes_geral_por_fasedia = pd.read_csv('acidentes_geral_por_fase_dia.csv',
 df_acidentes_geral_por_condicaometereologica = pd.read_csv('acidentes_geral_por_condicao_metereologica.csv', sep=',', encoding="UTF-8") 
 
 # =======================================================
+# Datasets de geolocalização
+# =======================================================
+df_acid_local_2017 = pd.read_csv('geo/acidentes_localizacao_processado_2017.csv', sep=';', encoding="ISO-8859-1")
+df_acid_local_2018 = pd.read_csv('geo/acidentes_localizacao_processado_2018.csv', sep=';', encoding="ISO-8859-1")
+df_acid_local_2019 = pd.read_csv('geo/acidentes_localizacao_processado_2019.csv', sep=';', encoding="ISO-8859-1")
+df_acid_local_2020 = pd.read_csv('geo/acidentes_localizacao_processado_2020.csv', sep=';', encoding="ISO-8859-1")
+df_acid_local_2021 = pd.read_csv('geo/acidentes_localizacao_processado_2021.csv', sep=';', encoding="ISO-8859-1")
+df_acid_local_2022 = pd.read_csv('geo/acidentes_localizacao_processado_2022.csv', sep=';', encoding="ISO-8859-1")
+df_acid_local_2023 = pd.read_csv('geo/acidentes_localizacao_processado_2023.csv', sep=';', encoding="ISO-8859-1")
+df_acid_local_2024 = pd.read_csv('geo/acidentes_localizacao_processado_2024.csv', sep=';', encoding="ISO-8859-1")
+
+
+# =======================================================
 # Constantes do dashboard
 # =======================================================
 OPCAO_TODOS = 'Todos'
@@ -1130,42 +1143,74 @@ with tab13:
 # ==============================================================================  
 with tab14:    
 
-    # ver https://folium.streamlit.app/draw_support
-    # Função para mapear os valores de acidentes para cores
+#st.markdown("""
+#<style>
+#.stSelectbox {
+#    width: 200px;  # Define a largura máxima do select
+#}
+#</style>
+#""", unsafe_allow_html=True)
+
+    # ===========================
+    # Funções
+    # ===========================
     def definir_cor(acidentes):
         if 1 <= acidentes <= 10:
             return '#00FF00'  # Verde
         elif 11 <= acidentes <= 20:
             return '#FFFF00'  # Amarelo
         else:
-            return '#FF0000'  # Vermelho
+            return '#FF0000'  # Vermelho               
 
-    ano_selecionado = '2024'
-    if ano_selecionado == OPCAO_TODOS:
+    left, middle, right = st.columns(3)
+    
+    # Filtro de ano
+    mapa_ano_selecionado = left.selectbox(
+        'Selecione o ano:', 
+        #(OPCAO_TODOS, '2024', '2023', '2022', '2021', '2020', '2019', '2018', '2017'))
+        ('2024', '2023', '2022', '2021', '2020', '2019', '2018', '2017'))
+    print(f'Mapa - Ano Selecionado = {mapa_ano_selecionado}')
+
+    lista_brs = [101, 116, 381,  40, 153, 163, 364, 376, 262, 230, 470, 316, 282, 70,  60,  20, 158, 369,  50]
+
+    if mapa_ano_selecionado == '2017':
+        df_coordenadas = pd.read_csv('geo/acidentes_localizacao_processado_2017.csv', sep=';', decimal='.')   
+    elif mapa_ano_selecionado == '2018':
+        df_coordenadas = pd.read_csv('geo/acidentes_localizacao_processado_2018.csv', sep=';', decimal='.')   
+    elif mapa_ano_selecionado == '2019':
+        df_coordenadas = pd.read_csv('geo/acidentes_localizacao_processado_2019.csv', sep=';', decimal='.')   
+    elif mapa_ano_selecionado == '2020':
+        df_coordenadas = pd.read_csv('geo/acidentes_localizacao_processado_2020.csv', sep=';', decimal='.')   
+    elif mapa_ano_selecionado == '2021':
+        df_coordenadas = pd.read_csv('geo/acidentes_localizacao_processado_2021.csv', sep=';', decimal='.')   
+    elif mapa_ano_selecionado == '2022':
+        df_coordenadas = pd.read_csv('geo/acidentes_localizacao_processado_2022.csv', sep=';', decimal='.')   
+    elif mapa_ano_selecionado == '2023':
+        df_coordenadas = pd.read_csv('geo/acidentes_localizacao_processado_2023.csv', sep=';', decimal='.')   
+    elif mapa_ano_selecionado == '2024':
+        df_coordenadas = pd.read_csv('geo/acidentes_localizacao_processado_2024.csv', sep=';', decimal='.')       
+        
+    mapa_br_selecionada = middle.selectbox('Selecione a rodovia:', (lista_brs))       
+
+    if mapa_ano_selecionado == OPCAO_TODOS:
        coluna_dados = 'acidentes_total'
     else:
-       coluna_dados = f'acidentes_{ano_selecionado}'
+       coluna_dados = f'acidentes_{mapa_ano_selecionado}'
 
     # Exibir o quadro com as legendas
-    titulo = f'<H2>Acidentes reportados na BR 101 em ({ano_selecionado})'
-    st.markdown(titulo, unsafe_allow_html=True)
+    titulo = f'<H2>Acidentes reportados na BR {mapa_br_selecionada} no ano de {mapa_ano_selecionado}'
+    st.markdown(titulo, unsafe_allow_html=True)    
 
-    # Conteúdo HTML das legendas
-    legendas = ['<br><br><span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#00FF00;margin-right:5px;"></span> Entre 1 e 10 acidentes',
-                '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#FFFF00;margin-right:5px;"></span> Entre 11 e 20 acidentes',
-                '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#FF0000;margin-right:5px;"></span> Mais de 20 acidentes']
+    df_coordenadas_filtrado = df_coordenadas[(df_coordenadas['br'] == int(mapa_br_selecionada))]       
+    df_coordenadas_filtrado['cor'] = df_coordenadas_filtrado[coluna_dados].apply(definir_cor)
 
     # Criar duas colunas para colocar os componentes lado a lado
     col1, col2 = st.columns([8,2])
-
+    
     # Adicionar o gráfico à primeira coluna
     with col1:
 
-        df_pontos_2024 = pd.read_csv('geo/acidentes_localizacao_processado_2024.csv', sep=';', decimal='.')   
-        df_pontos_2024_filtrado = df_pontos_2024[(df_pontos_2024['br'] == 101)]       
-        df_pontos_2024_filtrado['cor'] = df_pontos_2024_filtrado[coluna_dados].apply(definir_cor)
-
-        st.map(df_pontos_2024_filtrado,
+        st.map(df_coordenadas_filtrado,
             latitude='latitude',
             longitude='longitude',
             size=coluna_dados,
@@ -1174,6 +1219,11 @@ with tab14:
 
     with col2:
 
+        # Conteúdo HTML das legendas
+        legendas = ['<br><br><span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#00FF00;margin-right:5px;"></span> Entre 1 e 10 acidentes',
+                    '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#FFFF00;margin-right:5px;"></span> Entre 11 e 20 acidentes',
+                    '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#FF0000;margin-right:5px;"></span> Mais de 20 acidentes']
+        
         # Exibir o quadro com as legendas
         st.markdown('<br>'.join(legendas), unsafe_allow_html=True)
     
