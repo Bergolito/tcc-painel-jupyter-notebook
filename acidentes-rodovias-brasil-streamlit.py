@@ -20,13 +20,6 @@ df_acidentes_geral_por_fasedia = pd.read_csv('acidentes_geral_por_fase_dia.csv',
 df_acidentes_geral_por_condicaometereologica = pd.read_csv('acidentes_geral_por_condicao_metereologica.csv', sep=',', encoding="UTF-8") 
 
 # =======================================================
-# Rankings
-# =======================================================
-#df_ranking_uf = pd.read_csv('ranking_acidentes_uf.csv', sep=',', encoding="UTF-8")
-#df_ranking_tipo = pd.read_csv('ranking_acidentes_tipo.csv', sep=',', encoding="UTF-8")
-#df_ranking_br = pd.read_csv('ranking_acidentes_br.csv', sep=',', encoding="UTF-8")
-
-# =======================================================
 # Constantes do dashboard
 # =======================================================
 OPCAO_TODOS = 'Todos'
@@ -1138,18 +1131,51 @@ with tab13:
 with tab14:    
 
     # ver https://folium.streamlit.app/draw_support
-    
-    df_semaforos = pd.read_csv('geo/acidentes_localizacao_2024_br_101_km_733.csv', sep=';', decimal='.')
-    df_semaforos
-    # Aplicar a função para criar a nova coluna 'cor'
-    #df_semaforos['cor'] = df_semaforos[coluna_dados].apply(definir_cor)
-    
-    st.map(df_semaforos,
-        latitude='latitude',
-        longitude='longitude',
-        size=10,
-        color='#FF0000',
-        use_container_width=False)
+    # Função para mapear os valores de acidentes para cores
+    def definir_cor(acidentes):
+        if 1 <= acidentes <= 10:
+            return '#00FF00'  # Verde
+        elif 11 <= acidentes <= 20:
+            return '#FFFF00'  # Amarelo
+        else:
+            return '#FF0000'  # Vermelho
 
-    #st.map(df_semaforos,     
-    #    use_container_width=False)
+    ano_selecionado = '2024'
+    if ano_selecionado == OPCAO_TODOS:
+       coluna_dados = 'acidentes_total'
+    else:
+       coluna_dados = f'acidentes_{ano_selecionado}'
+
+    # Exibir o quadro com as legendas
+    titulo = f'<H2>Acidentes reportados na BR 101 em ({ano_selecionado})'
+    st.markdown(titulo, unsafe_allow_html=True)
+
+    # Conteúdo HTML das legendas
+    legendas = ['<br><br><span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#00FF00;margin-right:5px;"></span> Entre 1 e 10 acidentes',
+                '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#FFFF00;margin-right:5px;"></span> Entre 11 e 20 acidentes',
+                '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#FF0000;margin-right:5px;"></span> Mais de 20 acidentes']
+
+    # Criar duas colunas para colocar os componentes lado a lado
+    col1, col2 = st.columns([8,2])
+
+    # Adicionar o gráfico à primeira coluna
+    with col1:
+
+        df_pontos_2024 = pd.read_csv('geo/acidentes_localizacao_processado_2024.csv', sep=';', decimal='.')   
+        df_pontos_2024_filtrado = df_pontos_2024[(df_pontos_2024['br'] == 101)]       
+        df_pontos_2024_filtrado['cor'] = df_pontos_2024_filtrado[coluna_dados].apply(definir_cor)
+
+        st.map(df_pontos_2024_filtrado,
+            latitude='latitude',
+            longitude='longitude',
+            size=coluna_dados,
+            color='cor',
+            use_container_width=False)
+
+    with col2:
+
+        # Exibir o quadro com as legendas
+        st.markdown('<br>'.join(legendas), unsafe_allow_html=True)
+    
+
+    
