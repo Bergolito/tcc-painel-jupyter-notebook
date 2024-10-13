@@ -591,7 +591,7 @@ with tab09:
 with tab10:
 
     # aba 10
-    titulo = f'<H2> Gráficos de Fluxo por UF / por Tipo / por BR / por Causa / por Classificação'
+    titulo = f'<H2> Gráficos de Fluxo por UF / por Tipo / por BR / por Causa / por Classificação / por Fase do Dia / por Condição Metereológica'
     st.markdown(titulo, unsafe_allow_html=True)
 
     grafico1 = alt.Chart(df_acidentes_geral_por_uf).mark_area().encode(
@@ -638,12 +638,33 @@ with tab10:
       title='Fluxo Acidentes por Classificação (2007 a 2024)',
       width=800, height=600            
     ).interactive()
+
+    #df_acidentes_geral_por_fasedia
+    grafico6 = alt.Chart(df_acidentes_geral_por_fasedia).mark_area().encode(
+        alt.X('ano:Q').axis(domain=False, tickSize=0),
+        alt.Y('sum(qtd):Q').stack('center').axis(None),
+        alt.Color('fase_dia:N').scale(scheme='category20b')
+    ).properties(
+      title='Fluxo Acidentes por Fase do Dia (2007 a 2024)',
+      width=800, height=600            
+    ).interactive()
+
+    grafico7 = alt.Chart(df_acidentes_geral_por_condicaometereologica).mark_area().encode(
+        alt.X('ano:Q').axis(domain=False, tickSize=0),
+        alt.Y('sum(qtd):Q').stack('center').axis(None),
+        alt.Color('condicao_metereologica:N').scale(scheme='category20b')
+    ).properties(
+      title='Fluxo Acidentes por Condição Metereológica (2007 a 2024)',
+      width=800, height=600            
+    ).interactive()
     
     st.altair_chart(grafico1)
     st.altair_chart(grafico2)
     st.altair_chart(grafico3)
     st.altair_chart(grafico4)
     st.altair_chart(grafico5)
+    st.altair_chart(grafico6)
+    st.altair_chart(grafico7)
     
 # ==============================================================================  
 with tab11:
@@ -746,7 +767,6 @@ with tab12:
     st.markdown(titulo, unsafe_allow_html=True)
 
     grafico01 = alt.Chart(df_acidentes_geral_por_uf).mark_boxplot(extent='min-max').encode(
-        #alt.X('ano', title='Ano'),
         alt.X('UF:N', title='Unidade Federativa (UF)'),
         alt.Y('Qtd:Q', title='Quantidade de Acidentes'),        
     ).properties(
@@ -756,9 +776,7 @@ with tab12:
     )
 
     grafico02 = alt.Chart(df_acidentes_geral_por_tipo).mark_boxplot(extent='min-max').encode(
-        #x='tipo_acidente:N',
         alt.X('tipo_acidente:N', title='Tipos de Acidentes'),
-        #y='qtd:Q'
         alt.Y('qtd:Q', title='Quantidade de Acidentes')        
     ).properties(
         width=800,
@@ -767,9 +785,7 @@ with tab12:
     )
 
     grafico03 = alt.Chart(df_acidentes_geral_por_br).mark_boxplot(extent='min-max').encode(
-        #x='br:N',
         alt.X('br:N', title='Rodovias Federais (BR)'),
-        #y='qtd:Q'
         alt.Y('qtd:Q', title='Quantidade de Acidentes')        
     ).properties(
         width=800,
@@ -778,9 +794,7 @@ with tab12:
     )
 
     grafico04 = alt.Chart(df_acidentes_geral_por_classificacao).mark_boxplot(extent='min-max').encode(
-        #x='classificacao_acidente:N',
         alt.X('classificacao_acidente:N', title='Classificações de Acidentes'),        
-        #y='qtd:Q'
         alt.Y('qtd:Q', title='Quantidade de Acidentes')        
     ).properties(
         width=800,
@@ -789,9 +803,7 @@ with tab12:
     )
 
     grafico05 = alt.Chart(df_acidentes_geral_por_causa).mark_boxplot(extent='min-max').encode(
-        #x='causa_acidente:N',
         alt.X('causa_acidente:N', title='Causas de Acidentes'),  
-        #y='qtd:Q'
         alt.Y('qtd:Q', title='Quantidade de Acidentes')        
     ).properties(
         width=800,
@@ -800,9 +812,7 @@ with tab12:
     )
 
     grafico06 = alt.Chart(df_acidentes_geral_por_fasedia).mark_boxplot(extent='min-max').encode(
-        #x='fase_dia:N',
         alt.X('fase_dia:N', title='Fasos do Dia'), 
-        #y='qtd:Q'
         alt.Y('qtd:Q', title='Quantidade de Acidentes')        
     ).properties(
         width=800,
@@ -811,9 +821,7 @@ with tab12:
     )
 
     grafico07 = alt.Chart(df_acidentes_geral_por_condicaometereologica).mark_boxplot(extent='min-max').encode(
-        #x='condicao_metereologica:N',
         alt.X('condicao_metereologica:N', title='Condições Metereológicas'), 
-        #y='qtd:Q'
         alt.Y('qtd:Q', title='Quantidade de Acidentes')        
     ).properties(
         width=800,
@@ -828,24 +836,16 @@ with tab12:
     st.altair_chart(grafico05)
     st.altair_chart(grafico06)
     st.altair_chart(grafico07)
+    
 # ==============================================================================
 with tab08:
     
-    import streamlit as st
-    import altair as alt
-    import pandas as pd
+    #import streamlit as st
+    #import altair as alt
+    #import pandas as pd
     import numpy as np
     from urllib.request import urlopen
-    import json
-    
-    #Layout da página
-    #st.set_page_config(
-    #    page_title="Título da Página",
-    #    layout="wide",
-    #    initial_sidebar_state="expanded",
-    #    page_icon = "🗳️"
-    #)
-    #alt.themes.enable("dark")
+    import json  
     
     ##########################################################################################
     ##                                     Funções úteis                                    ##
@@ -1109,12 +1109,6 @@ with tab13:
         df_coordenadas = pd.read_csv('geo/acidentes_localizacao_processado_2024.csv', sep=';', decimal='.')       
         
     mapa_br_selecionada = middle.selectbox('Selecione a rodovia:', (lista_brs))       
-
-    #if mapa_ano_selecionado == OPCAO_TODOS:
-    #   #coluna_dados = 'acidentes_total'
-    #else:
-    #   coluna_dados = f'acidentes_{mapa_ano_selecionado}'
-    #coluna_dados = 'acidentes'
     
     # Exibir o quadro com as legendas
     titulo = f'<H2>Acidentes reportados na BR {mapa_br_selecionada} no ano de {mapa_ano_selecionado}'
@@ -1152,7 +1146,6 @@ with tab13:
                     '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#bd0026;margin-right:5px;"></span> Entre 71 e  80 acidentes',
                     '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#800026;margin-right:5px;"></span> Entre 81 e 900 acidentes',                    
                    ]
-
                 
         # Exibir o quadro com as legendas
         st.markdown('<br>'.join(legendas), unsafe_allow_html=True)     

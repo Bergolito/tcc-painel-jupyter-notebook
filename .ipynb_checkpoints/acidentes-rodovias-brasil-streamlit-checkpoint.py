@@ -22,15 +22,38 @@ df_acidentes_geral_por_condicaometereologica = pd.read_csv('acidentes_geral_por_
 # =======================================================
 # Datasets de geolocalização
 # =======================================================
-df_acid_local_2017 = pd.read_csv('geo/acidentes_localizacao_processado_2017.csv', sep=';', encoding="ISO-8859-1")
-df_acid_local_2018 = pd.read_csv('geo/acidentes_localizacao_processado_2018.csv', sep=';', encoding="ISO-8859-1")
-df_acid_local_2019 = pd.read_csv('geo/acidentes_localizacao_processado_2019.csv', sep=';', encoding="ISO-8859-1")
-df_acid_local_2020 = pd.read_csv('geo/acidentes_localizacao_processado_2020.csv', sep=';', encoding="ISO-8859-1")
-df_acid_local_2021 = pd.read_csv('geo/acidentes_localizacao_processado_2021.csv', sep=';', encoding="ISO-8859-1")
-df_acid_local_2022 = pd.read_csv('geo/acidentes_localizacao_processado_2022.csv', sep=';', encoding="ISO-8859-1")
-df_acid_local_2023 = pd.read_csv('geo/acidentes_localizacao_processado_2023.csv', sep=';', encoding="ISO-8859-1")
-df_acid_local_2024 = pd.read_csv('geo/acidentes_localizacao_processado_2024.csv', sep=';', encoding="ISO-8859-1")
 
+#df_estados= get_df("https://drive.google.com/file/d/1qPMUuto04pQVnxaayg7Ubs9ZlxfiDwcX/view?usp=sharing")
+
+df_acid_local_2017 = pd.read_csv('geo/acidentes_localizacao_processado_2017.csv', sep=';', encoding="ISO-8859-1")
+#df_acid_local_2017 = pd.read_csv('https://drive.google.com/file/d/14hG5YjWh7dmaYX206fbaKM9lUxSbo2ij/view?usp=sharing', sep=';', encoding="ISO-8859-1")
+
+#https://drive.google.com/file/d/1hg7HTWaq0wWzJ88L7rirDrbTvH3Rvdy7/view?usp=sharing
+df_acid_local_2018 = pd.read_csv('geo/acidentes_localizacao_processado_2018.csv', sep=';', encoding="ISO-8859-1")
+#df_acid_local_2018 = pd.read_csv('https://drive.google.com/file/d/1hg7HTWaq0wWzJ88L7rirDrbTvH3Rvdy7/view?usp=sharing', sep=';', encoding="ISO-8859-1")
+
+#https://drive.google.com/file/d/1nl7rHAjtJBoUmu4sEmcsvWUff-8LaldC/view?usp=sharing
+df_acid_local_2019 = pd.read_csv('geo/acidentes_localizacao_processado_2019.csv', sep=';', encoding="ISO-8859-1")
+#df_acid_local_2019 = pd.read_csv('https://drive.google.com/file/d/1nl7rHAjtJBoUmu4sEmcsvWUff-8LaldC/view?usp=sharing', sep=';', encoding="ISO-8859-1")
+
+#https://drive.google.com/file/d/1ZoCd9L1ND13TwrvwDr4fPYtUfAcc_qHh/view?usp=sharing
+df_acid_local_2020 = pd.read_csv('geo/acidentes_localizacao_processado_2020.csv', sep=';', encoding="ISO-8859-1")
+#df_acid_local_2020 = pd.read_csv('https://drive.google.com/file/d/1ZoCd9L1ND13TwrvwDr4fPYtUfAcc_qHh/view?usp=sharing', sep=';', encoding="ISO-8859-1")
+
+#https://drive.google.com/file/d/1Nu7PH7cqCAZMtvilmx_gN7L2U06V-6Fi/view?usp=sharing
+df_acid_local_2021 = pd.read_csv('geo/acidentes_localizacao_processado_2021.csv', sep=';', encoding="ISO-8859-1")
+#df_acid_local_2021 = pd.read_csv('https://drive.google.com/file/d/1Nu7PH7cqCAZMtvilmx_gN7L2U06V-6Fi/view?usp=sharing', sep=';', encoding="ISO-8859-1")
+
+#https://drive.google.com/file/d/1O6e9HtNJSt8klR2Hdm67lgc4SWjgxToy/view?usp=sharing
+df_acid_local_2022 = pd.read_csv('geo/acidentes_localizacao_processado_2022.csv', sep=';', encoding="ISO-8859-1")
+#df_acid_local_2022 = pd.read_csv('https://drive.google.com/file/d/1O6e9HtNJSt8klR2Hdm67lgc4SWjgxToy/view?usp=sharing', sep=';', encoding="ISO-8859-1")
+
+#https://drive.google.com/file/d/1FHqejtheXcuiNSbCxcmB-wAxlrivDpEa/view?usp=sharing
+df_acid_local_2023 = pd.read_csv('geo/acidentes_localizacao_processado_2023.csv', sep=';', encoding="ISO-8859-1")
+#df_acid_local_2023 = pd.read_csv('https://drive.google.com/file/d/1FHqejtheXcuiNSbCxcmB-wAxlrivDpEa/view?usp=sharing', sep=';', encoding="ISO-8859-1")
+
+df_acid_local_2024 = pd.read_csv('geo/acidentes_localizacao_processado_2024.csv', sep=';', encoding="ISO-8859-1")
+#df_acid_local_2024 = pd.read_csv('https://drive.google.com/file/d/1uhEEKnkty_rEwBarwrceOn2jdLgaFzMC/view?usp=sharing', sep=';', encoding="ISO-8859-1")
 
 # =======================================================
 # Constantes do dashboard
@@ -68,7 +91,7 @@ print(f'Ano Selecionado = {ano_selecionado}')
 #)
 
 # Definição de abas
-tab01, tab02, tab03, tab04, tab05, tab06, tab07, tab08, tab09, tab10, tab11, tab12, tab13, tab14 = st.tabs(
+tab01, tab02, tab03, tab04, tab05, tab06, tab07, tab08, tab09, tab10, tab11, tab12, tab13 = st.tabs(
   [
     "Acidentes por Critérios",
     "Ranking UF", 
@@ -77,15 +100,20 @@ tab01, tab02, tab03, tab04, tab05, tab06, tab07, tab08, tab09, tab10, tab11, tab
     "Ranking Classificação",
     "Ranking Fase do Dia",
     "Mapa de Calor",
-    "Mapa Interativo",
+    "Mapa do Brasil",
     "Scatter Plot",
     "Gráficos Fluxo",
     "Gráficos Barras Empilhadas",
-    "Gráficos Boxplots",
-    "Mapa do Brasil",
+    "Gráficos Boxplots",    
     "Mapa das BRs",
   ]
 )
+
+lista_cores_graficos = [
+    '#007bff', '#28a745', '#ffc107', '#dc3545', '#6c757d', '#d95b43', '#5bc0de', '#4caf50', '#ffeb3b', '#c497d9',
+    '#00BFFF', '#32CD32', '#FF00FF', '#FFA500', '#5A87E8', '#00CED1', '#FF7F50', '#228B22', '#FFD700', '#000080',
+    '#FF1493', '#4B0082', '#8A2BE2', '#7FFF00', '#00FFFF', '#008000'
+]
 
 # ==============================================================================
 with tab01:
@@ -95,12 +123,7 @@ with tab01:
     # =======================================================
     def gera_grafico_barras_horizontal_por_uf(titulo, contagem_por_uf_ano):
     
-      lista_cores = alt.Scale(domain= contagem_por_uf_ano['UF'].unique(),
-          range=[
-            '#007bff', '#28a745', '#ffc107', '#dc3545', '#6c757d', '#d95b43', '#5bc0de', '#4caf50', '#ffeb3b', '#c497d9',
-            '#00BFFF', '#32CD32', '#FF00FF', '#FFA500', '#5A87E8', '#00CED1', '#FF7F50', '#228B22', '#FFD700', '#000080',
-            '#FF1493', '#4B0082', '#8A2BE2', '#7FFF00', '#00FFFF', '#008000'
-          ])
+      lista_cores = alt.Scale(domain= contagem_por_uf_ano['UF'].unique(), range=lista_cores_graficos)
     
       chart_uf = alt.Chart(contagem_por_uf_ano).mark_bar().encode(
           y=alt.Y('UF:N', title='Unidade Federativa (UF)', sort='-x', axis=alt.Axis(labelLimit=200)),
@@ -120,13 +143,8 @@ with tab01:
     # =======================================================
     def gera_grafico_barras_horizontal_por_tipo(titulo, contagem_por_tipo_ano):
     
-      lista_cores = alt.Scale(domain=contagem_por_tipo_ano['tipo_acidente'].unique(),
-          range=[
-            '#007bff', '#28a745', '#ffc107', '#dc3545', '#6c757d', '#d95b43', '#5bc0de', '#4caf50', '#ffeb3b', '#c497d9',
-            '#00BFFF', '#32CD32', '#FF00FF', '#FFA500', '#5A87E8', '#00CED1', '#FF7F50', '#228B22', '#FFD700', '#000080',
-            '#FF1493', '#4B0082', '#8A2BE2', '#7FFF00', '#00FFFF', '#008000'
-          ])
-    
+      lista_cores = alt.Scale(domain=contagem_por_tipo_ano['tipo_acidente'].unique(), range=lista_cores_graficos)    
+        
       chart_tipo = alt.Chart(contagem_por_tipo_ano).mark_bar().encode(
           y=alt.Y('tipo_acidente:N', title='Tipos de Acidentes',  sort='-x', axis=alt.Axis(labelLimit=200)),
           x=alt.X('qtd:Q', title='Quantidade de Acidentes', axis=alt.Axis(labelAngle=-45)),
@@ -143,13 +161,8 @@ with tab01:
     # =======================================================
     def gera_grafico_barras_horizontal_por_br(titulo, contagem_por_br_ano):
     
-      lista_cores = alt.Scale(domain=contagem_por_br_ano['br'].unique(),
-          range=[
-            '#007bff', '#28a745', '#ffc107', '#dc3545', '#6c757d', '#d95b43', '#5bc0de', '#4caf50', '#ffeb3b', '#c497d9',
-            '#00BFFF', '#32CD32', '#FF00FF', '#FFA500', '#5A87E8', '#00CED1', '#FF7F50', '#228B22', '#FFD700', '#000080',
-            '#FF1493', '#4B0082', '#8A2BE2', '#7FFF00', '#00FFFF', '#008000'
-          ])
-    
+      lista_cores = alt.Scale(domain=contagem_por_br_ano['br'].unique(), range=lista_cores_graficos)
+                                  
       chart_br = alt.Chart(contagem_por_br_ano).mark_bar().encode(
           y=alt.Y('br:N', title='Rodovia Federal (BR)', sort='-x', axis=alt.Axis(labelLimit=200)),
           x=alt.X('qtd:Q', title='Quantidade de Acidentes', axis=alt.Axis(labelAngle=-45)),
@@ -166,13 +179,8 @@ with tab01:
     # =======================================================
     def gera_grafico_barras_horizontal_por_causa(titulo, contagem_por_causa_ano):
     
-      lista_cores = alt.Scale(domain=contagem_por_causa_ano['causa_acidente'].unique(),
-          range=[
-            '#007bff', '#28a745', '#ffc107', '#dc3545', '#6c757d', '#d95b43', '#5bc0de', '#4caf50', '#ffeb3b', '#c497d9',
-            '#00BFFF', '#32CD32', '#FF00FF', '#FFA500', '#5A87E8', '#00CED1', '#FF7F50', '#228B22', '#FFD700', '#000080',
-            '#FF1493', '#4B0082', '#8A2BE2', '#7FFF00', '#00FFFF', '#008000'
-          ])
-    
+      lista_cores = alt.Scale(domain=contagem_por_causa_ano['causa_acidente'].unique(), range=lista_cores_graficos)
+                                  
       chart = alt.Chart(contagem_por_causa_ano).mark_bar().encode(
           y=alt.Y('causa_acidente:N', title='Causas de Acidentes', sort='-x', axis=alt.Axis(labelLimit=200)),
           x=alt.X('qtd:Q', title='Quantidade de Acidentes', axis=alt.Axis(labelAngle=-45)),
@@ -189,13 +197,8 @@ with tab01:
     # =======================================================
     def gera_grafico_por_classificacao(titulo, contagem_por_classificacao_ano):
     
-      lista_cores = alt.Scale(domain=contagem_por_classificacao_ano['classificacao_acidente'].unique(),
-          range=[
-            '#007bff', '#28a745', '#ffc107', '#dc3545', '#6c757d', '#d95b43', '#5bc0de', '#4caf50', '#ffeb3b', '#c497d9',
-            '#00BFFF', '#32CD32', '#FF00FF', '#FFA500', '#5A87E8', '#00CED1', '#FF7F50', '#228B22', '#FFD700', '#000080',
-            '#FF1493', '#4B0082', '#8A2BE2', '#7FFF00', '#00FFFF', '#008000'
-          ])
-    
+      lista_cores = alt.Scale(domain=contagem_por_classificacao_ano['classificacao_acidente'].unique(), range=lista_cores_graficos)
+                                  
       chart = alt.Chart(contagem_por_classificacao_ano).mark_bar().encode(
           y=alt.Y('classificacao_acidente:N',title='Classificações de Acidentes', sort='-x', axis=alt.Axis(labelLimit=200)),
           x=alt.X('qtd:Q', title='Quantidade de Acidentes', axis=alt.Axis(labelAngle=-45)),
@@ -212,13 +215,8 @@ with tab01:
     # =======================================================
     def gera_grafico_por_fase_dia(titulo, contagem_por_fase_dia):
     
-      lista_cores = alt.Scale(domain=contagem_por_fase_dia['fase_dia'].unique(),
-          range=[
-            '#007bff', '#28a745', '#ffc107', '#dc3545', '#6c757d', '#d95b43', '#5bc0de', '#4caf50', '#ffeb3b', '#c497d9',
-            '#00BFFF', '#32CD32', '#FF00FF', '#FFA500', '#5A87E8', '#00CED1', '#FF7F50', '#228B22', '#FFD700', '#000080',
-            '#FF1493', '#4B0082', '#8A2BE2', '#7FFF00', '#00FFFF', '#008000'
-          ])
-    
+      lista_cores = alt.Scale(domain=contagem_por_fase_dia['fase_dia'].unique(), range=lista_cores_graficos)
+                                  
       chart = alt.Chart(contagem_por_fase_dia).mark_bar().encode(
           y=alt.Y('fase_dia:N', title='Fases do Dia',  sort='-x', axis=alt.Axis(labelLimit=200)),
           x=alt.X('qtd:Q', title='Quantidade de Acidentes',  axis=alt.Axis(labelAngle=-45)),
@@ -236,12 +234,8 @@ with tab01:
     def gera_grafico_por_condicao_metereologica(titulo, contagem_por_condicao_metereologica):
     
       lista_cores = alt.Scale(domain=contagem_por_condicao_metereologica['condicao_metereologica'].unique(),
-          range=[
-            '#007bff', '#28a745', '#ffc107', '#dc3545', '#6c757d', '#d95b43', '#5bc0de', '#4caf50', '#ffeb3b', '#c497d9',
-            '#00BFFF', '#32CD32', '#FF00FF', '#FFA500', '#5A87E8', '#00CED1', '#FF7F50', '#228B22', '#FFD700', '#000080',
-            '#FF1493', '#4B0082', '#8A2BE2', '#7FFF00', '#00FFFF', '#008000'
-          ])
-    
+        range=lista_cores_graficos)
+                                  
       chart = alt.Chart(contagem_por_condicao_metereologica).mark_bar().encode(
           y=alt.Y('condicao_metereologica:N', title='Condições Metereológicas',  sort='-x', axis=alt.Axis(labelLimit=200)),
           x=alt.X('qtd:Q', title='Quantidade de Acidentes',  axis=alt.Axis(labelAngle=-45)),
@@ -568,73 +562,7 @@ with tab07:
     st.altair_chart(heatmap_with_text)
 
 # ==============================================================================
-with tab08:
 
-    # aba 08
-    titulo = f'https://altair-viz.github.io/gallery/airport_connections.html'
-    st.markdown(titulo, unsafe_allow_html=True)  
-    
-    # Since these data are each more than 5,000 rows we'll import from the URLs
-    airports = data.airports.url
-    flights_airport = data.flights_airport.url
-    
-    states = alt.topo_feature(data.us_10m.url, feature="states")
-    
-    # Create pointerover selection
-    select_city = alt.selection_point(
-        on="pointerover", nearest=True, fields=["origin"], empty=False
-    )
-    
-    # Define which attributes to lookup from airports.csv
-    lookup_data = alt.LookupData(
-        airports, key="iata", fields=["state", "latitude", "longitude"]
-    )
-    
-    background = alt.Chart(states).mark_geoshape(
-        fill="lightgray",
-        stroke="white"
-    ).properties(
-        width=750,
-        height=500
-    ).project("albersUsa")
-    
-    connections = alt.Chart(flights_airport).mark_rule(opacity=0.35).encode(
-        latitude="latitude:Q",
-        longitude="longitude:Q",
-        latitude2="lat2:Q",
-        longitude2="lon2:Q"
-    ).transform_lookup(
-        lookup="origin",
-        from_=lookup_data
-    ).transform_lookup(
-        lookup="destination",
-        from_=lookup_data,
-        as_=["state", "lat2", "lon2"]
-    ).transform_filter(
-        select_city
-    )
-    
-    points = alt.Chart(flights_airport).mark_circle().encode(
-        latitude="latitude:Q",
-        longitude="longitude:Q",
-        size=alt.Size("routes:Q").legend(None).scale(range=[0, 1000]),
-        order=alt.Order("routes:Q").sort("descending"),
-        tooltip=["origin:N", "routes:Q"]
-    ).transform_aggregate(
-        routes="count()",
-        groupby=["origin"]
-    ).transform_lookup(
-        lookup="origin",
-        from_=lookup_data
-    ).transform_filter(
-        (alt.datum.state != "PR") & (alt.datum.state != "VI")
-    ).add_params(
-        select_city
-    )
-    
-    grafico = (background + connections + points).configure_view(stroke=None)
-    
-    st.altair_chart(grafico)
 
 # ==============================================================================
 with tab09:
@@ -663,7 +591,7 @@ with tab09:
 with tab10:
 
     # aba 10
-    titulo = f'<H2> Gráficos de Fluxo por UF / por Tipo / por BR / por Causa / por Classificação'
+    titulo = f'<H2> Gráficos de Fluxo por UF / por Tipo / por BR / por Causa / por Classificação / por Fase do Dia / por Condição Metereológica'
     st.markdown(titulo, unsafe_allow_html=True)
 
     grafico1 = alt.Chart(df_acidentes_geral_por_uf).mark_area().encode(
@@ -710,12 +638,33 @@ with tab10:
       title='Fluxo Acidentes por Classificação (2007 a 2024)',
       width=800, height=600            
     ).interactive()
+
+    #df_acidentes_geral_por_fasedia
+    grafico6 = alt.Chart(df_acidentes_geral_por_fasedia).mark_area().encode(
+        alt.X('ano:Q').axis(domain=False, tickSize=0),
+        alt.Y('sum(qtd):Q').stack('center').axis(None),
+        alt.Color('fase_dia:N').scale(scheme='category20b')
+    ).properties(
+      title='Fluxo Acidentes por Fase do Dia (2007 a 2024)',
+      width=800, height=600            
+    ).interactive()
+
+    grafico7 = alt.Chart(df_acidentes_geral_por_condicaometereologica).mark_area().encode(
+        alt.X('ano:Q').axis(domain=False, tickSize=0),
+        alt.Y('sum(qtd):Q').stack('center').axis(None),
+        alt.Color('condicao_metereologica:N').scale(scheme='category20b')
+    ).properties(
+      title='Fluxo Acidentes por Condição Metereológica (2007 a 2024)',
+      width=800, height=600            
+    ).interactive()
     
     st.altair_chart(grafico1)
     st.altair_chart(grafico2)
     st.altair_chart(grafico3)
     st.altair_chart(grafico4)
     st.altair_chart(grafico5)
+    st.altair_chart(grafico6)
+    st.altair_chart(grafico7)
     
 # ==============================================================================  
 with tab11:
@@ -818,7 +767,6 @@ with tab12:
     st.markdown(titulo, unsafe_allow_html=True)
 
     grafico01 = alt.Chart(df_acidentes_geral_por_uf).mark_boxplot(extent='min-max').encode(
-        #alt.X('ano', title='Ano'),
         alt.X('UF:N', title='Unidade Federativa (UF)'),
         alt.Y('Qtd:Q', title='Quantidade de Acidentes'),        
     ).properties(
@@ -828,9 +776,7 @@ with tab12:
     )
 
     grafico02 = alt.Chart(df_acidentes_geral_por_tipo).mark_boxplot(extent='min-max').encode(
-        #x='tipo_acidente:N',
         alt.X('tipo_acidente:N', title='Tipos de Acidentes'),
-        #y='qtd:Q'
         alt.Y('qtd:Q', title='Quantidade de Acidentes')        
     ).properties(
         width=800,
@@ -839,9 +785,7 @@ with tab12:
     )
 
     grafico03 = alt.Chart(df_acidentes_geral_por_br).mark_boxplot(extent='min-max').encode(
-        #x='br:N',
         alt.X('br:N', title='Rodovias Federais (BR)'),
-        #y='qtd:Q'
         alt.Y('qtd:Q', title='Quantidade de Acidentes')        
     ).properties(
         width=800,
@@ -850,9 +794,7 @@ with tab12:
     )
 
     grafico04 = alt.Chart(df_acidentes_geral_por_classificacao).mark_boxplot(extent='min-max').encode(
-        #x='classificacao_acidente:N',
         alt.X('classificacao_acidente:N', title='Classificações de Acidentes'),        
-        #y='qtd:Q'
         alt.Y('qtd:Q', title='Quantidade de Acidentes')        
     ).properties(
         width=800,
@@ -861,9 +803,7 @@ with tab12:
     )
 
     grafico05 = alt.Chart(df_acidentes_geral_por_causa).mark_boxplot(extent='min-max').encode(
-        #x='causa_acidente:N',
         alt.X('causa_acidente:N', title='Causas de Acidentes'),  
-        #y='qtd:Q'
         alt.Y('qtd:Q', title='Quantidade de Acidentes')        
     ).properties(
         width=800,
@@ -872,9 +812,7 @@ with tab12:
     )
 
     grafico06 = alt.Chart(df_acidentes_geral_por_fasedia).mark_boxplot(extent='min-max').encode(
-        #x='fase_dia:N',
         alt.X('fase_dia:N', title='Fasos do Dia'), 
-        #y='qtd:Q'
         alt.Y('qtd:Q', title='Quantidade de Acidentes')        
     ).properties(
         width=800,
@@ -883,9 +821,7 @@ with tab12:
     )
 
     grafico07 = alt.Chart(df_acidentes_geral_por_condicaometereologica).mark_boxplot(extent='min-max').encode(
-        #x='condicao_metereologica:N',
         alt.X('condicao_metereologica:N', title='Condições Metereológicas'), 
-        #y='qtd:Q'
         alt.Y('qtd:Q', title='Quantidade de Acidentes')        
     ).properties(
         width=800,
@@ -900,24 +836,16 @@ with tab12:
     st.altair_chart(grafico05)
     st.altair_chart(grafico06)
     st.altair_chart(grafico07)
-# ==============================================================================
-with tab13:
     
-    import streamlit as st
-    import altair as alt
-    import pandas as pd
+# ==============================================================================
+with tab08:
+    
+    #import streamlit as st
+    #import altair as alt
+    #import pandas as pd
     import numpy as np
     from urllib.request import urlopen
-    import json
-    
-    #Layout da página
-    #st.set_page_config(
-    #    page_title="Título da Página",
-    #    layout="wide",
-    #    initial_sidebar_state="expanded",
-    #    page_icon = "🗳️"
-    #)
-    #alt.themes.enable("dark")
+    import json  
     
     ##########################################################################################
     ##                                     Funções úteis                                    ##
@@ -1119,7 +1047,7 @@ with tab13:
 
 
 # ==============================================================================  
-with tab14:    
+with tab13:    
 
     escala_cores = [
         # min, max, cor
@@ -1181,20 +1109,14 @@ with tab14:
         df_coordenadas = pd.read_csv('geo/acidentes_localizacao_processado_2024.csv', sep=';', decimal='.')       
         
     mapa_br_selecionada = middle.selectbox('Selecione a rodovia:', (lista_brs))       
-
-    #if mapa_ano_selecionado == OPCAO_TODOS:
-    #   #coluna_dados = 'acidentes_total'
-    #else:
-    #   coluna_dados = f'acidentes_{mapa_ano_selecionado}'
-    coluna_dados = 'acidentes'
     
     # Exibir o quadro com as legendas
     titulo = f'<H2>Acidentes reportados na BR {mapa_br_selecionada} no ano de {mapa_ano_selecionado}'
     st.markdown(titulo, unsafe_allow_html=True)    
 
     df_coordenadas_filtrado = df_coordenadas[(df_coordenadas['br'] == int(mapa_br_selecionada))]       
-    df_coordenadas_filtrado['cor'] = df_coordenadas_filtrado[coluna_dados].apply(definir_cor)    
-    df_coordenadas_filtrado['tamanho'] = df_coordenadas_filtrado[coluna_dados].apply(definir_tamanho)
+    df_coordenadas_filtrado['cor'] = df_coordenadas_filtrado['acidentes'].apply(definir_cor)    
+    df_coordenadas_filtrado['tamanho'] = df_coordenadas_filtrado['acidentes'].apply(definir_tamanho)
     
     # Criar duas colunas para colocar os componentes lado a lado
     col1, col2 = st.columns([8,2])
@@ -1224,7 +1146,6 @@ with tab14:
                     '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#bd0026;margin-right:5px;"></span> Entre 71 e  80 acidentes',
                     '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#800026;margin-right:5px;"></span> Entre 81 e 900 acidentes',                    
                    ]
-
                 
         # Exibir o quadro com as legendas
         st.markdown('<br>'.join(legendas), unsafe_allow_html=True)     
