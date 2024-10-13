@@ -70,7 +70,6 @@ print(f'Ano Selecionado = {ano_selecionado}')
 # Definição de abas
 tab01, tab02, tab03, tab04, tab05, tab06, tab07, tab08, tab09, tab10, tab11, tab12, tab13, tab14 = st.tabs(
   [
-    #"Acidentes por UF / por Tipo / por BR / por Causa / por Classificação / por Fase do Dia",  
     "Acidentes por Critérios",
     "Ranking UF", 
     "Ranking Tipo", 
@@ -84,7 +83,7 @@ tab01, tab02, tab03, tab04, tab05, tab06, tab07, tab08, tab09, tab10, tab11, tab
     "Gráficos Barras Empilhadas",
     "Gráficos Boxplots",
     "Mapa do Brasil",
-    "Teste Map",
+    "Mapa das BRs",
   ]
 )
 
@@ -104,8 +103,8 @@ with tab01:
           ])
     
       chart_uf = alt.Chart(contagem_por_uf_ano).mark_bar().encode(
-          y=alt.Y('UF:N', sort='-x', axis=alt.Axis(labelLimit=200)),
-          x=alt.X('Qtd:Q', axis=alt.Axis(labelAngle=-45)),
+          y=alt.Y('UF:N', title='Unidade Federativa (UF)', sort='-x', axis=alt.Axis(labelLimit=200)),
+          x=alt.X('Qtd:Q', title='Quantidade de Acidentes', axis=alt.Axis(labelAngle=-45)),
           tooltip=['UF', 'Qtd'],      
           color=alt.Color('UF:N', scale=lista_cores)     
     
@@ -129,31 +128,8 @@ with tab01:
           ])
     
       chart_tipo = alt.Chart(contagem_por_tipo_ano).mark_bar().encode(
-          y=alt.Y('tipo_acidente:N', sort='-x', axis=alt.Axis(labelLimit=200)),
-          x=alt.X('qtd:Q', axis=alt.Axis(labelAngle=-45)),
-          tooltip=['tipo_acidente', 'qtd'],
-          color=alt.Color('tipo_acidente:N', scale=lista_cores)
-    
-      ).properties(
-          title=titulo,
-          width=800,
-          height=600           
-      ).interactive()
-    
-      return chart_tipo
-    # =======================================================
-    def gera_grafico_barras_horizontal_por_tipo(titulo, contagem_por_tipo_ano):
-    
-      lista_cores = alt.Scale(domain=contagem_por_tipo_ano['tipo_acidente'].unique(),
-          range=[
-            '#007bff', '#28a745', '#ffc107', '#dc3545', '#6c757d', '#d95b43', '#5bc0de', '#4caf50', '#ffeb3b', '#c497d9',
-            '#00BFFF', '#32CD32', '#FF00FF', '#FFA500', '#5A87E8', '#00CED1', '#FF7F50', '#228B22', '#FFD700', '#000080',
-            '#FF1493', '#4B0082', '#8A2BE2', '#7FFF00', '#00FFFF', '#008000'
-          ])
-    
-      chart_tipo = alt.Chart(contagem_por_tipo_ano).mark_bar().encode(
-          y=alt.Y('tipo_acidente:N', sort='-x', axis=alt.Axis(labelLimit=200)),
-          x=alt.X('qtd:Q', axis=alt.Axis(labelAngle=-45)),
+          y=alt.Y('tipo_acidente:N', title='Tipos de Acidentes',  sort='-x', axis=alt.Axis(labelLimit=200)),
+          x=alt.X('qtd:Q', title='Quantidade de Acidentes', axis=alt.Axis(labelAngle=-45)),
           tooltip=['tipo_acidente', 'qtd'],
           color=alt.Color('tipo_acidente:N', scale=lista_cores)
     
@@ -175,8 +151,8 @@ with tab01:
           ])
     
       chart_br = alt.Chart(contagem_por_br_ano).mark_bar().encode(
-          y=alt.Y('br:N', sort='-x', axis=alt.Axis(labelLimit=200)),
-          x=alt.X('qtd:Q', axis=alt.Axis(labelAngle=-45)),
+          y=alt.Y('br:N', title='Rodovia Federal (BR)', sort='-x', axis=alt.Axis(labelLimit=200)),
+          x=alt.X('qtd:Q', title='Quantidade de Acidentes', axis=alt.Axis(labelAngle=-45)),
           tooltip=['br', 'qtd'],
           color=alt.Color('br:N', scale=lista_cores)
     
@@ -198,8 +174,8 @@ with tab01:
           ])
     
       chart = alt.Chart(contagem_por_causa_ano).mark_bar().encode(
-          y=alt.Y('causa_acidente:N', sort='-x', axis=alt.Axis(labelLimit=200)),
-          x=alt.X('qtd:Q', axis=alt.Axis(labelAngle=-45)),
+          y=alt.Y('causa_acidente:N', title='Causas de Acidentes', sort='-x', axis=alt.Axis(labelLimit=200)),
+          x=alt.X('qtd:Q', title='Quantidade de Acidentes', axis=alt.Axis(labelAngle=-45)),
           tooltip=['causa_acidente', 'qtd'],
           color=alt.Color('causa_acidente:N', scale=lista_cores)
     
@@ -221,8 +197,8 @@ with tab01:
           ])
     
       chart = alt.Chart(contagem_por_classificacao_ano).mark_bar().encode(
-          y=alt.Y('classificacao_acidente:N', sort='-x', axis=alt.Axis(labelLimit=200)),
-          x=alt.X('qtd:Q', axis=alt.Axis(labelAngle=-45)),
+          y=alt.Y('classificacao_acidente:N',title='Classificações de Acidentes', sort='-x', axis=alt.Axis(labelLimit=200)),
+          x=alt.X('qtd:Q', title='Quantidade de Acidentes', axis=alt.Axis(labelAngle=-45)),
           tooltip=['classificacao_acidente', 'qtd'],
           color=alt.Color('classificacao_acidente:N', scale=lista_cores)
     
@@ -244,8 +220,8 @@ with tab01:
           ])
     
       chart = alt.Chart(contagem_por_fase_dia).mark_bar().encode(
-          y=alt.Y('fase_dia:N', sort='-x', axis=alt.Axis(labelLimit=200)),
-          x=alt.X('qtd:Q', axis=alt.Axis(labelAngle=-45)),
+          y=alt.Y('fase_dia:N', title='Fases do Dia',  sort='-x', axis=alt.Axis(labelLimit=200)),
+          x=alt.X('qtd:Q', title='Quantidade de Acidentes',  axis=alt.Axis(labelAngle=-45)),
           tooltip=['fase_dia', 'qtd'],
           color=alt.Color('fase_dia:N', scale=lista_cores)
     
@@ -267,8 +243,8 @@ with tab01:
           ])
     
       chart = alt.Chart(contagem_por_condicao_metereologica).mark_bar().encode(
-          y=alt.Y('condicao_metereologica:N', sort='-x', axis=alt.Axis(labelLimit=200)),
-          x=alt.X('qtd:Q', axis=alt.Axis(labelAngle=-45)),
+          y=alt.Y('condicao_metereologica:N', title='Condições Metereológicas',  sort='-x', axis=alt.Axis(labelLimit=200)),
+          x=alt.X('qtd:Q', title='Quantidade de Acidentes',  axis=alt.Axis(labelAngle=-45)),
           tooltip=['condicao_metereologica', 'qtd'],
           color=alt.Color('condicao_metereologica:N', scale=lista_cores)
     
@@ -356,8 +332,8 @@ with tab02:
    
     grafico1 = alt.Chart(df_acidentes_geral_por_uf).mark_line(point=True).encode(
         x=alt.X('ano:O', title='Ano'),
-        y="rank:O",
-        color=alt.Color("UF:N") #.scale(scheme='category20b')
+        y=alt.Y("rank:O", title='Posição do Ranking'),
+        color=alt.Color("UF:N") 
     ).transform_window(
         rank="rank()",
         sort=[alt.SortField("Qtd", order="descending")],
@@ -367,10 +343,7 @@ with tab02:
         width=800,
         height=600,
     )
-
-    st.altair_chart(grafico1)
     
-    # Criar o gráfico de linhas interativo
     grafico2 = alt.Chart(df_acidentes_geral_por_uf).mark_line(point=True).encode(
       x=alt.X('ano:N', axis=alt.Axis(title='Ano')),
       y=alt.Y('Qtd:Q', axis=alt.Axis(title='Quantidade de Acidentes')),
@@ -382,7 +355,8 @@ with tab02:
     ).add_selection(
       alt.selection_single(fields=['ano'], bind='legend')
     ).interactive()
-    
+
+    st.altair_chart(grafico1)   
     st.altair_chart(grafico2)
 
 # ==============================================================================
@@ -394,7 +368,7 @@ with tab03:
    
     grafico1 = alt.Chart(df_acidentes_geral_por_tipo).mark_line(point=True).encode(
         x=alt.X('ano:O', title='Ano'),
-        y="rank:O",
+        y=alt.Y("rank:O", title='Posição do Ranking'),
         color=alt.Color("tipo_acidente:N")
     ).transform_window(
         rank="rank()",
@@ -405,10 +379,7 @@ with tab03:
         width=800,
         height=600,
     )
-
-    st.altair_chart(grafico1)   
     
-    # Criar o gráfico de linhas interativo
     grafico2 = alt.Chart(df_acidentes_geral_por_tipo).mark_line(point=True).encode(
       x=alt.X('ano:N', axis=alt.Axis(title='Ano')),
       y=alt.Y('qtd:Q', axis=alt.Axis(title='Quantidade de Acidentes')),
@@ -420,7 +391,8 @@ with tab03:
     ).add_selection(
       alt.selection_single(fields=['ano'], bind='legend')
     ).interactive()
-    
+
+    st.altair_chart(grafico1)   
     st.altair_chart(grafico2)
     
 # ==============================================================================
@@ -432,7 +404,7 @@ with tab04:
   
     grafico_ranking_br_01 = alt.Chart(df_acidentes_geral_por_br).mark_line(point=True).encode(
         x=alt.X('ano:O', title='Ano'),
-        y="rank:O",
+        y=alt.Y("rank:O", title='Posição do Ranking'),
         color=alt.Color("br:N")
     ).transform_window(
         rank="rank()",
@@ -443,10 +415,7 @@ with tab04:
         width=800,
         height=600,
     )
-
-    st.altair_chart(grafico_ranking_br_01)
-   
-    # Criar o gráfico de linhas interativo
+  
     grafico_ranking_br_02 = alt.Chart(df_acidentes_geral_por_br).mark_line(point=True).encode(
       x=alt.X('ano:N', axis=alt.Axis(title='Ano')),
       y=alt.Y('qtd:Q', axis=alt.Axis(title='Quantidade de Acidentes')),
@@ -458,7 +427,8 @@ with tab04:
     ).add_selection(
       alt.selection_single(fields=['ano'], bind='legend')
     ).interactive()
-    
+
+    st.altair_chart(grafico_ranking_br_01)   
     st.altair_chart(grafico_ranking_br_02)
 
 # ==============================================================================
@@ -470,7 +440,7 @@ with tab05:
 
     grafico_ranking_classif_01 = alt.Chart(df_acidentes_geral_por_classificacao).mark_line(point=True).encode(
         x=alt.X('ano:O', title='Ano'),
-        y="rank:O",
+        y=alt.Y("rank:O", title='Posição do Ranking'),
         color=alt.Color("classificacao_acidente:N")
     ).transform_window(
         rank="rank()",
@@ -480,10 +450,7 @@ with tab05:
         title="Ranking das Classificações dos Acidentes (2007 a 2024)",
         width=800, height=600,
     )
-
-    st.altair_chart(grafico_ranking_classif_01)
     
-    # Criar o gráfico de linhas interativo
     grafico_ranking_classif_02 = alt.Chart(df_acidentes_geral_por_classificacao).mark_line(point=True).encode(
       x=alt.X('ano:N', axis=alt.Axis(title='Ano')),
       y=alt.Y('qtd:Q', axis=alt.Axis(title='Quantidade de Acidentes')),
@@ -498,7 +465,8 @@ with tab05:
       alt.selection_single(fields=['ano'], bind='legend')
         
     ).interactive()
-    
+
+    st.altair_chart(grafico_ranking_classif_01)
     st.altair_chart(grafico_ranking_classif_02)
     
 # ==============================================================================
@@ -510,7 +478,7 @@ with tab06:
 
     grafico_ranking_fasedia_01 = alt.Chart(df_acidentes_geral_por_fasedia).mark_line(point=True).encode(
         x=alt.X('ano:O', title='Ano'),
-        y="rank:O",
+        y=alt.Y("rank:O", title='Posição do Ranking'),
         color=alt.Color("fase_dia:N")
     ).transform_window(
         rank="rank()",
@@ -520,10 +488,7 @@ with tab06:
         title="Ranking das Fases dos Acidentes (2007 a 2024)",
         width=800, height=600,
     )
-
-    st.altair_chart(grafico_ranking_fasedia_01)
     
-    # Criar o gráfico de linhas interativo
     grafico_ranking_fasedia_02 = alt.Chart(df_acidentes_geral_por_fasedia).mark_line(point=True).encode(
       x=alt.X('ano:N', axis=alt.Axis(title='Ano')),
       y=alt.Y('qtd:Q', axis=alt.Axis(title='Quantidade de Acidentes')),
@@ -538,9 +503,9 @@ with tab06:
       alt.selection_single(fields=['ano'], bind='legend')
         
     ).interactive()
-    
-    st.altair_chart(grafico_ranking_fasedia_02)
 
+    st.altair_chart(grafico_ranking_fasedia_01)   
+    st.altair_chart(grafico_ranking_fasedia_02)
     
 # ==============================================================================
 with tab07:
@@ -760,8 +725,8 @@ with tab11:
     # ==========================================================================
     def grafico_barras_empilhadas_por_uf(titulo, df):
         grafico = alt.Chart(df).mark_bar(width=20).encode(
-            x='ano',
-            y='sum(Qtd)',
+            alt.X('ano', title='Ano'),
+            alt.Y('sum(Qtd)', title='Soma das Quantidades'),
             color='UF'
         ).properties(
               title=titulo,
@@ -772,8 +737,8 @@ with tab11:
     # ==========================================================================
     def grafico_barras_empilhadas_por_br(titulo, df):
         grafico = alt.Chart(df).mark_bar(width=20).encode(
-            x='ano',
-            y='sum(qtd)',
+            alt.X('ano', title='Ano'),
+            alt.Y('sum(qtd)', title='Soma das Quantidades'),
             color='br:N'
         ).properties(
               title=titulo,
@@ -785,8 +750,8 @@ with tab11:
     def grafico_barras_empilhadas_por_tipo(titulo, df):
 
         grafico = alt.Chart(df).mark_bar(width=20).encode(
-            x='ano',
-            y='sum(qtd)',
+            alt.X('ano', title='Ano'),
+            alt.Y('sum(qtd)', title='Soma das Quantidades'),
             color='tipo_acidente'
         ).properties(
               title=titulo,
@@ -798,8 +763,8 @@ with tab11:
     def grafico_barras_empilhadas_por_causa(titulo, df):
             
         grafico = alt.Chart(df).mark_bar(width=20).encode(
-            x='ano',
-            y='sum(qtd)',
+            alt.X('ano', title='Ano'),
+            alt.Y('sum(qtd)', title='Soma das Quantidades'),
             color='causa_acidente'
         ).properties(
               title=titulo,
@@ -853,8 +818,9 @@ with tab12:
     st.markdown(titulo, unsafe_allow_html=True)
 
     grafico01 = alt.Chart(df_acidentes_geral_por_uf).mark_boxplot(extent='min-max').encode(
-        x='UF:N',
-        y='Qtd:Q'        
+        #alt.X('ano', title='Ano'),
+        alt.X('UF:N', title='Unidade Federativa (UF)'),
+        alt.Y('Qtd:Q', title='Quantidade de Acidentes'),        
     ).properties(
         width=800,
         height=600,
@@ -862,8 +828,10 @@ with tab12:
     )
 
     grafico02 = alt.Chart(df_acidentes_geral_por_tipo).mark_boxplot(extent='min-max').encode(
-        x='tipo_acidente:N',
-        y='qtd:Q'
+        #x='tipo_acidente:N',
+        alt.X('tipo_acidente:N', title='Tipos de Acidentes'),
+        #y='qtd:Q'
+        alt.Y('qtd:Q', title='Quantidade de Acidentes')        
     ).properties(
         width=800,
         height=600,
@@ -871,8 +839,10 @@ with tab12:
     )
 
     grafico03 = alt.Chart(df_acidentes_geral_por_br).mark_boxplot(extent='min-max').encode(
-        x='br:N',
-        y='qtd:Q'
+        #x='br:N',
+        alt.X('br:N', title='Rodovias Federais (BR)'),
+        #y='qtd:Q'
+        alt.Y('qtd:Q', title='Quantidade de Acidentes')        
     ).properties(
         width=800,
         height=600,
@@ -880,8 +850,10 @@ with tab12:
     )
 
     grafico04 = alt.Chart(df_acidentes_geral_por_classificacao).mark_boxplot(extent='min-max').encode(
-        x='classificacao_acidente:N',
-        y='qtd:Q'
+        #x='classificacao_acidente:N',
+        alt.X('classificacao_acidente:N', title='Classificações de Acidentes'),        
+        #y='qtd:Q'
+        alt.Y('qtd:Q', title='Quantidade de Acidentes')        
     ).properties(
         width=800,
         height=600,
@@ -889,8 +861,10 @@ with tab12:
     )
 
     grafico05 = alt.Chart(df_acidentes_geral_por_causa).mark_boxplot(extent='min-max').encode(
-        x='causa_acidente:N',
-        y='qtd:Q'
+        #x='causa_acidente:N',
+        alt.X('causa_acidente:N', title='Causas de Acidentes'),  
+        #y='qtd:Q'
+        alt.Y('qtd:Q', title='Quantidade de Acidentes')        
     ).properties(
         width=800,
         height=600,
@@ -898,8 +872,10 @@ with tab12:
     )
 
     grafico06 = alt.Chart(df_acidentes_geral_por_fasedia).mark_boxplot(extent='min-max').encode(
-        x='fase_dia:N',
-        y='qtd:Q'
+        #x='fase_dia:N',
+        alt.X('fase_dia:N', title='Fasos do Dia'), 
+        #y='qtd:Q'
+        alt.Y('qtd:Q', title='Quantidade de Acidentes')        
     ).properties(
         width=800,
         height=600,
@@ -907,8 +883,10 @@ with tab12:
     )
 
     grafico07 = alt.Chart(df_acidentes_geral_por_condicaometereologica).mark_boxplot(extent='min-max').encode(
-        x='condicao_metereologica:N',
-        y='qtd:Q'
+        #x='condicao_metereologica:N',
+        alt.X('condicao_metereologica:N', title='Condições Metereológicas'), 
+        #y='qtd:Q'
+        alt.Y('qtd:Q', title='Quantidade de Acidentes')        
     ).properties(
         width=800,
         height=600,
@@ -1143,24 +1121,36 @@ with tab13:
 # ==============================================================================  
 with tab14:    
 
-#st.markdown("""
-#<style>
-#.stSelectbox {
-#    width: 200px;  # Define a largura máxima do select
-#}
-#</style>
-#""", unsafe_allow_html=True)
+    escala_cores = [
+        # min, max, cor
+        ( 1,  10, '#ffffcc'),
+        (11,  20, '#ffeda0'),
+        (21,  30, '#fed976'),
+        (31,  40, '#feb24c'),
+        (41,  50, '#fd8d3c'),
+        (51,  60, '#fc4e2a'),
+        (61,  70, '#e31a1c'),
+        (71,  80, '#bd0026'),
+        (81, 900, '#800026'),
+        
+    ]
 
     # ===========================
     # Funções
     # ===========================
     def definir_cor(acidentes):
-        if 1 <= acidentes <= 10:
-            return '#00FF00'  # Verde
-        elif 11 <= acidentes <= 20:
-            return '#FFFF00'  # Amarelo
-        else:
-            return '#FF0000'  # Vermelho               
+        cor_secionada = ''
+        for i,item in enumerate(escala_cores):
+            if item[0] <= acidentes <= item[1]:
+                print(f'Cor seleciana = {item[2]}')
+                cor_secionada = item[2]
+                break
+                
+        return cor_secionada
+    # ===========================
+    def definir_tamanho(acidentes):
+        return acidentes * 10
+    # ===========================
 
     left, middle, right = st.columns(3)
     
@@ -1168,7 +1158,7 @@ with tab14:
     mapa_ano_selecionado = left.selectbox(
         'Selecione o ano:', 
         #(OPCAO_TODOS, '2024', '2023', '2022', '2021', '2020', '2019', '2018', '2017'))
-        ('2024', '2023', '2022', '2021', '2020', '2019', '2018', '2017'))
+        ('2024', '2023', '2022', '2021', '2020', '2019', '2018', '2017', OPCAO_TODOS))
     print(f'Mapa - Ano Selecionado = {mapa_ano_selecionado}')
 
     lista_brs = [101, 116, 381,  40, 153, 163, 364, 376, 262, 230, 470, 316, 282, 70,  60,  20, 158, 369,  50]
@@ -1192,18 +1182,20 @@ with tab14:
         
     mapa_br_selecionada = middle.selectbox('Selecione a rodovia:', (lista_brs))       
 
-    if mapa_ano_selecionado == OPCAO_TODOS:
-       coluna_dados = 'acidentes_total'
-    else:
-       coluna_dados = f'acidentes_{mapa_ano_selecionado}'
-
+    #if mapa_ano_selecionado == OPCAO_TODOS:
+    #   #coluna_dados = 'acidentes_total'
+    #else:
+    #   coluna_dados = f'acidentes_{mapa_ano_selecionado}'
+    coluna_dados = 'acidentes'
+    
     # Exibir o quadro com as legendas
     titulo = f'<H2>Acidentes reportados na BR {mapa_br_selecionada} no ano de {mapa_ano_selecionado}'
     st.markdown(titulo, unsafe_allow_html=True)    
 
     df_coordenadas_filtrado = df_coordenadas[(df_coordenadas['br'] == int(mapa_br_selecionada))]       
-    df_coordenadas_filtrado['cor'] = df_coordenadas_filtrado[coluna_dados].apply(definir_cor)
-
+    df_coordenadas_filtrado['cor'] = df_coordenadas_filtrado[coluna_dados].apply(definir_cor)    
+    df_coordenadas_filtrado['tamanho'] = df_coordenadas_filtrado[coluna_dados].apply(definir_tamanho)
+    
     # Criar duas colunas para colocar os componentes lado a lado
     col1, col2 = st.columns([8,2])
     
@@ -1213,19 +1205,30 @@ with tab14:
         st.map(df_coordenadas_filtrado,
             latitude='latitude',
             longitude='longitude',
-            size=coluna_dados,
+            size='tamanho',
             color='cor',
             use_container_width=False)
 
     with col2:
 
         # Conteúdo HTML das legendas
-        legendas = ['<br><br><span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#00FF00;margin-right:5px;"></span> Entre 1 e 10 acidentes',
-                    '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#FFFF00;margin-right:5px;"></span> Entre 11 e 20 acidentes',
-                    '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#FF0000;margin-right:5px;"></span> Mais de 20 acidentes']
-        
+        # solid
+        legendas = ['<br><br>', 
+                    '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#ffffcc;margin-right:5px;"></span> Entre  1 e  10 acidentes',
+                    '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#ffeda0;margin-right:5px;"></span> Entre 11 e  20 acidentes',
+                    '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#fed976;margin-right:5px;"></span> Entre 21 e  30 acidentes',
+                    '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#feb24c;margin-right:5px;"></span> Entre 31 e  40 acidentes',
+                    '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#fd8d3c;margin-right:5px;"></span> Entre 41 e  50 acidentes',
+                    '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#fc4e2a;margin-right:5px;"></span> Entre 51 e  60 acidentes',
+                    '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#e31a1c;margin-right:5px;"></span> Entre 61 e  70 acidentes',
+                    '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#bd0026;margin-right:5px;"></span> Entre 71 e  80 acidentes',
+                    '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#800026;margin-right:5px;"></span> Entre 81 e 900 acidentes',                    
+                   ]
+
+                
         # Exibir o quadro com as legendas
-        st.markdown('<br>'.join(legendas), unsafe_allow_html=True)
-    
+        st.markdown('<br>'.join(legendas), unsafe_allow_html=True)     
+
+# ==============================================================================  
 
     
