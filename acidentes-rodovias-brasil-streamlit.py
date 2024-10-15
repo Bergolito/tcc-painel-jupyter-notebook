@@ -23,8 +23,6 @@ df_acidentes_geral_por_condicaometereologica = pd.read_csv('acidentes_geral_por_
 # Datasets de geolocalização
 # =======================================================
 
-#df_estados= get_df("https://drive.google.com/file/d/1qPMUuto04pQVnxaayg7Ubs9ZlxfiDwcX/view?usp=sharing")
-
 df_acid_local_2017 = pd.read_csv('geo/acidentes_localizacao_processado_2017.csv', sep=';', encoding="ISO-8859-1")
 #df_acid_local_2017 = pd.read_csv('https://drive.google.com/file/d/14hG5YjWh7dmaYX206fbaKM9lUxSbo2ij/view?usp=sharing', sep=';', encoding="ISO-8859-1")
 
@@ -505,30 +503,14 @@ with tab06:
 with tab07:
 
     # aba 07
-    titulo = f'https://altair-viz.github.io/gallery/annual_weather_heatmap.html'
+    titulo = f'<H2> Mapa de Calor por Classificação'
     st.markdown(titulo, unsafe_allow_html=True)  
 
-    source = data.seattle_weather()
-    
-    grafico = alt.Chart(source, title="Daily Max Temperatures (C) in Seattle, WA").mark_rect().encode(
-        alt.X("date(date):O").title("Day").axis(format="%e", labelAngle=0),
-        alt.Y("month(date):O").title("Month"),
-        alt.Color("max(temp_max)").title(None),
-        tooltip=[
-            alt.Tooltip("monthdate(date)", title="Date"),
-            alt.Tooltip("max(temp_max)", title="Max Temp"),
-        ],
-    ).configure_view(
-        step=13,
-        strokeWidth=0
-    ).configure_axis(
-        domain=False
-    )
-    
-    st.altair_chart(grafico)
-
-    df_envolvidos = pd.read_csv('correlacao_classificacao_2023.csv')
-    
+    if ano_selecionado == OPCAO_TODOS:
+        df_envolvidos = pd.read_csv(f'mapa_calor/mapa_calor_classificacao_geral.csv')
+    else:
+        df_envolvidos = pd.read_csv(f'mapa_calor/mapa_calor_classificacao_{ano_selecionado}.csv')
+        
     # Define os dados
     dados = df_envolvidos.set_index('classificacao').T.reset_index().melt(id_vars='index', var_name='classificacao', value_name='value')
 
@@ -536,7 +518,8 @@ with tab07:
     heatmap = alt.Chart(dados).mark_rect().encode(
         x=alt.X('index:O', title=None, axis=alt.Axis(orient='top')),  # Define a orientação do eixo x como 'top'
         y=alt.Y('classificacao:O', title=None),
-        color=alt.Color('value:Q'),
+        #color=alt.Color('value:Q'),
+        color=alt.Color('value:Q', scale=alt.Scale(scheme='yellowgreenblue')),    
     )
 
     # Adiciona o texto dentro de cada célula com o valor real e ajusta a cor do texto
@@ -555,7 +538,7 @@ with tab07:
     heatmap_with_text = (heatmap + text).properties(
         width=800,
         height=600,
-        title=f'Mapa de Calor dos Envolvidos nos acidentes (aaa)'
+        title=f'Mapa de Calor por Classificação x Envolvidos ({ano_selecionado})'
     )
 
     # Exibe o gráfico    
@@ -1049,6 +1032,9 @@ with tab08:
 # ==============================================================================  
 with tab13:    
 
+    # ================================
+    # Aba 13 - constantes
+    # ================================
     escala_cores = [
         # min, max, cor
         ( 1,  10, '#ffffcc'),
@@ -1062,6 +1048,7 @@ with tab13:
         (81, 900, '#800026'),
         
     ]
+    lista_brs = [101, 116, 381,  40, 153, 163, 364, 376, 262, 230, 470, 316, 282, 70,  60,  20, 158, 369,  50]
 
     # ===========================
     # Funções
@@ -1084,12 +1071,9 @@ with tab13:
     
     # Filtro de ano
     mapa_ano_selecionado = left.selectbox(
-        'Selecione o ano:', 
-        #(OPCAO_TODOS, '2024', '2023', '2022', '2021', '2020', '2019', '2018', '2017'))
-        ('2024', '2023', '2022', '2021', '2020', '2019', '2018', '2017', OPCAO_TODOS))
+        'Selecione o ano:', ('2024', '2023', '2022', '2021', '2020', '2019', '2018', '2017', OPCAO_TODOS))
     print(f'Mapa - Ano Selecionado = {mapa_ano_selecionado}')
 
-    lista_brs = [101, 116, 381,  40, 153, 163, 364, 376, 262, 230, 470, 316, 282, 70,  60,  20, 158, 369,  50]
 
     if mapa_ano_selecionado == '2017':
         df_coordenadas = pd.read_csv('geo/acidentes_localizacao_processado_2017.csv', sep=';', decimal='.')   
@@ -1144,7 +1128,7 @@ with tab13:
                     '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#fc4e2a;margin-right:5px;"></span> Entre 51 e  60 acidentes',
                     '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#e31a1c;margin-right:5px;"></span> Entre 61 e  70 acidentes',
                     '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#bd0026;margin-right:5px;"></span> Entre 71 e  80 acidentes',
-                    '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#800026;margin-right:5px;"></span> Entre 81 e 900 acidentes',                    
+                    '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#800026;margin-right:5px;"></span> 81 acidentes ou mais',                    
                    ]
                 
         # Exibir o quadro com as legendas
