@@ -5,8 +5,11 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 import altair as alt
+import numpy as np
+import json  
 
 from vega_datasets import data
+from urllib.request import urlopen
 
 # =======================================================
 # Datasets
@@ -89,20 +92,16 @@ print(f'Ano Selecionado = {ano_selecionado}')
 #)
 
 # Definição de abas
-tab01, tab02, tab03, tab04, tab05, tab06, tab07, tab08, tab09, tab10, tab11, tab12, tab13 = st.tabs(
+tab01, tab02, tab03, tab04, tab05, tab06, tab07, tab08, tab09 = st.tabs(
   [
     "Acidentes por Critérios",
-    "Ranking UF", 
-    "Ranking Tipo", 
-    "Ranking BR",
-    "Ranking Classificação",
-    "Ranking Fase do Dia",
+    "Rankings Diversos",   
     "Mapa de Calor",
     "Mapa do Brasil",
-    "Scatter Plot",
+    "Gráficos de Dispersão",
     "Gráficos Fluxo",
     "Gráficos Barras Empilhadas",
-    "Gráficos Boxplots",    
+    "Gráficos de Distribuição",    
     "Mapa das BRs",
   ]
 )
@@ -252,9 +251,16 @@ with tab01:
     # =======================================================
     # aba 01
     # =======================================================
-    titulo = f'<h2> Acidentes por UF / por Tipo / por BR / por Causa / por Classificação / por Fase do Dia / por Condição Metereológica'
+    titulo = f'<h3> Acidentes por UF / por Tipo / por BR / por Causa / por Classificação / por Fase do Dia / por Condição Metereológica'
     st.markdown(titulo, unsafe_allow_html=True)  
-    
+
+    tab1_sub1, tab1_sub2, tab1_sub3, tab1_sub4, tab1_sub5, tab1_sub6, tab1_sub7  = st.tabs(
+        [
+            "Acidentes por UF", "Acidentes por Tipo", "Acidentes por BR", 
+            "Acidentes por Causa", "Acidentes por Classificação", "Acidentes por Fase do Dia", 
+            "Acidentes por Condição Metereológica"
+        ])
+        
     if ano_selecionado != OPCAO_TODOS:
       df_filtrado_uf = df_acidentes_geral_por_uf[(df_acidentes_geral_por_uf[COLUNA_ANO] == int(ano_selecionado))]
       titulo = f'Acidentes por UF em {ano_selecionado}'
@@ -307,202 +313,221 @@ with tab01:
       grafico_aba_07 = gera_grafico_por_condicao_metereologica(titulo, df_acidentes_geral_por_condicaometereologica)
 
     # Exibir o gráfico de barras empilhadas
-    st.altair_chart(grafico_aba_01)
-    st.altair_chart(grafico_aba_02)
-    st.altair_chart(grafico_aba_03)
-    st.altair_chart(grafico_aba_04)
-    st.altair_chart(grafico_aba_05)
-    st.altair_chart(grafico_aba_06)
-    st.altair_chart(grafico_aba_07)
+    with tab1_sub1:
+        st.altair_chart(grafico_aba_01)
+    with tab1_sub2:    
+        st.altair_chart(grafico_aba_02)
+    with tab1_sub3:            
+        st.altair_chart(grafico_aba_03)
+    with tab1_sub4:    
+        st.altair_chart(grafico_aba_04)
+    with tab1_sub5:        
+        st.altair_chart(grafico_aba_05)
+    with tab1_sub6:        
+        st.altair_chart(grafico_aba_06)
+    with tab1_sub7:        
+        st.altair_chart(grafico_aba_07)
 
 # ==============================================================================
-with tab02:
+with tab02:    
 
-    # aba 02
-    titulo = f'<h2> Ranking dos Acidentes por UF (2007 a 2024)'
-    st.markdown(titulo, unsafe_allow_html=True)  
-   
-    grafico1 = alt.Chart(df_acidentes_geral_por_uf).mark_line(point=True).encode(
-        x=alt.X('ano:O', title='Ano'),
-        y=alt.Y("rank:O", title='Posição do Ranking'),
-        color=alt.Color("UF:N") 
-    ).transform_window(
-        rank="rank()",
-        sort=[alt.SortField("Qtd", order="descending")],
-        groupby=["ano"]
-    ).properties(
-        title="Ranking das 10 UFs com mais Acidentes (2007 a 2024)",
-        width=800,
-        height=600,
+    tab2_sub1, tab2_sub2, tab2_sub3, tab2_sub4, tab2_sub5  = st.tabs(
+        ["Ranking por UF", "Ranking por Tipo", "Ranking por BR", "Ranking por Classificação", "Ranking por Fase do Dia"]
     )
     
-    grafico2 = alt.Chart(df_acidentes_geral_por_uf).mark_line(point=True).encode(
-      x=alt.X('ano:N', axis=alt.Axis(title='Ano')),
-      y=alt.Y('Qtd:Q', axis=alt.Axis(title='Quantidade de Acidentes')),
-      color='UF:N',
-      tooltip=['UF', 'Qtd', 'ano']
-    ).properties(
-      title='Evolução da Quantidade de Acidentes por UF  (2007 a 2024)',
-      width=800, height=600
-    ).add_selection(
-      alt.selection_single(fields=['ano'], bind='legend')
-    ).interactive()
+    with tab2_sub1:
 
-    st.altair_chart(grafico1)   
-    st.altair_chart(grafico2)
+        # ========================================================
+        # Aba 02 - Acidentes por UF
+        # ========================================================        
+        titulo = f'<h2> Ranking dos Acidentes por UF (2007 a 2024)'
+        st.markdown(titulo, unsafe_allow_html=True)  
+       
+        grafico1 = alt.Chart(df_acidentes_geral_por_uf).mark_line(point=True).encode(
+            x=alt.X('ano:O', title='Ano'),
+            y=alt.Y("rank:O", title='Posição do Ranking'),
+            color=alt.Color("UF:N") 
+        ).transform_window(
+            rank="rank()",
+            sort=[alt.SortField("Qtd", order="descending")],
+            groupby=["ano"]
+        ).properties(
+            title="Ranking das 10 UFs com mais Acidentes (2007 a 2024)",
+            width=800,
+            height=600,
+        )
+        
+        grafico2 = alt.Chart(df_acidentes_geral_por_uf).mark_line(point=True).encode(
+          x=alt.X('ano:N', axis=alt.Axis(title='Ano')),
+          y=alt.Y('Qtd:Q', axis=alt.Axis(title='Quantidade de Acidentes')),
+          color='UF:N',
+          tooltip=['UF', 'Qtd', 'ano']
+        ).properties(
+          title='Evolução da Quantidade de Acidentes por UF  (2007 a 2024)',
+          width=800, height=600
+        ).add_selection(
+          alt.selection_single(fields=['ano'], bind='legend')
+        ).interactive()
+    
+        st.altair_chart(grafico1)   
+        st.altair_chart(grafico2)
+    
+    with tab2_sub2:
+
+        # ========================================================
+        # Aba 02 - Acidentes por Tipo
+        # ========================================================               
+        titulo = f'<h2> Ranking dos Acidentes por Tipo (2007 e 2024)'
+        st.markdown(titulo, unsafe_allow_html=True)   
+       
+        grafico1 = alt.Chart(df_acidentes_geral_por_tipo).mark_line(point=True).encode(
+            x=alt.X('ano:O', title='Ano'),
+            y=alt.Y("rank:O", title='Posição do Ranking'),
+            color=alt.Color("tipo_acidente:N")
+        ).transform_window(
+            rank="rank()",
+            sort=[alt.SortField("qtd", order="descending")],
+            groupby=["ano"]
+        ).properties(
+            title="Ranking dos Tipos de Acidentes (2007 a 2024)",
+            width=800,
+            height=600,
+        )
+        
+        grafico2 = alt.Chart(df_acidentes_geral_por_tipo).mark_line(point=True).encode(
+          x=alt.X('ano:N', axis=alt.Axis(title='Ano')),
+          y=alt.Y('qtd:Q', axis=alt.Axis(title='Quantidade de Acidentes')),
+          color='tipo_acidente:N',
+          tooltip=['tipo_acidente', 'qtd', 'ano']
+        ).properties(
+          title='Evolução da Quantidade de Acidentes por Tipo  (2007 a 2024)',
+          width=800, height=600
+        ).add_selection(
+          alt.selection_single(fields=['ano'], bind='legend')
+        ).interactive()
+    
+        st.altair_chart(grafico1)   
+        st.altair_chart(grafico2)
+    
+    with tab2_sub3:
+
+        # ========================================================
+        # Aba 02 - Acidentes por BR
+        # ========================================================               
+        titulo = f'<h2> Ranking dos Acidentes por BR (2007 e 2024)'
+        st.markdown(titulo, unsafe_allow_html=True)
+      
+        grafico_ranking_br_01 = alt.Chart(df_acidentes_geral_por_br).mark_line(point=True).encode(
+            x=alt.X('ano:O', title='Ano'),
+            y=alt.Y("rank:O", title='Posição do Ranking'),
+            color=alt.Color("br:N")
+        ).transform_window(
+            rank="rank()",
+            sort=[alt.SortField("qtd", order="descending")],
+            groupby=["ano"]
+        ).properties(
+            title="Ranking das 20 BRs com mais acidentes  (2007 a 2024)",
+            width=800,
+            height=600,
+        )
+      
+        grafico_ranking_br_02 = alt.Chart(df_acidentes_geral_por_br).mark_line(point=True).encode(
+          x=alt.X('ano:N', axis=alt.Axis(title='Ano')),
+          y=alt.Y('qtd:Q', axis=alt.Axis(title='Quantidade de Acidentes')),
+          color='br:N',
+          tooltip=['br', 'qtd', 'ano']
+        ).properties(
+          title='Evolução da Quantidade de Acidentes por BR (2007-2023)',
+          width=800, height=600
+        ).add_selection(
+          alt.selection_single(fields=['ano'], bind='legend')
+        ).interactive()
+    
+        st.altair_chart(grafico_ranking_br_01)   
+        st.altair_chart(grafico_ranking_br_02)
+    
+    with tab2_sub4:
+
+        # ========================================================
+        # Aba 02 - Acidentes por Classificação
+        # ========================================================        
+        titulo = f'<H2> Ranking por Classificação'
+        st.markdown(titulo, unsafe_allow_html=True)
+    
+        grafico_ranking_classif_01 = alt.Chart(df_acidentes_geral_por_classificacao).mark_line(point=True).encode(
+            x=alt.X('ano:O', title='Ano'),
+            y=alt.Y("rank:O", title='Posição do Ranking'),
+            color=alt.Color("classificacao_acidente:N")
+        ).transform_window(
+            rank="rank()",
+            sort=[alt.SortField("qtd", order="descending")],
+            groupby=["ano"]
+        ).properties(
+            title="Ranking das Classificações dos Acidentes (2007 a 2024)",
+            width=800, height=600,
+        )
+        
+        grafico_ranking_classif_02 = alt.Chart(df_acidentes_geral_por_classificacao).mark_line(point=True).encode(
+          x=alt.X('ano:N', axis=alt.Axis(title='Ano')),
+          y=alt.Y('qtd:Q', axis=alt.Axis(title='Quantidade de Acidentes')),
+          color='classificacao_acidente:N',
+          tooltip=['classificacao_acidente', 'qtd', 'ano']
+            
+        ).properties(
+          title='Evolução da Quantidade de Acidentes por Classificação (2007-2024)',
+          width=800, height=600
+            
+        ).add_selection(
+          alt.selection_single(fields=['ano'], bind='legend')
+            
+        ).interactive()
+    
+        st.altair_chart(grafico_ranking_classif_01)
+        st.altair_chart(grafico_ranking_classif_02)
+    
+    with tab2_sub5:
+
+        # ========================================================
+        # Aba 02 - Acidentes por Fase do Dia
+        # ========================================================               
+        titulo = f'<H2> Ranking por Fase do Dia'
+        st.markdown(titulo, unsafe_allow_html=True)
+    
+        grafico_ranking_fasedia_01 = alt.Chart(df_acidentes_geral_por_fasedia).mark_line(point=True).encode(
+            x=alt.X('ano:O', title='Ano'),
+            y=alt.Y("rank:O", title='Posição do Ranking'),
+            color=alt.Color("fase_dia:N")
+        ).transform_window(
+            rank="rank()",
+            sort=[alt.SortField("qtd", order="descending")],
+            groupby=["ano"]
+        ).properties(
+            title="Ranking das Fases dos Acidentes (2007 a 2024)",
+            width=800, height=600,
+        )
+        
+        grafico_ranking_fasedia_02 = alt.Chart(df_acidentes_geral_por_fasedia).mark_line(point=True).encode(
+          x=alt.X('ano:N', axis=alt.Axis(title='Ano')),
+          y=alt.Y('qtd:Q', axis=alt.Axis(title='Quantidade de Acidentes')),
+          color='fase_dia:N',
+          tooltip=['fase_dia', 'qtd', 'ano']
+            
+        ).properties(
+          title='Evolução da Quantidade de Acidentes por Fase do Dia (2007-2024)',
+          width=800, height=600
+            
+        ).add_selection(
+          alt.selection_single(fields=['ano'], bind='legend')
+            
+        ).interactive()
+    
+        st.altair_chart(grafico_ranking_fasedia_01)   
+        st.altair_chart(grafico_ranking_fasedia_02)
 
 # ==============================================================================
 with tab03:
 
     # aba 03
-    titulo = f'<h2> Ranking dos Acidentes por Tipo (2007 e 2024)'
-    st.markdown(titulo, unsafe_allow_html=True)   
-   
-    grafico1 = alt.Chart(df_acidentes_geral_por_tipo).mark_line(point=True).encode(
-        x=alt.X('ano:O', title='Ano'),
-        y=alt.Y("rank:O", title='Posição do Ranking'),
-        color=alt.Color("tipo_acidente:N")
-    ).transform_window(
-        rank="rank()",
-        sort=[alt.SortField("qtd", order="descending")],
-        groupby=["ano"]
-    ).properties(
-        title="Ranking dos Tipos de Acidentes (2007 a 2024)",
-        width=800,
-        height=600,
-    )
-    
-    grafico2 = alt.Chart(df_acidentes_geral_por_tipo).mark_line(point=True).encode(
-      x=alt.X('ano:N', axis=alt.Axis(title='Ano')),
-      y=alt.Y('qtd:Q', axis=alt.Axis(title='Quantidade de Acidentes')),
-      color='tipo_acidente:N',
-      tooltip=['tipo_acidente', 'qtd', 'ano']
-    ).properties(
-      title='Evolução da Quantidade de Acidentes por Tipo  (2007 a 2024)',
-      width=800, height=600
-    ).add_selection(
-      alt.selection_single(fields=['ano'], bind='legend')
-    ).interactive()
-
-    st.altair_chart(grafico1)   
-    st.altair_chart(grafico2)
-    
-# ==============================================================================
-with tab04:
-
-    # aba 04
-    titulo = f'<h2> Ranking dos Acidentes por BR (2007 e 2024)'
-    st.markdown(titulo, unsafe_allow_html=True)
-  
-    grafico_ranking_br_01 = alt.Chart(df_acidentes_geral_por_br).mark_line(point=True).encode(
-        x=alt.X('ano:O', title='Ano'),
-        y=alt.Y("rank:O", title='Posição do Ranking'),
-        color=alt.Color("br:N")
-    ).transform_window(
-        rank="rank()",
-        sort=[alt.SortField("qtd", order="descending")],
-        groupby=["ano"]
-    ).properties(
-        title="Ranking das 20 BRs com mais acidentes  (2007 a 2024)",
-        width=800,
-        height=600,
-    )
-  
-    grafico_ranking_br_02 = alt.Chart(df_acidentes_geral_por_br).mark_line(point=True).encode(
-      x=alt.X('ano:N', axis=alt.Axis(title='Ano')),
-      y=alt.Y('qtd:Q', axis=alt.Axis(title='Quantidade de Acidentes')),
-      color='br:N',
-      tooltip=['br', 'qtd', 'ano']
-    ).properties(
-      title='Evolução da Quantidade de Acidentes por BR (2007-2023)',
-      width=800, height=600
-    ).add_selection(
-      alt.selection_single(fields=['ano'], bind='legend')
-    ).interactive()
-
-    st.altair_chart(grafico_ranking_br_01)   
-    st.altair_chart(grafico_ranking_br_02)
-
-# ==============================================================================
-with tab05:
-
-    # aba 05
-    titulo = f'<H2> Ranking por Classificação'
-    st.markdown(titulo, unsafe_allow_html=True)
-
-    grafico_ranking_classif_01 = alt.Chart(df_acidentes_geral_por_classificacao).mark_line(point=True).encode(
-        x=alt.X('ano:O', title='Ano'),
-        y=alt.Y("rank:O", title='Posição do Ranking'),
-        color=alt.Color("classificacao_acidente:N")
-    ).transform_window(
-        rank="rank()",
-        sort=[alt.SortField("qtd", order="descending")],
-        groupby=["ano"]
-    ).properties(
-        title="Ranking das Classificações dos Acidentes (2007 a 2024)",
-        width=800, height=600,
-    )
-    
-    grafico_ranking_classif_02 = alt.Chart(df_acidentes_geral_por_classificacao).mark_line(point=True).encode(
-      x=alt.X('ano:N', axis=alt.Axis(title='Ano')),
-      y=alt.Y('qtd:Q', axis=alt.Axis(title='Quantidade de Acidentes')),
-      color='classificacao_acidente:N',
-      tooltip=['classificacao_acidente', 'qtd', 'ano']
-        
-    ).properties(
-      title='Evolução da Quantidade de Acidentes por Classificação (2007-2024)',
-      width=800, height=600
-        
-    ).add_selection(
-      alt.selection_single(fields=['ano'], bind='legend')
-        
-    ).interactive()
-
-    st.altair_chart(grafico_ranking_classif_01)
-    st.altair_chart(grafico_ranking_classif_02)
-    
-# ==============================================================================
-with tab06:
-    
-    # aba 06
-    titulo = f'<H2> Ranking por Fase do Dia'
-    st.markdown(titulo, unsafe_allow_html=True)
-
-    grafico_ranking_fasedia_01 = alt.Chart(df_acidentes_geral_por_fasedia).mark_line(point=True).encode(
-        x=alt.X('ano:O', title='Ano'),
-        y=alt.Y("rank:O", title='Posição do Ranking'),
-        color=alt.Color("fase_dia:N")
-    ).transform_window(
-        rank="rank()",
-        sort=[alt.SortField("qtd", order="descending")],
-        groupby=["ano"]
-    ).properties(
-        title="Ranking das Fases dos Acidentes (2007 a 2024)",
-        width=800, height=600,
-    )
-    
-    grafico_ranking_fasedia_02 = alt.Chart(df_acidentes_geral_por_fasedia).mark_line(point=True).encode(
-      x=alt.X('ano:N', axis=alt.Axis(title='Ano')),
-      y=alt.Y('qtd:Q', axis=alt.Axis(title='Quantidade de Acidentes')),
-      color='fase_dia:N',
-      tooltip=['fase_dia', 'qtd', 'ano']
-        
-    ).properties(
-      title='Evolução da Quantidade de Acidentes por Fase do Dia (2007-2024)',
-      width=800, height=600
-        
-    ).add_selection(
-      alt.selection_single(fields=['ano'], bind='legend')
-        
-    ).interactive()
-
-    st.altair_chart(grafico_ranking_fasedia_01)   
-    st.altair_chart(grafico_ranking_fasedia_02)
-    
-# ==============================================================================
-with tab07:
-
-    # aba 07
     titulo = f'<H2> Mapa de Calor por Classificação'
     st.markdown(titulo, unsafe_allow_html=True)  
 
@@ -518,7 +543,6 @@ with tab07:
     heatmap = alt.Chart(dados).mark_rect().encode(
         x=alt.X('index:O', title=None, axis=alt.Axis(orient='top')),  # Define a orientação do eixo x como 'top'
         y=alt.Y('classificacao:O', title=None),
-        #color=alt.Color('value:Q'),
         color=alt.Color('value:Q', scale=alt.Scale(scheme='yellowgreenblue')),    
     )
 
@@ -545,35 +569,33 @@ with tab07:
     st.altair_chart(heatmap_with_text)
 
 # ==============================================================================
+with tab04:
 
+    if ano_selecionado == OPCAO_TODOS:
+        df_scatte_plot = pd.read_csv(f'mapa_calor/mapa_calor_classificacao_geral.csv')
+    else:
+        df_scatte_plot = pd.read_csv(f'mapa_calor/mapa_calor_classificacao_{ano_selecionado}.csv')
 
-# ==============================================================================
-with tab09:
-
-    # aba 09
-    titulo = f'https://altair-viz.github.io/gallery/scatter_matrix.html'
-    st.markdown(titulo, unsafe_allow_html=True)  
-    
-    source = data.cars()
-    
-    grafico = alt.Chart(source).mark_circle().encode(
+    titulo = f'<H2> Gráfico de Dispersão por Classificação ({ano_selecionado})'
+    st.markdown(titulo, unsafe_allow_html=True)      
+        
+    grafico = alt.Chart(df_scatte_plot).mark_circle().encode(
         alt.X(alt.repeat("column"), type='quantitative'),
         alt.Y(alt.repeat("row"), type='quantitative'),
-        color='Origin:N'
+        color='classificacao:N'
     ).properties(
         width=150,
-        height=150
+        height=150,
     ).repeat(
-        row=['Horsepower', 'Acceleration', 'Miles_per_Gallon'],
-        column=['Miles_per_Gallon', 'Acceleration', 'Horsepower']
+        row=['pessoas', 'mortos','feridos'],
+        column=['feridos_leves', 'feridos_graves', 'ilesos']
     ).interactive()
 
     st.altair_chart(grafico)
     
 # ==============================================================================
-with tab10:
+with tab05:
 
-    # aba 10
     titulo = f'<H2> Gráficos de Fluxo por UF / por Tipo / por BR / por Causa / por Classificação / por Fase do Dia / por Condição Metereológica'
     st.markdown(titulo, unsafe_allow_html=True)
 
@@ -650,10 +672,10 @@ with tab10:
     st.altair_chart(grafico7)
     
 # ==============================================================================  
-with tab11:
+with tab06:
     
     # ==========================================================================
-    # Funções da Aba 11 
+    # Funções da Aba 06 
     # ==========================================================================
     def grafico_barras_empilhadas_por_uf(titulo, df):
         grafico = alt.Chart(df).mark_bar(width=20).encode(
@@ -743,9 +765,8 @@ with tab11:
     st.altair_chart(grafico4)           
 
 # ==============================================================================
-with tab12:
+with tab07:
 
-    # aba 10
     titulo = f'<H2> Distribuição de Acidentes por UF / por Tipo / por BR / por Classificação / por Fase do Dia / por Condição Metereológica '
     st.markdown(titulo, unsafe_allow_html=True)
 
@@ -822,17 +843,12 @@ with tab12:
     
 # ==============================================================================
 with tab08:
-    
-    #import streamlit as st
-    #import altair as alt
-    #import pandas as pd
-    import numpy as np
-    from urllib.request import urlopen
-    import json  
-    
-    ##########################################################################################
+  
+  
+    #=========================================================================================
     ##                                     Funções úteis                                    ##
-    ##########################################################################################
+    #=========================================================================================
+    
     #Baixa os arquivos do drive e converte em dataframe
     def get_df(url):
         url='https://drive.google.com/uc?id=' + url.split('/')[-2]
@@ -1030,10 +1046,10 @@ with tab08:
 
 
 # ==============================================================================  
-with tab13:    
+with tab09:    
 
     # ================================
-    # Aba 13 - constantes
+    # Aba 09 - constantes
     # ================================
     escala_cores = [
         # min, max, cor
