@@ -69,13 +69,15 @@ def plot_br_map(title="Título do Mapa"):
             format=alt.DataFormat(property='features')
         )) \
     .mark_geoshape(
-        stroke='#fff', strokeWidth=1.5
+        # 
+        #stroke='#fff', strokeWidth=1.5
+        stroke='#bdb15b', strokeWidth=1.5
     ).project(
         type="equirectangular"  
     ).properties(
-        title="Título do meu mapa",
-        width=600,
-        height=500
+        title="Mapa do Brasil",
+        width=1024,
+        height=768
     )
     
     text_est = alt.Chart(df_capitais) \
@@ -198,16 +200,15 @@ def plot_br_map(title="Título do Mapa"):
             longitude="longitude:Q",
             color=alt.value("orange"),
         )
-    
-    return (map + text_est + text_munic + point).configure_title(
-        fontSize=15
-    )
+
+    return (map + text_est + text_munic + point).configure_title(fontSize=15)
+    #return (map2 + text_est + text_munic + point).configure_title(fontSize=15)
 
 ##########################################################################################
 ##                                       Layout                                         ##
 ##########################################################################################
-st.title("Side Bar")
+st.title("Mapa do Brasil")
 
 topo = st.columns(1)
 with topo[0]:
-    st.altair_chart(plot_br_map(title="Título do Mapa"), use_container_width=True)
+    st.altair_chart(plot_br_map(title="Mapa do Brasil"), use_container_width=True)
