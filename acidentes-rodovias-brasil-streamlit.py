@@ -893,7 +893,48 @@ with tab06:
 
         return grafico
     # ==========================================================================
+    def grafico_barras_empilhadas_por_classificacao(titulo, df):
             
+        grafico = alt.Chart(df).mark_bar(width=20).encode(
+            alt.X('ano', title='Ano'),
+            alt.Y('sum(qtd)', title='Soma das Quantidades'),
+            color='classificacao_acidente'
+        ).properties(
+              title=titulo,
+              width=800, height=600
+        ).interactive()   
+
+        return grafico
+    # ==========================================================================
+    def grafico_barras_empilhadas_por_fase_dia(titulo, df):
+            
+        grafico = alt.Chart(df).mark_bar(width=20).encode(
+            alt.X('ano', title='Ano'),
+            alt.Y('sum(qtd)', title='Soma das Quantidades'),
+            color='fase_dia'
+        ).properties(
+              title=titulo,
+              width=800, height=600
+        ).interactive()   
+
+        return grafico
+    # ==========================================================================
+    def grafico_barras_empilhadas_por_condicao_metereologica(titulo, df):
+            
+        grafico = alt.Chart(df).mark_bar(width=20).encode(
+            alt.X('ano', title='Ano'),
+            alt.Y('sum(qtd)', title='Soma das Quantidades'),
+            color='condicao_metereologica'
+        ).properties(
+              title=titulo,
+              width=800, height=600
+        ).interactive()   
+
+        return grafico
+        
+    # ==========================================================================
+
+    #titulo = f'<h3> Acidentes por UF / Tipo / BR / Causa / Classificação / Fase do Dia / Condição Metereológica / Dia da Semana / Tipo de Veículo'
     titulo = f'<H2> Gráficos de Barras Empilhadas'
     st.markdown(titulo, unsafe_allow_html=True)    
 
@@ -919,16 +960,64 @@ with tab06:
       titulo = f'Barras Empilhadas por Causa de Acidente em {ano_selecionado}'
       grafico4 = grafico_barras_empilhadas_por_causa(titulo, df_filtrado_causa)  
 
+      # por Classificacao
+      df_filtrado_classificacao = df_acidentes_geral_por_classificacao[(df_acidentes_geral_por_classificacao[COLUNA_ANO] == int(ano_selecionado))]
+      titulo = f'Barras Empilhadas por Classificação de Acidente em {ano_selecionado}'
+      grafico5 = grafico_barras_empilhadas_por_classificacao(titulo, df_filtrado_causa)  
+
+      # por Fase do Dia
+      df_filtrado_fase_dia = df_acidentes_geral_por_fasedia[(df_acidentes_geral_por_fasedia[COLUNA_ANO] == int(ano_selecionado))]
+      titulo = f'Barras Empilhadas por Fase do Dia de Acidente em {ano_selecionado}'
+      grafico6 = grafico_barras_empilhadas_por_fase_dia(titulo, df_filtrado_fase_dia)  
+
+      #df_acidentes_geral_por_condicaometereologica = pd.read_csv('acidentes_geral_por_condicao_metereologica.csv', sep=',', encoding="UTF-8") 
+      #df_acidentes_geral_por_dia_semana = pd.read_csv('acidentes_geral_por_dia_semana.csv', sep=',', encoding="UTF-8") 
+      #df_acidentes_geral_por_tipo_veiculo = pd.read_csv('acidentes_geral_por_tipo_veiculo.csv', sep=',', encoding="UTF-8") 
+
+      # Condição Metereológica
+      df_filtrado_condicaometereologica = df_acidentes_geral_por_condicaometereologica[(df_acidentes_geral_por_condicaometereologica[COLUNA_ANO] == int(ano_selecionado))]
+      titulo = f'Barras Empilhadas por Condição Metereológica em {ano_selecionado}'
+      grafico7 = grafico_barras_empilhadas_por_condicao_metereologica(titulo, df_filtrado_fase_dia)  
+    
     else:
       grafico1 = grafico_barras_empilhadas_por_uf('Barras Empilhadas por UF (2007 a 2024)', df_acidentes_geral_por_uf)            
       grafico2 = grafico_barras_empilhadas_por_br('Barras Empilhadas por BR (2007 a 2024)', df_acidentes_geral_por_br)  
       grafico3 = grafico_barras_empilhadas_por_tipo('Barras Empilhadas por Tipos de Acidentes (2007-2024)', df_acidentes_geral_por_tipo)    
       grafico4 = grafico_barras_empilhadas_por_causa('Barras Empilhadas por Causa de Acidentes (2007-2024)', df_acidentes_geral_por_causa)      
-    
-    st.altair_chart(grafico1)                  
-    st.altair_chart(grafico2)     
-    st.altair_chart(grafico3)        
-    st.altair_chart(grafico4)           
+      grafico5 = grafico_barras_empilhadas_por_classificacao('Barras Empilhadas por Classificação de Acidentes (2007-2024)', df_acidentes_geral_por_classificacao)      
+      grafico6 = grafico_barras_empilhadas_por_fase_dia('Barras Empilhadas por Fase do Dia de Acidentes (2007-2024)', df_acidentes_geral_por_fasedia)      
+      grafico7 = grafico_barras_empilhadas_por_condicao_metereologica('Barras Empilhadas por Condição Metereológica de Acidentes (2007-2024)', df_acidentes_geral_por_condicaometereologica)      
+
+    tab6_sub1, tab6_sub2, tab6_sub3, tab6_sub4, tab6_sub5, tab6_sub6, tab6_sub7, tab6_sub8, tab6_sub9  = st.tabs(
+        [
+             "por UF", "por BR", 
+             "por Tipo", "por Causa", 
+             "por Classificação", "por Fase do Dia", 
+             "por Condição Metereológica", "por Dia da Semana",
+             "por Tipo de Veículo",
+        ]
+    )
+
+    with tab6_sub1:
+        st.altair_chart(grafico1)                  
+    with tab6_sub2:        
+        st.altair_chart(grafico2)    
+    with tab6_sub3:        
+        st.altair_chart(grafico3)        
+    with tab6_sub4:        
+        st.altair_chart(grafico4)           
+    with tab6_sub5:        
+        st.altair_chart(grafico5)           
+    with tab6_sub6:        
+        st.altair_chart(grafico6)           
+    with tab6_sub7:        
+        st.altair_chart(grafico7)           
+    with tab6_sub8:        
+        #st.altair_chart(grafico7) 
+        st.markdown('Barras Empilhadas por Dia da Semana', unsafe_allow_html=True)    
+    with tab6_sub9:        
+        #st.altair_chart(grafico7)           
+        st.markdown('Barras Empilhadas por Tipo de Veículo', unsafe_allow_html=True)    
 
 # ==============================================================================
 with tab07:
