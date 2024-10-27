@@ -9,7 +9,6 @@ import numpy as np
 import geopandas as gpd
 
 from vega_datasets import data
-from urllib.request import urlopen
 
 # =======================================================
 # Constantes
@@ -26,13 +25,13 @@ lista_cores_graficos = [
 # =======================================================
 def gera_grafico_barras_horizontal_por_uf(titulo, contagem_por_uf_ano):
 
-    lista_cores = alt.Scale(domain= contagem_por_uf_ano['UF'].unique(), range=lista_cores_graficos)
+    lista_cores = alt.Scale(domain=contagem_por_uf_ano['uf'].unique(), range=lista_cores_graficos)
 
     chart_uf = alt.Chart(contagem_por_uf_ano).mark_bar().encode(
-        y=alt.Y('UF:N', title='Unidade Federativa (UF)', sort='-x', axis=alt.Axis(labelLimit=200)),
-        x=alt.X('Qtd:Q', title='Quantidade de Acidentes', axis=alt.Axis(labelAngle=-45)),
-        tooltip=['UF', 'Qtd'],      
-        color=alt.Color('UF:N', scale=lista_cores)     
+        y=alt.Y('uf:N', title='Unidade Federativa (UF)', sort='-x', axis=alt.Axis(labelLimit=200)),
+        x=alt.X('qtd:Q', title='Quantidade de Acidentes', axis=alt.Axis(labelAngle=-45)),
+        tooltip=['uf', 'qtd'],      
+        color=alt.Color('uf:N', scale=lista_cores)     
 
     ).properties(
         title=alt.Title(
@@ -197,8 +196,8 @@ def gera_grafico_por_tipo_veiculo(titulo, contagem_por_tipo_veiculo):
 def grafico_barras_empilhadas_por_uf(titulo, df):
     grafico = alt.Chart(df).mark_bar(width=20).encode(
         alt.X('ano', title='Ano'),
-        alt.Y('sum(Qtd)', title='Soma das Quantidades'),
-        color='UF'
+        alt.Y('sum(qtd)', title='Soma das Quantidades'),
+        color='uf'
     ).properties(
             title=titulo,
             width=800, height=600
@@ -321,10 +320,10 @@ def gera_grafico_ranking_uf_01(df_acidentes_geral_por_uf):
     grafico1 = alt.Chart(df_acidentes_geral_por_uf).mark_line(point=True).encode(
         x=alt.X('ano:O', title='Ano'),
         y=alt.Y("rank:O", title='Posição do Ranking'),
-        color=alt.Color("UF:N") 
+        color=alt.Color("uf:N") 
     ).transform_window(
         rank="rank()",
-        sort=[alt.SortField("Qtd", order="descending")],
+        sort=[alt.SortField("qtd", order="descending")],
         groupby=["ano"]
     ).properties(
         title="Ranking das 10 UFs com mais Acidentes (2007 a 2024)",
@@ -337,9 +336,9 @@ def gera_grafico_ranking_uf_02(df_acidentes_geral_por_uf):
 
     grafico2 = alt.Chart(df_acidentes_geral_por_uf).mark_line(point=True).encode(
         x=alt.X('ano:N', axis=alt.Axis(title='Ano')),
-        y=alt.Y('Qtd:Q', axis=alt.Axis(title='Quantidade de Acidentes')),
-        color='UF:N',
-        tooltip=['UF', 'Qtd', 'ano']
+        y=alt.Y('qtd:Q', axis=alt.Axis(title='Quantidade de Acidentes')),
+        color='uf:N',
+        tooltip=['uf', 'qtd', 'ano']
     ).properties(
         title='Evolução da Quantidade de Acidentes por UF  (2007 a 2024)',
         width=800, height=600

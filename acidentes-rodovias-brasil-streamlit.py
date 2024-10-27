@@ -13,7 +13,12 @@ from tcc_painel_graficos import *
 # =======================================================
 # Datasets
 # =======================================================
-df_acidentes_geral_por_uf    = pd.read_csv('datasets/acidentes_geral_por_uf.csv', sep=',', encoding="UTF-8") 
+#df_acidentes_geral_por_uf    = pd.read_csv('datasets/acidentes_geral_por_uf.csv', sep=',', encoding="UTF-8") 
+df_acidentes_geral_por_uf    = pd.read_csv('datasets/gerais/acidentes_geral_por_uf_todos.csv', sep=',', encoding="UTF-8") 
+df_acidentes_geral_por_uf_10 = pd.read_csv('datasets/gerais/acidentes_geral_por_uf_10.csv', sep=',', encoding="UTF-8") 
+df_acidentes_geral_por_uf_20 = pd.read_csv('datasets/gerais/acidentes_geral_por_uf_20.csv', sep=',', encoding="UTF-8") 
+df_acidentes_geral_por_uf_todos = pd.read_csv('datasets/gerais/acidentes_geral_por_uf_todos.csv', sep=',', encoding="UTF-8") 
+
 df_acidentes_geral_por_tipo  = pd.read_csv('datasets/acidentes_geral_por_tipo.csv', sep=',', encoding="UTF-8") 
 df_acidentes_geral_por_br    = pd.read_csv('datasets/acidentes_geral_por_br.csv', sep=',', encoding="UTF-8") 
 df_acidentes_geral_por_causa = pd.read_csv('datasets/acidentes_geral_por_causa.csv', sep=',', encoding="UTF-8") 
@@ -198,7 +203,20 @@ with tab02:
         titulo = f'<h2> Ranking dos Acidentes por UF (2007 a 2024)'
         st.markdown(titulo, unsafe_allow_html=True)  
        
-           
+        # Create a radio button group
+        qtd_ufs_selecionadas = tab2_sub1.radio(
+            "Selecione a quantidade de UFs deseja no Ranking:",
+            ("Top 10 UFs", "Top 20 UFs", "Todas as UFs"), index=0, horizontal=True
+        )
+        print(f'qtd_ufs_selecionadas = {qtd_ufs_selecionadas}')
+
+        if qtd_ufs_selecionadas == "Top 10 UFs":
+            df_acidentes_geral_por_uf = df_acidentes_geral_por_uf_10
+        elif qtd_ufs_selecionadas == "Top 20 UFs":
+            df_acidentes_geral_por_uf = df_acidentes_geral_por_uf_20
+        elif qtd_ufs_selecionadas == "Todas as UFs":    
+            df_acidentes_geral_por_uf = df_acidentes_geral_por_uf_todos
+
         st.altair_chart(gera_grafico_ranking_uf_01(df_acidentes_geral_por_uf))   
         st.altair_chart(gera_grafico_ranking_uf_02(df_acidentes_geral_por_uf))
     
@@ -331,7 +349,7 @@ with tab05:
     grafico1 = alt.Chart(df_acidentes_geral_por_uf).mark_area().encode(
         alt.X('ano:Q').axis(domain=False, tickSize=0),
         alt.Y('sum(Qtd):Q').stack('center').axis(None),
-        alt.Color('UF:N').scale(scheme='category20b')
+        alt.Color('uf:N').scale(scheme='category20b')
     ).properties(
       title='Fluxo de Acidentes por UF (2007 a 2024)',
       width=800, height=600            
@@ -529,7 +547,7 @@ with tab07:
     st.markdown(titulo, unsafe_allow_html=True)
 
     grafico01 = alt.Chart(df_acidentes_geral_por_uf).mark_boxplot(extent='min-max').encode(
-        alt.X('UF:N', title='Unidade Federativa (UF)'),
+        alt.X('uf:N', title='Unidade Federativa (UF)'),
         alt.Y('Qtd:Q', title='Quantidade de Acidentes'),        
     ).properties(
         width=800,

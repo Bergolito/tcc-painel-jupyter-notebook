@@ -1,0 +1,178 @@
+condicao_metereologica,qtd,ano
+Ceu Claro,132793,2007
+Ceu Claro,140409,2008
+Ceu Claro,155286,2009
+Ceu Claro,194515,2010
+Ceu Claro,199544,2011
+Ceu Claro,203704,2012
+Ceu Claro,199260,2013
+Ceu Claro,186613,2014
+Ceu Claro,133608,2015
+Ceu Claro,111835,2016
+Nublado,45322,2007
+Nublado,55332,2008
+Nublado,64062,2009
+Nublado,69485,2010
+Nublado,76273,2011
+Nublado,65715,2012
+Nublado,72777,2013
+Nublado,65508,2014
+Nublado,51782,2015
+Nublado,39668,2016
+Nublado,40056,2017
+Nublado,32124,2018
+Nublado,29721,2019
+Nublado,26590,2020
+Nublado,28083,2021
+Nublado,27111,2022
+Nublado,26693,2023
+Nublado,17828,2024
+Chuva,43157,2007
+Chuva,54407,2008
+Chuva,62177,2009
+Chuva,65010,2010
+Chuva,69224,2011
+Chuva,56477,2012
+Chuva,64555,2013
+Chuva,52836,2014
+Chuva,41942,2015
+Chuva,32771,2016
+Chuva,30617,2017
+Chuva,22292,2018
+Chuva,18963,2019
+Chuva,17750,2020
+Chuva,17339,2021
+Chuva,18562,2022
+Chuva,18048,2023
+Chuva,11689,2024
+Sol,37623,2007
+Sol,39212,2008
+Sol,45106,2009
+Sol,53544,2010
+Sol,55118,2011
+Sol,59167,2012
+Sol,56479,2013
+Sol,53396,2014
+Sol,33601,2015
+Sol,25340,2016
+Sol,17926,2017
+Sol,14583,2018
+Sol,14100,2019
+Sol,12323,2020
+Sol,11519,2021
+Sol,10362,2022
+Sol,10911,2023
+Sol,7048,2024
+Ignorada,6086,2007
+Ignorada,5639,2008
+Ignorada,6039,2009
+Ignorada,7458,2010
+Ignorada,6763,2011
+Ignorada,7060,2012
+Ignorada,7272,2013
+Ignorada,5582,2014
+Ignorada,4581,2015
+Ignorada,3742,2016
+Nevoeiro/neblina,3376,2007
+Nevoeiro/neblina,3172,2008
+Nevoeiro/neblina,3710,2009
+Nevoeiro/neblina,4176,2010
+Nevoeiro/neblina,4164,2011
+Nevoeiro/neblina,3672,2012
+Nevoeiro/neblina,4156,2013
+Nevoeiro/neblina,3184,2014
+Nevoeiro/neblina,2710,2015
+Nevoeiro/neblina,2349,2016
+Vento,675,2007
+Vento,619,2008
+Vento,689,2009
+Vento,1053,2010
+Vento,1113,2011
+Vento,1044,2012
+Vento,1216,2013
+Vento,1298,2014
+Vento,749,2015
+Vento,513,2016
+Vento,485,2017
+Vento,334,2018
+Vento,346,2019
+Vento,292,2020
+Vento,395,2021
+Vento,303,2022
+Vento,245,2023
+Vento,196,2024
+(null),45,2007
+(null),11,2008
+(null),9,2009
+(null),37,2010
+(null),6,2011
+(null),11,2012
+(null),14,2014
+(null),6,2015
+Granizo,42,2007
+Granizo,78,2008
+Granizo,44,2009
+Granizo,95,2010
+Granizo,60,2011
+Granizo,56,2012
+Granizo,70,2013
+Granizo,56,2014
+Granizo,27,2015
+Granizo,33,2016
+Granizo,2,2017
+Granizo,6,2018
+Granizo,8,2019
+Granizo,5,2020
+Granizo,6,2021
+Granizo,10,2022
+Granizo,14,2023
+Granizo,3,2024
+Neve,20,2007
+Neve,12,2008
+Neve,21,2009
+Neve,38,2010
+Neve,24,2011
+Neve,10,2012
+Neve,35,2013
+Neve,19,2014
+Neve,46,2015
+Neve,3,2016
+Neve,3,2017
+Neve,1,2019
+Neve,2,2020
+Neve,5,2021
+Neve,6,2022
+Neve,1,2023
+Neve,2,2024
+Céu Claro,121861,2017
+Céu Claro,100360,2018
+Céu Claro,102942,2019
+Céu Claro,96845,2020
+Céu Claro,100216,2021
+Céu Claro,104438,2022
+Céu Claro,117270,2023
+Céu Claro,83827,2024
+Garoa/Chuvisco,7773,2017
+Garoa/Chuvisco,5940,2018
+Garoa/Chuvisco,5991,2019
+Garoa/Chuvisco,5372,2020
+Garoa/Chuvisco,5577,2021
+Garoa/Chuvisco,6326,2022
+Garoa/Chuvisco,6235,2023
+Garoa/Chuvisco,4635,2024
+Ignorado,3342,2017
+Ignorado,2663,2018
+Ignorado,2361,2019
+Ignorado,1815,2020
+Ignorado,1857,2021
+Ignorado,2233,2022
+Ignorado,2013,2023
+Ignorado,1355,2024
+Nevoeiro/Neblina,2172,2017
+Nevoeiro/Neblina,1759,2018
+Nevoeiro/Neblina,1671,2019
+Nevoeiro/Neblina,1258,2020
+Nevoeiro/Neblina,1297,2021
+Nevoeiro/Neblina,1464,2022
+Nevoeiro/Neblina,1925,2023
+Nevoeiro/Neblina,1543,2024
