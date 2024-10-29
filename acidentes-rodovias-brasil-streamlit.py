@@ -19,14 +19,20 @@ df_acidentes_geral_por_uf_10 = pd.read_csv('datasets/gerais/acidentes_geral_por_
 df_acidentes_geral_por_uf_20 = pd.read_csv('datasets/gerais/acidentes_geral_por_uf_20.csv', sep=',', encoding="UTF-8") 
 df_acidentes_geral_por_uf_todos = pd.read_csv('datasets/gerais/acidentes_geral_por_uf_todos.csv', sep=',', encoding="UTF-8") 
 
-df_acidentes_geral_por_tipo  = pd.read_csv('datasets/acidentes_geral_por_tipo.csv', sep=',', encoding="UTF-8") 
-df_acidentes_geral_por_br    = pd.read_csv('datasets/acidentes_geral_por_br.csv', sep=',', encoding="UTF-8") 
-df_acidentes_geral_por_causa = pd.read_csv('datasets/acidentes_geral_por_causa.csv', sep=',', encoding="UTF-8") 
-df_acidentes_geral_por_classificacao = pd.read_csv('datasets/acidentes_geral_por_classificacao.csv', sep=',', encoding="UTF-8") 
-df_acidentes_geral_por_fasedia = pd.read_csv('datasets/acidentes_geral_por_fase_dia.csv', sep=',', encoding="UTF-8") 
-df_acidentes_geral_por_condicaometereologica = pd.read_csv('datasets/acidentes_geral_por_condicao_metereologica.csv', sep=',', encoding="UTF-8") 
-df_acidentes_geral_por_dia_semana = pd.read_csv('datasets/acidentes_geral_por_dia_semana.csv', sep=',', encoding="UTF-8") 
-df_acidentes_geral_por_tipo_veiculo = pd.read_csv('datasets/acidentes_geral_por_tipo_veiculo.csv', sep=',', encoding="UTF-8") 
+df_acidentes_geral_por_tipo  = pd.read_csv('datasets/gerais/acidentes_geral_por_tipo.csv', sep=',', encoding="UTF-8") 
+df_acidentes_geral_por_br    = pd.read_csv('datasets/gerais/acidentes_geral_por_br.csv', sep=',', encoding="UTF-8") 
+df_acidentes_geral_por_causa = pd.read_csv('datasets/gerais/acidentes_geral_por_causa.csv', sep=',', encoding="UTF-8") 
+#df_acidentes_geral_por_classificacao = pd.read_csv('datasets/acidentes_geral_por_classificacao.csv', sep=',', encoding="UTF-8") 
+df_acidentes_geral_por_classificacao = pd.read_csv('datasets/gerais/acidentes_geral_por_classificacao_concatenados.csv', sep=',', encoding="UTF-8") 
+print(f"Tipo => {df_acidentes_geral_por_classificacao['classificacao_acidente'].dtype}")
+# Verificando valores nulos
+print(df_acidentes_geral_por_classificacao.isna())
+
+
+df_acidentes_geral_por_fasedia = pd.read_csv('datasets/gerais/acidentes_geral_por_fase_dia.csv', sep=',', encoding="UTF-8") 
+df_acidentes_geral_por_condicao_metereologica = pd.read_csv('datasets/gerais/acidentes_geral_por_condicao_metereologica.csv', sep=',', encoding="UTF-8") 
+df_acidentes_geral_por_dia_semana = pd.read_csv('datasets/gerais/acidentes_geral_por_dia_semana.csv', sep=',', encoding="UTF-8") 
+df_acidentes_geral_por_tipo_veiculo = pd.read_csv('datasets/gerais/acidentes_geral_por_tipo_veiculo.csv', sep=',', encoding="UTF-8") 
 
 # =======================================================
 # Datasets de geolocalização
@@ -124,7 +130,7 @@ with tab01:
       titulo = f'Acidentes por Fase do Dia em {ano_selecionado}'  
       grafico_aba_06 = gera_grafico_por_fase_dia(titulo, df_filtrado_fasedia)
 
-      df_filtrado_condicaometereologica = df_acidentes_geral_por_condicaometereologica[(df_acidentes_geral_por_condicaometereologica[COLUNA_ANO] == int(ano_selecionado))]
+      df_filtrado_condicaometereologica = df_acidentes_geral_por_condicao_metereologica[(df_acidentes_geral_por_condicao_metereologica[COLUNA_ANO] == int(ano_selecionado))]
       titulo = f'Acidentes por Condição Metereológica em {ano_selecionado}'  
       grafico_aba_07 = gera_grafico_por_condicao_metereologica(titulo, df_filtrado_condicaometereologica)
 
@@ -156,7 +162,7 @@ with tab01:
       grafico_aba_06 = gera_grafico_por_fase_dia(titulo, df_acidentes_geral_por_fasedia)
 
       titulo = f'Acidentes por Condição Metereológica (Geral)'    
-      grafico_aba_07 = gera_grafico_por_condicao_metereologica(titulo, df_acidentes_geral_por_condicaometereologica)
+      grafico_aba_07 = gera_grafico_por_condicao_metereologica(titulo, df_acidentes_geral_por_condicao_metereologica)
 
       titulo = f'Acidentes por Dia da Semana (Geral)'  
       grafico_aba_08 = gera_grafico_por_dia_semana(titulo, df_acidentes_geral_por_dia_semana)
@@ -361,7 +367,7 @@ with tab05:
     with tab5_sub6:        
         st.altair_chart(gera_graficos_fluxo_por_fasedia(df_acidentes_geral_por_fasedia))
     with tab5_sub7:        
-        st.altair_chart(gera_graficos_fluxo_por_condicao_metereologica(df_acidentes_geral_por_condicaometereologica))
+        st.altair_chart(gera_graficos_fluxo_por_condicao_metereologica(df_acidentes_geral_por_condicao_metereologica))
     with tab5_sub8:        
         st.altair_chart(gera_graficos_fluxo_por_dia_semana(df_acidentes_geral_por_dia_semana))
     with tab5_sub9:        
@@ -398,7 +404,7 @@ with tab06:
       # por Classificacao
       df_filtrado_classificacao = df_acidentes_geral_por_classificacao[(df_acidentes_geral_por_classificacao[COLUNA_ANO] == int(ano_selecionado))]
       titulo = f'Barras Empilhadas por Classificação de Acidente em {ano_selecionado}'
-      grafico5 = grafico_barras_empilhadas_por_classificacao(titulo, df_filtrado_causa)  
+      grafico5 = grafico_barras_empilhadas_por_classificacao(titulo, df_filtrado_classificacao)  
 
       # por Fase do Dia
       df_filtrado_fase_dia = df_acidentes_geral_por_fasedia[(df_acidentes_geral_por_fasedia[COLUNA_ANO] == int(ano_selecionado))]
@@ -406,9 +412,9 @@ with tab06:
       grafico6 = grafico_barras_empilhadas_por_fase_dia(titulo, df_filtrado_fase_dia)  
 
       # Condição Metereológica
-      df_filtrado_condicaometereologica = df_acidentes_geral_por_condicaometereologica[(df_acidentes_geral_por_condicaometereologica[COLUNA_ANO] == int(ano_selecionado))]
+      df_filtrado_condicaometereologica = df_acidentes_geral_por_condicao_metereologica[(df_acidentes_geral_por_condicao_metereologica[COLUNA_ANO] == int(ano_selecionado))]
       titulo = f'Barras Empilhadas por Condição Metereológica em {ano_selecionado}'
-      grafico7 = grafico_barras_empilhadas_por_condicao_metereologica(titulo, df_filtrado_fase_dia)  
+      grafico7 = grafico_barras_empilhadas_por_condicao_metereologica(titulo, df_filtrado_condicaometereologica)  
 
       # Dia da Semana
       df_filtrado_dia_semana = df_acidentes_geral_por_dia_semana[(df_acidentes_geral_por_dia_semana[COLUNA_ANO] == int(ano_selecionado))]
@@ -427,7 +433,7 @@ with tab06:
       grafico4 = grafico_barras_empilhadas_por_causa('Barras Empilhadas por Causa de Acidentes (2007-2024)', df_acidentes_geral_por_causa)      
       grafico5 = grafico_barras_empilhadas_por_classificacao('Barras Empilhadas por Classificação de Acidentes (2007-2024)', df_acidentes_geral_por_classificacao)      
       grafico6 = grafico_barras_empilhadas_por_fase_dia('Barras Empilhadas por Fase do Dia de Acidentes (2007-2024)', df_acidentes_geral_por_fasedia)      
-      grafico7 = grafico_barras_empilhadas_por_condicao_metereologica('Barras Empilhadas por Condição Metereológica de Acidentes (2007-2024)',                                                          df_acidentes_geral_por_condicaometereologica)      
+      grafico7 = grafico_barras_empilhadas_por_condicao_metereologica('Barras Empilhadas por Condição Metereológica de Acidentes (2007-2024)',                                                          df_acidentes_geral_por_condicao_metereologica)      
       grafico8 = grafico_barras_empilhadas_por_dia_semana('Barras Empilhadas por Dia da Semana de Acidentes (2007-2024)', df_acidentes_geral_por_dia_semana)      
       grafico9 = grafico_barras_empilhadas_por_tipo_veiculo('Barras Empilhadas por Tipo de Veículo (2007-2024)', df_acidentes_geral_por_tipo_veiculo)      
 
@@ -435,7 +441,8 @@ with tab06:
         [
             "por UF", "por BR", 
             "por Tipo", "por Causa", 
-            "por Classificação", "por Fase do Dia", 
+            "por Classificação", 
+            "por Fase do Dia", 
             "por Condição Metereológica", "por Dia da Semana",
             "por Tipo de Veículo",
         ]
@@ -489,7 +496,7 @@ with tab07:
     with tab7_sub6:    
         st.altair_chart(gera_graficos_distribuicao_por_fasedia(df_acidentes_geral_por_fasedia))
     with tab7_sub7:    
-        st.altair_chart(gera_graficos_distribuicao_por_condicao_metereologica(df_acidentes_geral_por_condicaometereologica))
+        st.altair_chart(gera_graficos_distribuicao_por_condicao_metereologica(df_acidentes_geral_por_condicao_metereologica))
     with tab7_sub8:    
         st.altair_chart(gera_graficos_distribuicao_por_dia_semana(df_acidentes_geral_por_dia_semana))
     with tab7_sub9:    

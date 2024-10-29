@@ -58,28 +58,28 @@ df_por_ocorrencia_2024 = pd.read_csv('../PRF/por_ocorrencia/datatran2024.csv', s
 def gera_dados_gerais():
 
   # gera dados das ufs
-  gera_dados_gerais_uf()
+  #gera_dados_gerais_uf()
 
   # tipo
-  gera_dados_gerais_tipo()
+  #gera_dados_gerais_tipo()
 
   # br
-  gera_dados_gerais_br()
+  #gera_dados_gerais_br()
 
   # causa"
-  gera_dados_gerais_causa()
+  #gera_dados_gerais_causa()
 
   # Classificação
-  gera_dados_gerais_classificacao()
+  #gera_dados_gerais_classificacao()
 
   # Fase do Dia
-  gera_dados_gerais_fasedia()
+  #gera_dados_gerais_fasedia()
 
   # Condição Metereológica
-  gera_dados_gerais_condicao_metereologica()
+  #gera_dados_gerais_condicao_metereologica()
 
   # Dia da Semana
-  gera_dados_gerais_dia_semana()
+  #gera_dados_gerais_dia_semana()
 
   # Tipo de Veículo
   gera_dados_gerais_tipo_veiculo()

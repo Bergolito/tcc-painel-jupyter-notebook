@@ -163,7 +163,7 @@ def processa_acidentes_geral_tipo_veiculo():
       df_filtrado_uf = df_tipo_veiculo[(df_tipo_veiculo['tipo_veiculo'] == item)]
       df_geral_tipo_veiculo = pd.concat([df_geral_tipo_veiculo, df_filtrado_uf], ignore_index=True)
         
-    df_geral_tipo_veiculo.to_csv('acidentes_geral_por_tipo_veiculo.csv', index=False)
+    df_geral_tipo_veiculo.to_csv('datasets/gerais/acidentes_geral_por_tipo_veiculo.csv', index=False)
     print('\n\nSalvando arquivo acidentes_geral_por_tipo_veiculo...')
 
     return df_geral_tipo_veiculo
@@ -333,7 +333,7 @@ def processa_acidentes_geral_tipo():
     
     df_geral_tipo
     
-    df_geral_tipo.to_csv('acidentes_geral_por_tipo.csv', index=False)
+    df_geral_tipo.to_csv('datasets/gerais/acidentes_geral_por_tipo.csv', index=False)
     print('\n\nSalvando arquivo acidentes_geral_por_tipo.csv...')
     
     return df_geral_tipo
@@ -548,7 +548,8 @@ def processa_acidentes_geral_classificacao():
     
     lista_classificacoes_antes = acidentes_por_classificacao_concatenados['classificacao_acidente'].unique()
     print(f'lista_classificacoes_antes => {lista_classificacoes_antes}')
-    
+    #acidentes_por_classificacao_concatenados.to_csv('datasets/gerais/acidentes_geral_por_classificacao_concatenados.csv', index=False)
+
     lista_classificacoes_depois = [item.rstrip() for item in lista_classificacoes_antes]
     lista_classificacoes_depois.remove('(null)')
     
@@ -556,7 +557,6 @@ def processa_acidentes_geral_classificacao():
     
     lista_sem_duplicacacoes = list(set(lista_classificacoes_depois))
     print(f'lista_sem_duplicacacoes => {lista_sem_duplicacacoes}')
-    
     
     lista_classificacoes = lista_sem_duplicacacoes
     
