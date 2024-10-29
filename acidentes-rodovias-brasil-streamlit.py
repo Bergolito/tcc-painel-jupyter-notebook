@@ -346,106 +346,26 @@ with tab05:
             "Fluxo por Tipo de Veículo",
         ])   
 
-    grafico1 = alt.Chart(df_acidentes_geral_por_uf).mark_area().encode(
-        alt.X('ano:Q').axis(domain=False, tickSize=0),
-        alt.Y('sum(Qtd):Q').stack('center').axis(None),
-        alt.Color('uf:N').scale(scheme='category20b')
-    ).properties(
-      title='Fluxo de Acidentes por UF (2007 a 2024)',
-      width=800, height=600            
-    ).interactive()
-
-    grafico2 = alt.Chart(df_acidentes_geral_por_tipo).mark_area().encode(
-        alt.X('ano:Q').axis(domain=False, tickSize=0),
-        alt.Y('sum(qtd):Q').stack('center').axis(None),
-        alt.Color('tipo_acidente:N').scale(scheme='category20b')
-    ).properties(
-      title='Fluxo de Acidentes por Tipo (2007 a 2024)',
-      width=800, height=600            
-    ).interactive()
-
-    grafico3 = alt.Chart(df_acidentes_geral_por_br).mark_area().encode(
-        alt.X('ano:Q').axis(domain=False, tickSize=0),
-        alt.Y('sum(qtd):Q').stack('center').axis(None),
-        alt.Color('br:N').scale(scheme='category20b')
-    ).properties(
-      title='Fluxo Acidentes por BR (2007 a 2024)',
-      width=800, height=600            
-    ).interactive()
-
-    grafico4 = alt.Chart(df_acidentes_geral_por_causa).mark_area().encode(
-        alt.X('ano:Q').axis(domain=False, tickSize=0),
-        alt.Y('sum(qtd):Q').stack('center').axis(None),
-        alt.Color('causa_acidente:N').scale(scheme='category20b')
-    ).properties(
-      title='Fluxo Acidentes por Causa (2007 a 2024)',
-      width=800, height=600            
-    ).interactive()
-
-    grafico5 = alt.Chart(df_acidentes_geral_por_classificacao).mark_area().encode(
-        alt.X('ano:Q').axis(domain=False, tickSize=0),
-        alt.Y('sum(qtd):Q').stack('center').axis(None),
-        alt.Color('classificacao_acidente:N').scale(scheme='category20b')
-    ).properties(
-      title='Fluxo Acidentes por Classificação (2007 a 2024)',
-      width=800, height=600            
-    ).interactive()
-
-    grafico6 = alt.Chart(df_acidentes_geral_por_fasedia).mark_area().encode(
-        alt.X('ano:Q').axis(domain=False, tickSize=0),
-        alt.Y('sum(qtd):Q').stack('center').axis(None),
-        alt.Color('fase_dia:N').scale(scheme='category20b')
-    ).properties(
-      title='Fluxo Acidentes por Fase do Dia (2007 a 2024)',
-      width=800, height=600            
-    ).interactive()
-
-    grafico7 = alt.Chart(df_acidentes_geral_por_condicaometereologica).mark_area().encode(
-        alt.X('ano:Q').axis(domain=False, tickSize=0),
-        alt.Y('sum(qtd):Q').stack('center').axis(None),
-        alt.Color('condicao_metereologica:N').scale(scheme='category20b')
-    ).properties(
-      title='Fluxo Acidentes por Condição Metereológica (2007 a 2024)',
-      width=800, height=600            
-    ).interactive()
-
-    grafico8 = alt.Chart(df_acidentes_geral_por_dia_semana).mark_area().encode(
-        alt.X('ano:Q').axis(domain=False, tickSize=0),
-        alt.Y('sum(qtd):Q').stack('center').axis(None),
-        alt.Color('dia_semana:N').scale(scheme='category20b')
-    ).properties(
-      title='Fluxo Acidentes por Dia da Semana (2007 a 2024)',
-      width=800, height=600            
-    ).interactive()
-
-    grafico9 = alt.Chart(df_acidentes_geral_por_tipo_veiculo).mark_area().encode(
-        alt.X('ano:Q').axis(domain=False, tickSize=0),
-        alt.Y('sum(qtd):Q').stack('center').axis(None),
-        alt.Color('tipo_veiculo:N').scale(scheme='category20b')
-    ).properties(
-      title='Fluxo Acidentes por Tipo de Veículo (2007 a 2024)',
-      width=800, height=600            
-    ).interactive()
     
     # Exibir o gráfico de barras empilhadas
     with tab5_sub1:
-        st.altair_chart(grafico1)
+        st.altair_chart(gera_graficos_fluxo_por_uf(df_acidentes_geral_por_uf))
     with tab5_sub2:    
-        st.altair_chart(grafico2)
+        st.altair_chart(gera_graficos_fluxo_por_tipo(df_acidentes_geral_por_tipo))
     with tab5_sub3:            
-        st.altair_chart(grafico3)
+        st.altair_chart(gera_graficos_fluxo_por_br(df_acidentes_geral_por_br))
     with tab5_sub4:    
-        st.altair_chart(grafico4)
+        st.altair_chart(gera_graficos_fluxo_por_causa(df_acidentes_geral_por_causa))
     with tab5_sub5:        
-        st.altair_chart(grafico5)
+        st.altair_chart(gera_graficos_fluxo_por_classificacao(df_acidentes_geral_por_classificacao))
     with tab5_sub6:        
-        st.altair_chart(grafico6)
+        st.altair_chart(gera_graficos_fluxo_por_fasedia(df_acidentes_geral_por_fasedia))
     with tab5_sub7:        
-        st.altair_chart(grafico7)
+        st.altair_chart(gera_graficos_fluxo_por_condicao_metereologica(df_acidentes_geral_por_condicaometereologica))
     with tab5_sub8:        
-        st.altair_chart(grafico8)
+        st.altair_chart(gera_graficos_fluxo_por_dia_semana(df_acidentes_geral_por_dia_semana))
     with tab5_sub9:        
-        st.altair_chart(grafico9)
+        st.altair_chart(gera_graficos_fluxo_por_tipo_veiculo(df_acidentes_geral_por_tipo_veiculo))
     
 # ==============================================================================  
 with tab06:
@@ -546,87 +466,6 @@ with tab07:
     titulo = f'<H2> Distribuição de Acidentes por UF / por Tipo / por BR / por Classificação / por Causa / por Fase do Dia / por Condição Metereológica / por Dia da Semana / por Tipo de Veículo'
     st.markdown(titulo, unsafe_allow_html=True)
 
-    grafico01 = alt.Chart(df_acidentes_geral_por_uf).mark_boxplot(extent='min-max').encode(
-        alt.X('uf:N', title='Unidade Federativa (UF)'),
-        alt.Y('Qtd:Q', title='Quantidade de Acidentes'),        
-    ).properties(
-        width=800,
-        height=600,
-        title='Distribuição de Acidentes por UF (2007 a 2024)'
-    )
-
-    grafico02 = alt.Chart(df_acidentes_geral_por_tipo).mark_boxplot(extent='min-max').encode(
-        alt.X('tipo_acidente:N', title='Tipos de Acidentes'),
-        alt.Y('qtd:Q', title='Quantidade de Acidentes')        
-    ).properties(
-        width=800,
-        height=600,
-        title='Distribuição de Acidentes por Tipo (2007 a 2024)'
-    )
-
-    grafico03 = alt.Chart(df_acidentes_geral_por_br).mark_boxplot(extent='min-max').encode(
-        alt.X('br:N', title='Rodovias Federais (BR)'),
-        alt.Y('qtd:Q', title='Quantidade de Acidentes')        
-    ).properties(
-        width=800,
-        height=600,
-        title='Distribuição de Acidentes por BR (2007 a 2024)'
-    )
-
-    grafico04 = alt.Chart(df_acidentes_geral_por_classificacao).mark_boxplot(extent='min-max').encode(
-        alt.X('classificacao_acidente:N', title='Classificações de Acidentes'),        
-        alt.Y('qtd:Q', title='Quantidade de Acidentes')        
-    ).properties(
-        width=800,
-        height=600,
-        title='Distribuição de Acidentes por Classificação (2007 a 2024)'
-    )
-
-    grafico05 = alt.Chart(df_acidentes_geral_por_causa).mark_boxplot(extent='min-max').encode(
-        alt.X('causa_acidente:N', title='Causas de Acidentes'),  
-        alt.Y('qtd:Q', title='Quantidade de Acidentes')        
-    ).properties(
-        width=800,
-        height=600,
-        title='Distribuição de Acidentes por Causa (2007 a 2024)'
-    )
-
-    grafico06 = alt.Chart(df_acidentes_geral_por_fasedia).mark_boxplot(extent='min-max').encode(
-        alt.X('fase_dia:N', title='Fasos do Dia'), 
-        alt.Y('qtd:Q', title='Quantidade de Acidentes')        
-    ).properties(
-        width=800,
-        height=600,
-        title='Distribuição de Acidentes por Fase do Dia (2007 a 2024)'
-    )
-
-    grafico07 = alt.Chart(df_acidentes_geral_por_condicaometereologica).mark_boxplot(extent='min-max').encode(
-        alt.X('condicao_metereologica:N', title='Condições Metereológicas'), 
-        alt.Y('qtd:Q', title='Quantidade de Acidentes')        
-    ).properties(
-        width=800,
-        height=600,
-        title='Distribuição de Acidentes por Condição Metereológica (2007 a 2024)'
-    )
-    
-    grafico08 = alt.Chart(df_acidentes_geral_por_dia_semana).mark_boxplot(extent='min-max').encode(
-        alt.X('dia_semana:N', title='Dia da Semana'), 
-        alt.Y('qtd:Q', title='Quantidade de Acidentes')        
-    ).properties(
-        width=800,
-        height=600,
-        title='Distribuição de Acidentes por Dia da Semana (2007 a 2024)'
-    )
-
-    grafico09 = alt.Chart(df_acidentes_geral_por_tipo_veiculo).mark_boxplot(extent='min-max').encode(
-        alt.X('tipo_veiculo:N', title='Tipo de Veículo'), 
-        alt.Y('qtd:Q', title='Quantidade de Acidentes')        
-    ).properties(
-        width=800,
-        height=600,
-        title='Distribuição de Acidentes por Tipo de Veículo (2007 a 2024)'
-    )
-
     tab7_sub1, tab7_sub2, tab7_sub3, tab7_sub4, tab7_sub5, tab7_sub6, tab7_sub7, tab7_sub8, tab7_sub9  = st.tabs(
         [
             "por UF", "por Tipo", 
@@ -638,23 +477,23 @@ with tab07:
     )
 
     with tab7_sub1:
-        st.altair_chart(grafico01)
+        st.altair_chart(gera_graficos_distribuicao_por_uf(df_acidentes_geral_por_uf))
     with tab7_sub2:    
-        st.altair_chart(grafico02)
+        st.altair_chart(gera_graficos_distribuicao_por_tipo(df_acidentes_geral_por_tipo))
     with tab7_sub3:    
-        st.altair_chart(grafico03)
+        st.altair_chart(gera_graficos_distribuicao_por_br(df_acidentes_geral_por_br))
     with tab7_sub4:    
-        st.altair_chart(grafico04)
+        st.altair_chart(gera_graficos_distribuicao_por_classificacao(df_acidentes_geral_por_classificacao))
     with tab7_sub5:        
-        st.altair_chart(grafico05)
+        st.altair_chart(gera_graficos_distribuicao_por_causa(df_acidentes_geral_por_causa))
     with tab7_sub6:    
-        st.altair_chart(grafico06)
+        st.altair_chart(gera_graficos_distribuicao_por_fasedia(df_acidentes_geral_por_fasedia))
     with tab7_sub7:    
-        st.altair_chart(grafico07)
+        st.altair_chart(gera_graficos_distribuicao_por_condicao_metereologica(df_acidentes_geral_por_condicaometereologica))
     with tab7_sub8:    
-        st.altair_chart(grafico08)
+        st.altair_chart(gera_graficos_distribuicao_por_dia_semana(df_acidentes_geral_por_dia_semana))
     with tab7_sub9:    
-        st.altair_chart(grafico09)
+        st.altair_chart(gera_graficos_distribuicao_por_tipo_veiculo(df_acidentes_geral_por_tipo_veiculo))
     
 # ==============================================================================  
 with tab09:    
