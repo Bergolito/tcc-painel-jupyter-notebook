@@ -58,28 +58,28 @@ df_por_ocorrencia_2024 = pd.read_csv('../PRF/por_ocorrencia/datatran2024.csv', s
 def gera_dados_gerais():
 
   # gera dados das ufs
-  #gera_dados_gerais_uf()
+  gera_dados_gerais_uf()
 
   # tipo
-  #gera_dados_gerais_tipo()
+  gera_dados_gerais_tipo()
 
   # br
-  #gera_dados_gerais_br()
+  gera_dados_gerais_br()
 
   # causa"
-  #gera_dados_gerais_causa()
+  gera_dados_gerais_causa()
 
   # Classificação
-  #gera_dados_gerais_classificacao()
+  gera_dados_gerais_classificacao()
 
   # Fase do Dia
-  #gera_dados_gerais_fasedia()
+  gera_dados_gerais_fasedia()
 
   # Condição Metereológica
-  #gera_dados_gerais_condicao_metereologica()
+  gera_dados_gerais_condicao_metereologica()
 
   # Dia da Semana
-  #gera_dados_gerais_dia_semana()
+  gera_dados_gerais_dia_semana()
 
   # Tipo de Veículo
   gera_dados_gerais_tipo_veiculo()
@@ -135,8 +135,34 @@ def gera_dados_gerais_tipo_veiculo():
   processa_acidentes_geral_tipo_veiculo
 
 # =======================================================
+def ajusta_dados_dia_semana():
+  df_acidentes_geral_por_dia_semana = pd.read_csv('datasets/gerais/acidentes_geral_por_dia_semana.csv', sep=',', encoding="UTF-8") 
+
+  df = df_acidentes_geral_por_dia_semana
+
+  df['dia_semana'] = df['dia_semana'].str.strip()
+  df['dia_semana'] = df['dia_semana'].str.lstrip()
+  df['dia_semana'] = df['dia_semana'].apply(ajusta_dia_semana)
+
+  df.to_csv('datasets/gerais/acidentes_geral_por_dia_semana.csv', sep=',', encoding="UTF-8")  
+# =======================================================
+def ajusta_dados_fase_dia():
+
+  df_acidentes_geral_por_fase_dia = pd.read_csv('datasets/gerais/acidentes_geral_por_fase_dia.csv', sep=',', encoding="UTF-8") 
+
+  df = df_acidentes_geral_por_fase_dia
+
+  df['fase_dia'] = df['fase_dia'].str.strip()
+  df['fase_dia'] = df['fase_dia'].str.lstrip()
+  df['fase_dia'] = df['fase_dia'].apply(ajusta_fase_dia)
+
+  df.to_csv('datasets/gerais/acidentes_geral_por_fase_dia.csv', sep=',', encoding="UTF-8")  
+
+# =======================================================
 # main 
 # =======================================================
-#if __name__ == "__main__":
 gera_dados_gerais()
 
+ajusta_dados_dia_semana()
+
+ajusta_dados_fase_dia()

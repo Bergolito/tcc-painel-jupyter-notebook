@@ -804,6 +804,12 @@ def ajusta_dia_semana(value):
         return 'Sábado'    
 
     return value
+# =======================================================      
+def ajusta_fase_dia(value):
+    if value == 'Plena noite' or value == 'Plena Noite':
+        return 'Plena Noite'
+
+    return value
 # =======================================================   
 def processa_dados_mapa_calor_ano(ano, df):
    

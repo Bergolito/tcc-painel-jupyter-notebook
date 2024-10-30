@@ -21,6 +21,12 @@ df_acidentes_geral_por_uf_todos = pd.read_csv('datasets/gerais/acidentes_geral_p
 
 df_acidentes_geral_por_tipo  = pd.read_csv('datasets/gerais/acidentes_geral_por_tipo.csv', sep=',', encoding="UTF-8") 
 df_acidentes_geral_por_br    = pd.read_csv('datasets/gerais/acidentes_geral_por_br.csv', sep=',', encoding="UTF-8") 
+df_acidentes_geral_por_br_10 = pd.read_csv('datasets/gerais/acidentes_geral_por_br_10.csv', sep=',', encoding="UTF-8") 
+df_acidentes_geral_por_br_20 = pd.read_csv('datasets/gerais/acidentes_geral_por_br_20.csv', sep=',', encoding="UTF-8") 
+df_acidentes_geral_por_br_30 = pd.read_csv('datasets/gerais/acidentes_geral_por_br_30.csv', sep=',', encoding="UTF-8") 
+df_acidentes_geral_por_br_40 = pd.read_csv('datasets/gerais/acidentes_geral_por_br_40.csv', sep=',', encoding="UTF-8") 
+df_acidentes_geral_por_br_50 = pd.read_csv('datasets/gerais/acidentes_geral_por_br_50.csv', sep=',', encoding="UTF-8") 
+
 df_acidentes_geral_por_causa = pd.read_csv('datasets/gerais/acidentes_geral_por_causa.csv', sep=',', encoding="UTF-8") 
 #df_acidentes_geral_por_classificacao = pd.read_csv('datasets/acidentes_geral_por_classificacao.csv', sep=',', encoding="UTF-8") 
 df_acidentes_geral_por_classificacao = pd.read_csv('datasets/gerais/acidentes_geral_por_classificacao_concatenados.csv', sep=',', encoding="UTF-8") 
@@ -103,7 +109,43 @@ with tab01:
             "Acidentes por Condição Metereológica", "Acidentes por Dia da Semana",
             "Acidentes por Tipo de Veículo"
         ])
-        
+
+    # =====================================
+    # Filtro para a aba tab1_sub1 de UF
+    # =====================================
+    qtd_ufs_selecionadas = tab1_sub1.radio(
+        "Selecione a quantidade de UF deseja visaulizar:",
+        ("Top 10 UFs", "Top 20 UFs", "Todas as UFs"), index=0, horizontal=True, key='radio_uf'
+    )
+    print(f'qtd_ufs_selecionadas = {qtd_ufs_selecionadas}')
+
+    if qtd_ufs_selecionadas == "Top 10 UFs":
+        df_acidentes_geral_por_uf = df_acidentes_geral_por_uf_10
+    elif qtd_ufs_selecionadas == "Top 20 UFs":
+        df_acidentes_geral_por_uf = df_acidentes_geral_por_uf_20
+    elif qtd_ufs_selecionadas == "Todas as UFs":    
+        df_acidentes_geral_por_uf = df_acidentes_geral_por_uf_todos
+
+    # =====================================
+    # Filtro para a aba tab1_sub3 de BR
+    # =====================================
+    qtd_brs_selecionadas = tab1_sub3.radio(
+        "Selecione a quantidade de BR deseja visaulizar:",
+        ("Top 10 BRs", "Top 20 BRs", "Top 30 BRs", "Top 40 BRs", "Top 50 BRs"), index=0, horizontal=True, key='radio_br'
+    )
+    print(f'qtd_brs_selecionadas = {qtd_brs_selecionadas}')
+
+    if qtd_brs_selecionadas == "Top 10 BRs":
+        df_acidentes_geral_por_br = df_acidentes_geral_por_br_10
+    elif qtd_brs_selecionadas == "Top 20 BRs":
+        df_acidentes_geral_por_br = df_acidentes_geral_por_br_20
+    elif qtd_brs_selecionadas == "Top 30 BRs":
+        df_acidentes_geral_por_br = df_acidentes_geral_por_br_30
+    elif qtd_brs_selecionadas == "Top 40 BRs":
+        df_acidentes_geral_por_br = df_acidentes_geral_por_br_40
+    elif qtd_brs_selecionadas == "Top 50 BRs":
+        df_acidentes_geral_por_br = df_acidentes_geral_por_br_50
+
     if ano_selecionado != OPCAO_TODOS:
         
       df_filtrado_uf = df_acidentes_geral_por_uf[(df_acidentes_geral_por_uf[COLUNA_ANO] == int(ano_selecionado))]
@@ -209,7 +251,6 @@ with tab02:
         titulo = f'<h2> Ranking dos Acidentes por UF (2007 a 2024)'
         st.markdown(titulo, unsafe_allow_html=True)  
        
-        # Create a radio button group
         qtd_ufs_selecionadas = tab2_sub1.radio(
             "Selecione a quantidade de UFs deseja no Ranking:",
             ("Top 10 UFs", "Top 20 UFs", "Todas as UFs"), index=0, horizontal=True
