@@ -75,7 +75,7 @@ ano_selecionado = st.sidebar.selectbox(
 print(f'Ano Selecionado = {ano_selecionado}')
 
 # Definição de abas
-tab01, tab02, tab05, tab06, tab07, tab09, tab10, tab03 = st.tabs(
+tab01, tab02, tab05, tab06, tab07, tab09, tab10, tab04 = st.tabs(
   [
     "Acidentes por Critérios",
     "Rankings Diversos",   
@@ -334,50 +334,6 @@ with tab02:
         st.altair_chart(gera_grafico_ranking_tipoveiculo_01(df_acidentes_geral_por_tipo_veiculo))   
         st.altair_chart(gera_grafico_ranking_tipoveiculo_02(df_acidentes_geral_por_tipo_veiculo))
 
-# ==============================================================================
-with tab03:
-
-    # aba 03
-    titulo = f'<H2> Mapa de Calor por Classificação'
-    st.markdown(titulo, unsafe_allow_html=True)  
-
-    if ano_selecionado == OPCAO_TODOS:
-        df_envolvidos = pd.read_csv(f'mapa_calor/mapa_calor_classificacao_geral.csv')
-    else:
-        df_envolvidos = pd.read_csv(f'mapa_calor/mapa_calor_classificacao_{ano_selecionado}.csv')
-        
-    # Define os dados
-    dados = df_envolvidos.set_index('classificacao').T.reset_index().melt(id_vars='index', var_name='classificacao', value_name='value')
-
-    # Cria o gráfico de calor
-    heatmap = alt.Chart(dados).mark_rect().encode(
-        x=alt.X('index:O', title=None, axis=alt.Axis(orient='top')),  # Define a orientação do eixo x como 'top'
-        y=alt.Y('classificacao:O', title=None),
-        color=alt.Color('value:Q', scale=alt.Scale(scheme='yellowgreenblue')),    
-    )
-
-    # Adiciona o texto dentro de cada célula com o valor real e ajusta a cor do texto
-    text = alt.Chart(dados).mark_text(baseline='middle', fontSize=10).encode(
-        x='index:O',
-        y='classificacao:O',
-        text=alt.Text('value:Q', format='.0f'),
-        color=alt.condition(
-            alt.datum['value'] > (dados['value'].max() - dados['value'].min()) / 2,
-            alt.value('white'),
-            alt.value('black')
-        )
-    )
-
-    # Combina o gráfico de calor com o texto
-    heatmap_with_text = (heatmap + text).properties(
-        width=800,
-        height=600,
-        title=f'Mapa de Calor por Classificação x Envolvidos ({ano_selecionado})'
-    )
-
-    # Exibe o gráfico    
-    st.altair_chart(heatmap_with_text)
-  
 # ==============================================================================
 with tab05:
 
@@ -648,7 +604,6 @@ with tab09:
         st.markdown('<br>'.join(legendas), unsafe_allow_html=True)     
 
 # ==============================================================================  
-# ==============================================================================  
 with tab10:    
 
     # ================================
@@ -761,3 +716,38 @@ with tab10:
                 
         # Exibir o quadro com as legendas
         st.markdown('<br>'.join(legendas), unsafe_allow_html=True)     
+# ==============================================================================  
+with tab04:
+
+    titulo = f'<H2> Mapa de Calor por UF / por Tipo / por BR / por Classificação / por Causa / por Fase do Dia / por Condição Metereológica / por Dia da Semana / por Tipo de Veículo'
+    st.markdown(titulo, unsafe_allow_html=True)
+
+    tab4_sub1, tab4_sub2, tab4_sub3, tab4_sub4, tab4_sub5, tab4_sub6, tab4_sub7, tab4_sub8, tab4_sub9  = st.tabs(
+        [
+            "por UF", "por Tipo", 
+            "por BR", "por Classificação", 
+            "por Causa", "por Fase do Dia", 
+            "por Condição Metereológica", 
+            'por Dia da Semana', 'por Tipo de Veículo'
+        ]
+    )    
+
+    with tab4_sub1:
+        st.altair_chart(gera_graficos_mapa_calor_por_uf(df_acidentes_geral_por_uf))
+    with tab4_sub2:        
+        st.altair_chart(gera_graficos_mapa_calor_por_tipo(df_acidentes_geral_por_tipo))
+    with tab4_sub3:        
+        st.altair_chart(gera_graficos_mapa_calor_por_br(df_acidentes_geral_por_br))    
+    with tab4_sub4:        
+        st.altair_chart(gera_graficos_mapa_calor_por_classificacao(df_acidentes_geral_por_classificacao))
+    with tab4_sub5:        
+        st.altair_chart(gera_graficos_mapa_calor_por_causa(df_acidentes_geral_por_causa))
+    with tab4_sub6:        
+        st.altair_chart(gera_graficos_mapa_calor_por_fasedia(df_acidentes_geral_por_fasedia))
+    with tab4_sub7:        
+        st.altair_chart(gera_graficos_mapa_calor_por_condicao_metereologica(df_acidentes_geral_por_condicao_metereologica))
+    with tab4_sub8:        
+        st.altair_chart(gera_graficos_mapa_calor_por_dia_semana(df_acidentes_geral_por_dia_semana))
+    with tab4_sub9:        
+        st.altair_chart(gera_graficos_mapa_calor_por_tipo_veiculo(df_acidentes_geral_por_tipo_veiculo))                               
+    

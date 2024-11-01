@@ -757,3 +757,220 @@ def gera_graficos_distribuicao_por_tipo_veiculo(df_acidentes_geral_por_tipo_veic
     )
     return grafico09
 # ==========================================================================
+def gera_graficos_mapa_calor_por_uf(df_acidentes_geral_por_uf):
+
+    heatmap = alt.Chart(df_acidentes_geral_por_uf).mark_rect().encode(
+        x=alt.X('ano:O', title=None, axis=alt.Axis(orient='top')),  # Define a orientação do eixo x como 'top'
+        y=alt.Y('uf:N', title=None),
+        color=alt.Color('qtd:Q', title='Qtd de Acidentes' ,scale=alt.Scale(scheme='yellowgreenblue')),    
+    )
+
+    # Adiciona o texto dentro de cada célula com o valor real e ajusta a cor do texto
+    text = alt.Chart(df_acidentes_geral_por_uf).mark_text(baseline='middle', fontSize=10).encode(
+        x='ano:O',
+        y='uf:O',
+        text=alt.Text('qtd:Q', format='.0f'),
+    )
+
+    # Combina o gráfico de calor com o texto
+    heatmap_with_text = (heatmap + text).properties(
+        width=800,
+        height=600,
+        title=f'Mapa de Calor de Acidentes por UF (2007-2024)'
+    )
+
+    return heatmap_with_text    
+# ==========================================================================    
+def gera_graficos_mapa_calor_por_tipo(df_acidentes_geral_por_tipo):
+    
+    heatmap = alt.Chart(df_acidentes_geral_por_tipo).mark_rect().encode(
+        x=alt.X('ano:O', title=None, axis=alt.Axis(orient='top')),  # Define a orientação do eixo x como 'top'
+        y=alt.Y('tipo_acidente:N', title=None),
+        color=alt.Color('qtd:Q', title='Qtd de Acidentes' ,scale=alt.Scale(scheme='yellowgreenblue')),    
+    )
+
+    # Adiciona o texto dentro de cada célula com o valor real e ajusta a cor do texto
+    text = alt.Chart(df_acidentes_geral_por_tipo).mark_text(baseline='middle', fontSize=10).encode(
+        x='ano:O',
+        y='tipo_acidente:O',
+        text=alt.Text('qtd:Q', format='.0f'),
+    )
+
+    # Combina o gráfico de calor com o texto
+    heatmap_with_text = (heatmap + text).properties(
+        width=800,
+        height=600,
+        title=f'Mapa de Calor de Acidentes por Tipo (2007-2024)'
+    )
+
+    return heatmap_with_text
+# ==========================================================================    
+def gera_graficos_mapa_calor_por_br(df_acidentes_geral_por_br):
+        
+    heatmap = alt.Chart(df_acidentes_geral_por_br).mark_rect().encode(
+        x=alt.X('ano:O', title=None, axis=alt.Axis(orient='top')),  # Define a orientação do eixo x como 'top'
+        y=alt.Y('br:N', title=None),
+        color=alt.Color('qtd:Q', title='Qtd de Acidentes' ,scale=alt.Scale(scheme='yellowgreenblue')),    
+    )
+
+    # Adiciona o texto dentro de cada célula com o valor real e ajusta a cor do texto
+    text = alt.Chart(df_acidentes_geral_por_br).mark_text(baseline='middle', fontSize=10).encode(
+        x='ano:O',
+        y='br:O',
+        text=alt.Text('qtd:Q', format='.0f'),
+    )
+
+    # Combina o gráfico de calor com o texto
+    heatmap_with_text = (heatmap + text).properties(
+        width=800,
+        height=600,
+        title=f'Mapa de Calor de Acidentes por BR (2007-2024)'
+    )
+
+    return heatmap_with_text
+# ==========================================================================
+def gera_graficos_mapa_calor_por_classificacao(df_acidentes_geral_por_classificacao):
+            
+    heatmap = alt.Chart(df_acidentes_geral_por_classificacao).mark_rect().encode(
+        x=alt.X('ano:O', title=None, axis=alt.Axis(orient='top')),  # Define a orientação do eixo x como 'top'
+        y=alt.Y('classificacao_acidente:N', title=None),
+        color=alt.Color('qtd:Q', title='Qtd de Acidentes' ,scale=alt.Scale(scheme='yellowgreenblue')),    
+    )
+
+    # Adiciona o texto dentro de cada célula com o valor real e ajusta a cor do texto
+    text = alt.Chart(df_acidentes_geral_por_classificacao).mark_text(baseline='middle', fontSize=10).encode(
+        x='ano:O',
+        y='classificacao_acidente:O',
+        text=alt.Text('qtd:Q', format='.0f'),
+    )
+
+    # Combina o gráfico de calor com o texto
+    heatmap_with_text = (heatmap + text).properties(
+        width=800,
+        height=600,
+        title=f'Mapa de Calor de Acidentes por Classificação (2007-2024)'
+    )
+
+    return heatmap_with_text
+# ==========================================================================
+def gera_graficos_mapa_calor_por_causa(df_acidentes_geral_por_causa):
+            
+    heatmap = alt.Chart(df_acidentes_geral_por_causa).mark_rect().encode(
+        x=alt.X('ano:O', title=None, axis=alt.Axis(orient='top')),  # Define a orientação do eixo x como 'top'
+        y=alt.Y('causa_acidente:N', title=None),
+        color=alt.Color('qtd:Q', title='Qtd de Acidentes' ,scale=alt.Scale(scheme='yellowgreenblue')),    
+    )
+
+    # Adiciona o texto dentro de cada célula com o valor real e ajusta a cor do texto
+    text = alt.Chart(df_acidentes_geral_por_causa).mark_text(baseline='middle', fontSize=10).encode(
+        x='ano:O',
+        y='causa_acidente:O',
+        text=alt.Text('qtd:Q', format='.0f'),
+    )
+
+    # Combina o gráfico de calor com o texto
+    heatmap_with_text = (heatmap + text).properties(
+        width=800,
+        height=600,
+        title=f'Mapa de Calor de Acidentes por Causa (2007-2024)'
+    )
+
+    return heatmap_with_text
+# ==========================================================================
+def gera_graficos_mapa_calor_por_fasedia(df_acidentes_geral_por_fasedia):
+                
+    heatmap = alt.Chart(df_acidentes_geral_por_fasedia).mark_rect().encode(
+        x=alt.X('ano:O', title=None, axis=alt.Axis(orient='top')),  # Define a orientação do eixo x como 'top'
+        y=alt.Y('fase_dia:N', title=None),
+        color=alt.Color('qtd:Q', title='Qtd de Acidentes' ,scale=alt.Scale(scheme='yellowgreenblue')),    
+    )
+
+    # Adiciona o texto dentro de cada célula com o valor real e ajusta a cor do texto
+    text = alt.Chart(df_acidentes_geral_por_fasedia).mark_text(baseline='middle', fontSize=10).encode(
+        x='ano:O',
+        y='fase_dia:O',
+        text=alt.Text('qtd:Q', format='.0f'),
+    )
+
+    # Combina o gráfico de calor com o texto
+    heatmap_with_text = (heatmap + text).properties(
+        width=800,
+        height=600,
+        title=f'Mapa de Calor de Acidentes por Fase do Dia (2007-2024)'
+    )
+
+    return heatmap_with_text
+# ==========================================================================
+def gera_graficos_mapa_calor_por_condicao_metereologica(df_acidentes_geral_por_condicao_metereologica):
+                        
+    heatmap = alt.Chart(df_acidentes_geral_por_condicao_metereologica).mark_rect().encode(
+        x=alt.X('ano:O', title=None, axis=alt.Axis(orient='top')),  # Define a orientação do eixo x como 'top'
+        y=alt.Y('condicao_metereologica:N', title=None),
+        color=alt.Color('qtd:Q', title='Qtd de Acidentes' ,scale=alt.Scale(scheme='yellowgreenblue')),    
+    )
+
+    # Adiciona o texto dentro de cada célula com o valor real e ajusta a cor do texto
+    text = alt.Chart(df_acidentes_geral_por_condicao_metereologica).mark_text(baseline='middle', fontSize=10).encode(
+        x='ano:O',
+        y='condicao_metereologica:O',
+        text=alt.Text('qtd:Q', format='.0f'),
+    )
+
+    # Combina o gráfico de calor com o texto
+    heatmap_with_text = (heatmap + text).properties(
+        width=800,
+        height=600,
+        title=f'Mapa de Calor de Acidentes por Condição Metereológica (2007-2024)'
+    )
+
+    return heatmap_with_text
+# ==========================================================================
+def gera_graficos_mapa_calor_por_dia_semana(df_acidentes_geral_por_dia_semana):
+                                
+    heatmap = alt.Chart(df_acidentes_geral_por_dia_semana).mark_rect().encode(
+        x=alt.X('ano:O', title=None, axis=alt.Axis(orient='top')),  # Define a orientação do eixo x como 'top'
+        y=alt.Y('dia_semana:N', title=None),
+        color=alt.Color('qtd:Q', title='Qtd de Acidentes' ,scale=alt.Scale(scheme='yellowgreenblue')),    
+    )
+
+    # Adiciona o texto dentro de cada célula com o valor real e ajusta a cor do texto
+    text = alt.Chart(df_acidentes_geral_por_dia_semana).mark_text(baseline='middle', fontSize=10).encode(
+        x='ano:O',
+        y='dia_semana:O',
+        text=alt.Text('qtd:Q', format='.0f'),
+    )
+
+    # Combina o gráfico de calor com o texto
+    heatmap_with_text = (heatmap + text).properties(
+        width=800,
+        height=600,
+        title=f'Mapa de Calor de Acidentes por Dia da Semana (2007-2024)'
+    )
+
+    return heatmap_with_text                
+# ==========================================================================
+def gera_graficos_mapa_calor_por_tipo_veiculo(df_acidentes_geral_por_tipo_veiculo):
+                                            
+    heatmap = alt.Chart(df_acidentes_geral_por_tipo_veiculo).mark_rect().encode(
+        x=alt.X('ano:O', title=None, axis=alt.Axis(orient='top')),  # Define a orientação do eixo x como 'top'
+        y=alt.Y('tipo_veiculo:N', title=None),
+        color=alt.Color('qtd:Q', title='Qtd de Acidentes' ,scale=alt.Scale(scheme='yellowgreenblue')),    
+    )
+
+    # Adiciona o texto dentro de cada célula com o valor real e ajusta a cor do texto
+    text = alt.Chart(df_acidentes_geral_por_tipo_veiculo).mark_text(baseline='middle', fontSize=10).encode(
+        x='ano:O',
+        y='tipo_veiculo:O',
+        text=alt.Text('qtd:Q', format='.0f'),
+    )
+
+    # Combina o gráfico de calor com o texto
+    heatmap_with_text = (heatmap + text).properties(
+        width=800,
+        height=600,
+        title=f'Mapa de Calor de Acidentes por Tipo de Veículo (2007-2024)'
+    )
+
+    return heatmap_with_text                                    
+# ==========================================================================
+    

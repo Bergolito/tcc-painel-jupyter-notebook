@@ -135,7 +135,6 @@ def ajusta_dados_condicao_metereologica():
   # renomear 'Nevoeiro/neblina' para 'Nevoeiro/Neblina'
 
   df_limpo = df[(df['condicao_metereologica'] != '(null)')]
-  print(df_limpo)
 
   df_limpo['condicao_metereologica'] = df_limpo['condicao_metereologica'].apply(ajusta_condicao_metereologica)
 
@@ -145,8 +144,8 @@ def ajusta_dados_condicao_metereologica():
 # main 
 # =======================================================
 
-#ajusta_dados_dia_semana()
+ajusta_dados_dia_semana()
 
-#ajusta_dados_fase_dia()
+ajusta_dados_fase_dia()
 
 ajusta_dados_condicao_metereologica()
