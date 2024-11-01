@@ -448,6 +448,39 @@ def gera_grafico_ranking_uf_01(df_acidentes_geral_por_uf):
 
     return grafico1
 # ==========================================================================
+def gera_grafico_ranking_uf_01_interativo(df_acidentes_geral_por_uf):
+
+    selection = alt.selection_point(fields=['uf'])
+    color = alt.condition(
+        selection,
+        alt.Color('uf:N').legend(None),
+        alt.value('lightgray')
+    )
+
+    grafico1 = alt.Chart(df_acidentes_geral_por_uf).mark_line(point=True).encode(
+        x=alt.X('ano:O', title='Ano'),
+        y=alt.Y("rank:O", title='Posição do Ranking'),
+        color=color 
+    ).transform_window(
+        rank="rank()",
+        sort=[alt.SortField("qtd", order="descending")],
+        groupby=["ano"]
+    ).properties(
+        title="Ranking das 10 UFs com mais Acidentes (2007 a 2024)",
+        width=800,
+        height=600,
+    )
+
+    legend = alt.Chart(df_acidentes_geral_por_uf).mark_point().encode(
+        alt.Y('uf:N').axis(orient='right'),
+        color=color
+    ).add_params(
+        selection
+    )
+
+    #juntos = grafico1 | legend
+    return grafico1 | legend
+# ==========================================================================
 def gera_grafico_ranking_uf_02(df_acidentes_geral_por_uf):
 
     grafico2 = alt.Chart(df_acidentes_geral_por_uf).mark_line(point=True).encode(

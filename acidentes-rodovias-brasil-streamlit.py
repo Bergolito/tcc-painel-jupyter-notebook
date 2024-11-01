@@ -265,7 +265,8 @@ with tab02:
         elif qtd_ufs_selecionadas == "Todas as UFs":    
             df_acidentes_geral_por_uf = df_acidentes_geral_por_uf_todos
 
-        st.altair_chart(gera_grafico_ranking_uf_01(df_acidentes_geral_por_uf))   
+        #st.altair_chart(gera_grafico_ranking_uf_01(df_acidentes_geral_por_uf))   
+        st.altair_chart(gera_grafico_ranking_uf_01_interativo(df_acidentes_geral_por_uf))   
         st.altair_chart(gera_grafico_ranking_uf_02(df_acidentes_geral_por_uf))
     
     with tab2_sub2:
