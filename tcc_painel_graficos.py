@@ -1,12 +1,8 @@
 # =======================================================
 # Imports
 # =======================================================
-import pandas as pd
-import numpy as np
-import streamlit as st
 import altair as alt
 import numpy as np
-import geopandas as gpd
 
 # =======================================================
 # Constantes
@@ -32,7 +28,7 @@ def gera_grafico_barras_horizontal_por_uf(titulo, contagem_por_uf_ano):
         color=alt.Color('uf:N', title='UF', scale=lista_cores)     
     ).properties(
         title=alt.Title(
-        text=titulo  
+            text=titulo  
         ),
         width=800,
         height=600
@@ -188,23 +184,24 @@ def gera_grafico_por_tipo_veiculo(titulo, contagem_por_tipo_veiculo):
     return chart
 # =======================================================
 
-
-
 # =======================================================
 # Gráficos de Fluxo
 # =======================================================
 def gera_graficos_fluxo_por_uf(df_acidentes_geral_por_uf):
+
     grafico1 = alt.Chart(df_acidentes_geral_por_uf).mark_area().encode(
         alt.X('ano:Q').axis(domain=False, tickSize=0),
         alt.Y('sum(qtd):Q').stack('center').axis(None),
         alt.Color('uf:N').scale(scheme='category20b')
     ).properties(
-    title='Fluxo de Acidentes por UF (2007 a 2024)',
-    width=800, height=600            
+        title='Fluxo de Acidentes por UF (2007 a 2024)',
+        width=800, height=600            
     ).interactive()
+
     return grafico1
 # =======================================================
 def gera_graficos_fluxo_por_tipo(df_acidentes_geral_por_tipo):
+
     grafico2 = alt.Chart(df_acidentes_geral_por_tipo).mark_area().encode(
         alt.X('ano:Q').axis(domain=False, tickSize=0),
         alt.Y('sum(qtd):Q').stack('center').axis(None),
@@ -213,9 +210,11 @@ def gera_graficos_fluxo_por_tipo(df_acidentes_geral_por_tipo):
     title='Fluxo de Acidentes por Tipo (2007 a 2024)',
     width=800, height=600            
     ).interactive()
+
     return grafico2
 # =======================================================
 def gera_graficos_fluxo_por_br(df_acidentes_geral_por_br):
+
     grafico3 = alt.Chart(df_acidentes_geral_por_br).mark_area().encode(
         alt.X('ano:Q').axis(domain=False, tickSize=0),
         alt.Y('sum(qtd):Q').stack('center').axis(None),
@@ -224,17 +223,20 @@ def gera_graficos_fluxo_por_br(df_acidentes_geral_por_br):
     title='Fluxo Acidentes por BR (2007 a 2024)',
     width=800, height=600            
     ).interactive()
+
     return grafico3
 # =======================================================
 def gera_graficos_fluxo_por_causa(df_acidentes_geral_por_causa):
+
     grafico4 = alt.Chart(df_acidentes_geral_por_causa).mark_area().encode(
         alt.X('ano:Q').axis(domain=False, tickSize=0),
         alt.Y('sum(qtd):Q').stack('center').axis(None),
         alt.Color('causa_acidente:N').scale(scheme='category20b')
     ).properties(
-    title='Fluxo Acidentes por Causa (2007 a 2024)',
-    width=800, height=600            
+        title='Fluxo Acidentes por Causa (2007 a 2024)',
+        width=800, height=600            
     ).interactive()
+
     return grafico4
 # =======================================================
 def gera_graficos_fluxo_por_classificacao(df_acidentes_geral_por_classificacao):
@@ -300,7 +302,7 @@ def grafico_barras_empilhadas_por_uf(titulo, df):
     grafico = alt.Chart(df).mark_bar(width=20).encode(
         alt.X('ano', title='Ano'),
         alt.Y('sum(qtd)', title='Soma das Quantidades'),
-        color='uf'
+        alt.Color('uf', title='UF')
     ).properties(
             title=titulo,
             width=800, height=600
@@ -312,7 +314,7 @@ def grafico_barras_empilhadas_por_br(titulo, df):
     grafico = alt.Chart(df).mark_bar(width=20).encode(
         alt.X('ano', title='Ano'),
         alt.Y('sum(qtd)', title='Soma das Quantidades'),
-        color='br:N'
+        alt.Color('br:N', title='BR')
     ).properties(
             title=titulo,
             width=800, height=600
@@ -325,7 +327,7 @@ def grafico_barras_empilhadas_por_tipo(titulo, df):
     grafico = alt.Chart(df).mark_bar(width=20).encode(
         alt.X('ano', title='Ano'),
         alt.Y('sum(qtd)', title='Soma das Quantidades'),
-        color='tipo_acidente'
+        alt.Color('tipo_acidente', title='Tipo do Acidente')
     ).properties(
             title=titulo,
             width=800, height=600
@@ -338,7 +340,7 @@ def grafico_barras_empilhadas_por_causa(titulo, df):
     grafico = alt.Chart(df).mark_bar(width=20).encode(
         alt.X('ano', title='Ano'),
         alt.Y('sum(qtd)', title='Soma das Quantidades'),
-        color='causa_acidente'
+        alt.Color('causa_acidente', title='Causa do Acidente')
     ).properties(
             title=titulo,
             width=800, height=600
@@ -351,7 +353,7 @@ def grafico_barras_empilhadas_por_classificacao(titulo, df):
     grafico = alt.Chart(df).mark_bar(width=20).encode(
         alt.X('ano', title='Ano'),
         alt.Y('sum(qtd)', title='Soma das Quantidades'),
-        color='classificacao_acidente'
+        alt.Color('classificacao_acidente', title='Classificação do Acidente')
     ).properties(
             title=titulo,
             width=800, height=600
@@ -364,7 +366,7 @@ def grafico_barras_empilhadas_por_fase_dia(titulo, df):
     grafico = alt.Chart(df).mark_bar(width=20).encode(
         alt.X('ano', title='Ano'),
         alt.Y('sum(qtd)', title='Soma das Quantidades'),
-        color='fase_dia'
+        alt.Color('fase_dia', title='Fase do Dia')
     ).properties(
             title=titulo,
             width=800, height=600
@@ -377,7 +379,7 @@ def grafico_barras_empilhadas_por_condicao_metereologica(titulo, df):
     grafico = alt.Chart(df).mark_bar(width=20).encode(
         alt.X('ano', title='Ano'),
         alt.Y('sum(qtd)', title='Soma das Quantidades'),
-        color='condicao_metereologica'
+        alt.Color('condicao_metereologica', title='Condição Metereológica')
     ).properties(
             title=titulo,
             width=800, height=600
@@ -390,7 +392,7 @@ def grafico_barras_empilhadas_por_dia_semana(titulo, df):
     grafico = alt.Chart(df).mark_bar(width=20).encode(
         alt.X('ano', title='Ano'),
         alt.Y('sum(qtd)', title='Soma das Quantidades'),
-        color='dia_semana'
+        alt.Color('dia_semana', title='Dia da Semana')
     ).properties(
             title=titulo,
             width=800, height=600
@@ -403,7 +405,7 @@ def grafico_barras_empilhadas_por_tipo_veiculo(titulo, df):
     grafico = alt.Chart(df).mark_bar(width=20).encode(
         alt.X('ano', title='Ano'),
         alt.Y('sum(qtd)', title='Soma das Quantidades'),
-        color='tipo_veiculo'
+        alt.Color('tipo_veiculo', title='Tipo do Veículo')
     ).properties(
             title=titulo,
             width=800, height=600

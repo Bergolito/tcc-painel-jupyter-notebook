@@ -75,7 +75,7 @@ ano_selecionado = st.sidebar.selectbox(
 print(f'Ano Selecionado = {ano_selecionado}')
 
 # Definição de abas
-tab01, tab02, tab05, tab06, tab07, tab09, tab03 = st.tabs(
+tab01, tab02, tab05, tab06, tab07, tab09, tab10, tab03 = st.tabs(
   [
     "Acidentes por Critérios",
     "Rankings Diversos",   
@@ -83,6 +83,7 @@ tab01, tab02, tab05, tab06, tab07, tab09, tab03 = st.tabs(
     "Gráficos Barras Empilhadas",
     "Gráficos de Distribuição",    
     "Mapa das BRs",
+    "Mapa das BRs por UF",
     "Mapa de Calor",  
   ]
 )
@@ -559,7 +560,7 @@ with tab09:
         (51,  60, '#fc4e2a'),
         (61,  70, '#e31a1c'),
         (71,  80, '#bd0026'),
-        (81, 900, '#800026'),
+        (81, 999, '#800026'),
         
     ]
     lista_brs = [101, 116, 381,  40, 153, 163, 364, 376, 262, 230, 470, 316, 282, 70,  60,  20, 158, 369,  50]
@@ -584,9 +585,8 @@ with tab09:
     
     # Filtro de ano
     mapa_ano_selecionado = left.selectbox(
-        'Selecione o ano:', ('2024', '2023', '2022', '2021', '2020', '2019', '2018', '2017', OPCAO_TODOS))
+        'Selecione o ano:', ('2024', '2023', '2022', '2021', '2020', '2019', '2018', '2017', OPCAO_TODOS), key='aba09_selecao_ano')
     print(f'Mapa - Ano Selecionado = {mapa_ano_selecionado}')
-
 
     if mapa_ano_selecionado == '2017':
         df_coordenadas = pd.read_csv('geo/acidentes_localizacao_processado_2017.csv', sep=';', decimal='.')   
@@ -605,7 +605,7 @@ with tab09:
     elif mapa_ano_selecionado == '2024':
         df_coordenadas = pd.read_csv('geo/acidentes_localizacao_processado_2024.csv', sep=';', decimal='.')       
         
-    mapa_br_selecionada = middle.selectbox('Selecione a rodovia:', (lista_brs))       
+    mapa_br_selecionada = middle.selectbox('Selecione a rodovia:', (lista_brs), key='aba09_selecao_br')       
     
     # Exibir o quadro com as legendas
     titulo = f'<H2>Acidentes reportados na BR {mapa_br_selecionada} no ano de {mapa_ano_selecionado}'
@@ -648,3 +648,116 @@ with tab09:
         st.markdown('<br>'.join(legendas), unsafe_allow_html=True)     
 
 # ==============================================================================  
+# ==============================================================================  
+with tab10:    
+
+    # ================================
+    # Aba 10 - constantes
+    # ================================
+    escala_cores = [
+        # min, max, cor
+        ( 1,  10, '#ffffcc'),
+        (11,  20, '#ffeda0'),
+        (21,  30, '#fed976'),
+        (31,  40, '#feb24c'),
+        (41,  50, '#fd8d3c'),
+        (51,  60, '#fc4e2a'),
+        (61,  70, '#e31a1c'),
+        (71,  80, '#bd0026'),
+        (81, 999, '#800026'),
+        
+    ]
+    lista_brs = [101, 116, 381,  40, 153, 163, 364, 376, 262, 230, 470, 316, 282, 70,  60,  20, 158, 369,  50]
+
+    # ===========================
+    # Funções
+    # ===========================
+    def definir_cor(acidentes):
+        cor_secionada = ''
+        for i,item in enumerate(escala_cores):
+            if item[0] <= acidentes <= item[1]:
+                cor_secionada = item[2]
+                break
+                
+        return cor_secionada
+    # ===========================
+    def definir_tamanho(acidentes):
+        return acidentes * 10
+    # ===========================
+    def lista_ufs_por_br(br, df):
+        df_filtrado = df[(df['br'] == int(br))]
+        lista_ufs = df_filtrado['uf'].unique()
+
+        return lista_ufs
+    # ===========================
+
+    left, middle, right = st.columns(3)
+    
+    # Filtro de ano
+    mapa_ano_selecionado = left.selectbox(
+        'Selecione o ano:', ('2024', '2023', '2022', '2021', '2020', '2019', '2018', '2017', OPCAO_TODOS), key='aba10_selecao_ano')
+    print(f'Mapa - Ano Selecionado = {mapa_ano_selecionado}')
+
+    if mapa_ano_selecionado == '2017':
+        df_coordenadas = pd.read_csv('geo/acidentes_localizacao_processado_2017.csv', sep=';', decimal='.')   
+    elif mapa_ano_selecionado == '2018':
+        df_coordenadas = pd.read_csv('geo/acidentes_localizacao_processado_2018.csv', sep=';', decimal='.')   
+    elif mapa_ano_selecionado == '2019':
+        df_coordenadas = pd.read_csv('geo/acidentes_localizacao_processado_2019.csv', sep=';', decimal='.')   
+    elif mapa_ano_selecionado == '2020':
+        df_coordenadas = pd.read_csv('geo/acidentes_localizacao_processado_2020.csv', sep=';', decimal='.')   
+    elif mapa_ano_selecionado == '2021':
+        df_coordenadas = pd.read_csv('geo/acidentes_localizacao_processado_2021.csv', sep=';', decimal='.')   
+    elif mapa_ano_selecionado == '2022':
+        df_coordenadas = pd.read_csv('geo/acidentes_localizacao_processado_2022.csv', sep=';', decimal='.')   
+    elif mapa_ano_selecionado == '2023':
+        df_coordenadas = pd.read_csv('geo/acidentes_localizacao_processado_2023.csv', sep=';', decimal='.')   
+    elif mapa_ano_selecionado == '2024':
+        df_coordenadas = pd.read_csv('geo/acidentes_localizacao_processado_2024.csv', sep=';', decimal='.')       
+        
+    mapa_br_selecionada = middle.selectbox('Selecione a rodovia:', (lista_brs), index=0, key='aba10_selecao_br')       
+
+    df_coordenadas_filtrado = df_coordenadas[(df_coordenadas['br'] == int(mapa_br_selecionada))]       
+    lista_ufs_br = lista_ufs_por_br(mapa_br_selecionada, df_coordenadas_filtrado)
+    mapa_uf_selecionada = right.selectbox('Selecione a UF:', (lista_ufs_br), index=0, key='aba10_selecao_uf')
+
+    # Exibir o quadro com as legendas
+    titulo = f'<H2>Acidentes reportados na BR {mapa_br_selecionada}, na UF {mapa_uf_selecionada}, no ano de {mapa_ano_selecionado}'
+    st.markdown(titulo, unsafe_allow_html=True)    
+
+    df_br_uf = df_coordenadas_filtrado[(df_coordenadas_filtrado['br'] == int(mapa_br_selecionada)) & (df_coordenadas_filtrado['uf'] == mapa_uf_selecionada)]
+
+    df_br_uf['cor'] = df_br_uf['acidentes'].apply(definir_cor)    
+    df_br_uf['tamanho'] = df_br_uf['acidentes'].apply(definir_tamanho)
+
+    # Criar duas colunas para colocar os componentes lado a lado
+    col1, col2 = st.columns([8,2])
+    
+    # Adicionar o gráfico à primeira coluna
+    with col1:
+
+        st.map(df_br_uf,
+            latitude='latitude',
+            longitude='longitude',
+            size='tamanho',
+            color='cor',
+            use_container_width=False)
+
+    with col2:
+
+        # Conteúdo HTML das legendas
+        # solid
+        legendas = ['<br><br>', 
+                    '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#ffffcc;margin-right:5px;"></span> Entre  1 e  10 acidentes',
+                    '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#ffeda0;margin-right:5px;"></span> Entre 11 e  20 acidentes',
+                    '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#fed976;margin-right:5px;"></span> Entre 21 e  30 acidentes',
+                    '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#feb24c;margin-right:5px;"></span> Entre 31 e  40 acidentes',
+                    '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#fd8d3c;margin-right:5px;"></span> Entre 41 e  50 acidentes',
+                    '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#fc4e2a;margin-right:5px;"></span> Entre 51 e  60 acidentes',
+                    '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#e31a1c;margin-right:5px;"></span> Entre 61 e  70 acidentes',
+                    '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#bd0026;margin-right:5px;"></span> Entre 71 e  80 acidentes',
+                    '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#800026;margin-right:5px;"></span> 81 acidentes ou mais',                    
+                   ]
+                
+        # Exibir o quadro com as legendas
+        st.markdown('<br>'.join(legendas), unsafe_allow_html=True)     

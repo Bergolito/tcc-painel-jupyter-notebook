@@ -2,8 +2,6 @@
 # Imports
 # =======================================================
 import pandas as pd
-import numpy as np
-import geopandas as gpd
 
 # =======================================================
 # Carregamento dos Datasets
@@ -48,7 +46,6 @@ df_por_ocorrencia_2021 = pd.read_csv('../PRF/por_ocorrencia/datatran2021.csv', s
 df_por_ocorrencia_2022 = pd.read_csv('../PRF/por_ocorrencia/datatran2022.csv', sep=';', encoding="ISO-8859-1")
 df_por_ocorrencia_2023 = pd.read_csv('../PRF/por_ocorrencia/datatran2023.csv', sep=';', encoding="ISO-8859-1")
 df_por_ocorrencia_2024 = pd.read_csv('../PRF/por_ocorrencia/datatran2024.csv', sep=';', encoding="ISO-8859-1")
-
 
 # =======================================================
 # Funções

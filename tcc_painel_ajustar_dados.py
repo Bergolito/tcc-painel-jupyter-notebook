@@ -53,89 +53,35 @@ df_por_ocorrencia_2024 = pd.read_csv('../PRF/por_ocorrencia/datatran2024.csv', s
 # =======================================================
 # Funções
 # =======================================================
-def gera_dados_gerais():
-
-  # gera dados das ufs
-  gera_dados_gerais_uf()
-
-  # tipo
-  gera_dados_gerais_tipo()
-
-  # br
-  gera_dados_gerais_br()
-
-  # causa"
-  gera_dados_gerais_causa()
-
-  # Classificação
-  gera_dados_gerais_classificacao()
-
-  # Fase do Dia
-  gera_dados_gerais_fasedia()
-
-  # Condição Metereológica
-  gera_dados_gerais_condicao_metereologica()
-
-  # Dia da Semana
-  gera_dados_gerais_dia_semana()
-
-  # Tipo de Veículo
-  gera_dados_gerais_tipo_veiculo()
 
 # =======================================================
-def gera_dados_gerais_uf():
-   
-  processa_acidentes_geral_ufs(10)
-  processa_acidentes_geral_ufs(20)
-  processa_acidentes_geral_ufs(27)
+def ajusta_dados_dia_semana():
+  df_acidentes_geral_por_dia_semana = pd.read_csv('datasets/gerais/acidentes_geral_por_dia_semana.csv', sep=',', encoding="UTF-8") 
+
+  df = df_acidentes_geral_por_dia_semana
+
+  df['dia_semana'] = df['dia_semana'].str.strip()
+  df['dia_semana'] = df['dia_semana'].str.lstrip()
+  df['dia_semana'] = df['dia_semana'].apply(ajusta_dia_semana)
+
+  df.to_csv('datasets/gerais/acidentes_geral_por_dia_semana.csv', sep=',', encoding="UTF-8")  
 # =======================================================
-def gera_dados_gerais_tipo():
+def ajusta_dados_fase_dia():
 
-  processa_acidentes_geral_tipo()
+  df_acidentes_geral_por_fase_dia = pd.read_csv('datasets/gerais/acidentes_geral_por_fase_dia.csv', sep=',', encoding="UTF-8") 
 
-# =======================================================
-def gera_dados_gerais_br():
+  df = df_acidentes_geral_por_fase_dia
 
-  processa_acidentes_geral_br(10)
-  processa_acidentes_geral_br(20)
-  processa_acidentes_geral_br(30)
-  processa_acidentes_geral_br(40)
-  processa_acidentes_geral_br(50)
+  df['fase_dia'] = df['fase_dia'].str.strip()
+  df['fase_dia'] = df['fase_dia'].str.lstrip()
+  df['fase_dia'] = df['fase_dia'].apply(ajusta_fase_dia)
 
-# =======================================================
-def gera_dados_gerais_causa():
-  
-  processa_acidentes_geral_causa()
-
-# =======================================================
-def gera_dados_gerais_classificacao():
-  
-  processa_acidentes_geral_classificacao()
-
-# =======================================================
-def gera_dados_gerais_fasedia():
-
-  processa_acidentes_geral_fase_dia()
-
-# =======================================================
-def gera_dados_gerais_condicao_metereologica():
-  
-  processa_acidentes_geral_condicao_metereologica()
-
-# =======================================================
-def gera_dados_gerais_dia_semana():
-  
-  processa_acidentes_geral_dia_semana()
-
-# =======================================================
-def gera_dados_gerais_tipo_veiculo():
-  
-  processa_acidentes_geral_tipo_veiculo
-
-# =======================================================
+  df.to_csv('datasets/gerais/acidentes_geral_por_fase_dia.csv', sep=',', encoding="UTF-8")  
 
 # =======================================================
 # main 
 # =======================================================
-gera_dados_gerais()
 
+ajusta_dados_dia_semana()
+
+ajusta_dados_fase_dia()
