@@ -695,7 +695,8 @@ def processa_acidentes_geral_condicao_metereologica():
     
     for item in acidentes_por_condicao_metereologica_concatenados['condicao_metereologica'].unique():
       lista_condicoes.append(item)
-   
+    lista_condicoes.remove('(null)')
+
     df_condicao = acidentes_por_condicao_metereologica_concatenados
     df_geral_condicao_metereologica = pd.DataFrame(columns=['condicao_metereologica','qtd','ano'])
     
@@ -777,36 +778,6 @@ def processa_acidentes_geral_dia_semana():
     print('\n\nSalvando arquivo acidentes_geral_por_dia_semana...')
 
     return df_geral_dias_semanas
-# =======================================================      
-def ajusta_dia_semana(value):
-    if value == 'domingo' or value == 'Domingo':
-        return 'Domingo'
-        
-    elif value == 'segunda' or value == 'segunda-feira':    
-        return 'Segunda-feira'
-        
-    elif value == 'terça' or value == 'terça-feira':    
-        return 'Terça-feira'
-        
-    elif value == 'quarta' or value == 'quarta-feira':    
-        return 'Quarta-feira'
-        
-    elif value == 'quinta' or value == 'quinta-feira':    
-        return 'Quinta-feira'
-        
-    elif value == 'sexta' or value == 'sexta-feira':    
-        return 'Sexta-feira'
-        
-    elif value == 'sábado' or value == 'Sábado':    
-        return 'Sábado'    
-
-    return value
-# =======================================================      
-def ajusta_fase_dia(value):
-    if value == 'Plena noite' or value == 'Plena Noite':
-        return 'Plena Noite'
-
-    return value
 # =======================================================   
 def processa_dados_mapa_calor_ano(ano, df):
    

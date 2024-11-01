@@ -54,6 +54,51 @@ df_por_ocorrencia_2024 = pd.read_csv('../PRF/por_ocorrencia/datatran2024.csv', s
 # Funções
 # =======================================================
 
+# =======================================================      
+def ajusta_dia_semana(value):
+    if value == 'domingo' or value == 'Domingo':
+        return 'Domingo'
+        
+    elif value == 'segunda' or value == 'segunda-feira':    
+        return 'Segunda-feira'
+        
+    elif value == 'terça' or value == 'terça-feira':    
+        return 'Terça-feira'
+        
+    elif value == 'quarta' or value == 'quarta-feira':    
+        return 'Quarta-feira'
+        
+    elif value == 'quinta' or value == 'quinta-feira':    
+        return 'Quinta-feira'
+        
+    elif value == 'sexta' or value == 'sexta-feira':    
+        return 'Sexta-feira'
+        
+    elif value == 'sábado' or value == 'Sábado':    
+        return 'Sábado'    
+
+    return value
+# =======================================================      
+def ajusta_fase_dia(value):
+    if value == 'Plena noite' or value == 'Plena Noite':
+        return 'Plena Noite'
+
+    return value
+# =======================================================      
+# renomear 'Ceu Claro' para 'Céu Claro'
+# renomear 'Ignorada' para 'Ignorado'
+# renomear 'Nevoeiro/neblina' para 'Nevoeiro/Neblina'
+def ajusta_condicao_metereologica(value):
+    if value == 'Ceu Claro':
+        return 'Céu Claro'
+        
+    elif value == 'Ignorada':    
+        return 'Ignorado'
+        
+    elif value == 'Nevoeiro/neblina':    
+        return 'Nevoeiro/Neblina'
+
+    return value
 # =======================================================
 def ajusta_dados_dia_semana():
   df_acidentes_geral_por_dia_semana = pd.read_csv('datasets/gerais/acidentes_geral_por_dia_semana.csv', sep=',', encoding="UTF-8") 
@@ -77,11 +122,31 @@ def ajusta_dados_fase_dia():
   df['fase_dia'] = df['fase_dia'].apply(ajusta_fase_dia)
 
   df.to_csv('datasets/gerais/acidentes_geral_por_fase_dia.csv', sep=',', encoding="UTF-8")  
+# =======================================================
+def ajusta_dados_condicao_metereologica():
+
+  df_acidentes_geral_por_condicao_metereologica = pd.read_csv('datasets/gerais/acidentes_geral_por_condicao_metereologica.csv', sep=',', encoding="UTF-8") 
+
+  df = df_acidentes_geral_por_condicao_metereologica
+
+  # remover '(null)',
+  # renomear 'Ceu Claro' para 'Céu Claro'
+  # renomear 'Ignorada' para 'Ignorado'
+  # renomear 'Nevoeiro/neblina' para 'Nevoeiro/Neblina'
+
+  df_limpo = df[(df['condicao_metereologica'] != '(null)')]
+  print(df_limpo)
+
+  df_limpo['condicao_metereologica'] = df_limpo['condicao_metereologica'].apply(ajusta_condicao_metereologica)
+
+  df_limpo.to_csv('datasets/gerais/acidentes_geral_por_condicao_metereologica-2.csv', sep=',', encoding="UTF-8")  
 
 # =======================================================
 # main 
 # =======================================================
 
-ajusta_dados_dia_semana()
+#ajusta_dados_dia_semana()
 
-ajusta_dados_fase_dia()
+#ajusta_dados_fase_dia()
+
+ajusta_dados_condicao_metereologica()
