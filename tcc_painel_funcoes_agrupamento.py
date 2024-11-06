@@ -779,7 +779,7 @@ def processa_acidentes_geral_dia_semana():
 
     return df_geral_dias_semanas
 # =======================================================   
-def processa_dados_mapa_calor_ano(ano, df):
+def processa_dados_mapa_calor_ano(df):
    
     lista_classificacao = ['Com Vítimas Feridas', 'Com Vítimas Fatais', 'Sem Vítimas']  
     

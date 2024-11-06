@@ -94,6 +94,23 @@ lista_cores_graficos = [
     '#FF1493', '#4B0082', '#8A2BE2', '#7FFF00', '#00FFFF', '#008000'
 ]
 
+lista_novas_cores = [
+  # Tons pastel
+  '#F8B195', '#F4DCCF', '#B7C9E2', '#A7D1F8', '#FDEBD0',
+  # Tons vibrantes
+  '#FF5733', '#C70039', '#900C3F', '#581845', '#F24E1C',
+  # Tons neutros
+  '#969696', '#707070', '#595959', '#404040', '#262626',
+  # Tons terrosos
+  '#8B4513', '#A0522D', '#D2691E', '#B22222', '#800000',
+  # Tons frios
+  '#1E90FF', '#4169E1', '#6495ED', '#7B68EE', '#008B8B',
+  # Tons quentes
+  '#FF8C00', '#FFA500', '#FF4500', '#FF6347', '#FF8C69',
+  # Tons pastel suaves
+  '#E1F5FE', '#F0FFF0', '#F5F5DC', '#FFF8DC', '#F0E68C'
+]
+
 # ==============================================================================
 with tab01:
 
@@ -268,6 +285,7 @@ with tab02:
         #st.altair_chart(gera_grafico_ranking_uf_01(df_acidentes_geral_por_uf))   
         st.altair_chart(gera_grafico_ranking_uf_01_interativo(df_acidentes_geral_por_uf))   
         st.altair_chart(gera_grafico_ranking_uf_02(df_acidentes_geral_por_uf))
+        st.altair_chart(gera_grafico_ranking_uf_02_interativo(df_acidentes_geral_por_uf))
     
     with tab2_sub2:
 
@@ -277,7 +295,8 @@ with tab02:
         titulo = f'<h2> Ranking dos Acidentes por Tipo (2007 e 2024)'
         st.markdown(titulo, unsafe_allow_html=True)   
        
-        st.altair_chart(gera_grafico_ranking_tipo_01(df_acidentes_geral_por_tipo))   
+        #st.altair_chart(gera_grafico_ranking_tipo_01(df_acidentes_geral_por_tipo))  
+        st.altair_chart(gera_grafico_ranking_tipo_01_interativo(df_acidentes_geral_por_tipo))   
         st.altair_chart(gera_grafico_ranking_tipo_02(df_acidentes_geral_por_tipo))
     
     with tab2_sub3:
@@ -288,7 +307,8 @@ with tab02:
         titulo = f'<h2> Ranking dos Acidentes por BR (2007 e 2024)'
         st.markdown(titulo, unsafe_allow_html=True)
       
-        st.altair_chart(gera_grafico_ranking_br_01(df_acidentes_geral_por_br))   
+        #st.altair_chart(gera_grafico_ranking_br_01(df_acidentes_geral_por_br))   
+        st.altair_chart(gera_grafico_ranking_br_01_interativo(df_acidentes_geral_por_br))   
         st.altair_chart(gera_grafico_ranking_br_02(df_acidentes_geral_por_br))
     
     with tab2_sub4:
