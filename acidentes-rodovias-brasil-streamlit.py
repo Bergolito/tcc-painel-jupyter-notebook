@@ -781,12 +781,12 @@ with tab03:
         st.title("Mapa das BRs do Brasil")
 
         # Caminho da imagem
-        image_path = "mapa_rodovias_federais.png"
+        image_path = "mapas/mapa_rodovias_federais.png"
         image = Image.open(image_path)
         st.image(image, caption='Mapa das BRs do Brasil', use_column_width=True)
 
     with tab3_sub2:
 
-        image_path = 'mapa_brasil_com_brs.png'
+        image_path = 'mapas/mapa_brasil_brs_10.png'
         image = Image.open(image_path)
         st.image(image, caption='Mapa das BRs do Brasil', use_column_width=True)

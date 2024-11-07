@@ -1,7 +1,6 @@
 import streamlit as st
 import altair as alt
 import pandas as pd
-import numpy as np
 from urllib.request import urlopen
 import json
 
@@ -69,9 +68,7 @@ def plot_br_map(title="Título do Mapa"):
             format=alt.DataFormat(property='features')
         )) \
     .mark_geoshape(
-        # 
-        #stroke='#fff', strokeWidth=1.5
-        stroke='#bdb15b', strokeWidth=1.5
+        stroke='#fff', strokeWidth=1.5
     ).project(
         type="equirectangular"  
     ).properties(
@@ -202,7 +199,6 @@ def plot_br_map(title="Título do Mapa"):
         )
 
     return (map + text_est + text_munic + point).configure_title(fontSize=15)
-    #return (map2 + text_est + text_munic + point).configure_title(fontSize=15)
 
 ##########################################################################################
 ##                                       Layout                                         ##
