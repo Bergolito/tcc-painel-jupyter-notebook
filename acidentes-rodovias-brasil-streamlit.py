@@ -3,11 +3,9 @@
 # =======================================================
 import pandas as pd
 import streamlit as st
-import altair as alt
-import numpy as np
 
+from PIL import Image
 from vega_datasets import data
-
 from tcc_painel_graficos import *
 
 # =======================================================
@@ -75,7 +73,7 @@ ano_selecionado = st.sidebar.selectbox(
 print(f'Ano Selecionado = {ano_selecionado}')
 
 # Definição de abas
-tab01, tab02, tab05, tab06, tab07, tab09, tab10, tab04 = st.tabs(
+tab01, tab02, tab05, tab06, tab07, tab09, tab10, tab04, tab03 = st.tabs(
   [
     "Acidentes por Critérios",
     "Rankings Diversos",   
@@ -85,6 +83,7 @@ tab01, tab02, tab05, tab06, tab07, tab09, tab10, tab04 = st.tabs(
     "Mapa das BRs",
     "Mapa das BRs por UF",
     "Mapa de Calor",  
+    "Mapa das BRs do Brasil", 
   ]
 )
 
@@ -771,4 +770,23 @@ with tab04:
         st.altair_chart(gera_graficos_mapa_calor_por_dia_semana(df_acidentes_geral_por_dia_semana))
     with tab4_sub9:        
         st.altair_chart(gera_graficos_mapa_calor_por_tipo_veiculo(df_acidentes_geral_por_tipo_veiculo))                               
-    
+
+# ==============================================================================      
+with tab03:
+
+    tab3_sub1, tab3_sub2 = st.tabs(["Mapa das Brs do Brasil 01", "Mapa das Brs do Brasil 02"])    
+
+    with tab3_sub1:
+        # Título da aplicação
+        st.title("Mapa das BRs do Brasil")
+
+        # Caminho da imagem
+        image_path = "mapa_rodovias_federais.png"
+        image = Image.open(image_path)
+        st.image(image, caption='Mapa das BRs do Brasil', use_column_width=True)
+
+    with tab3_sub2:
+
+        image_path = 'mapa_brasil_com_brs.png'
+        image = Image.open(image_path)
+        st.image(image, caption='Mapa das BRs do Brasil', use_column_width=True)

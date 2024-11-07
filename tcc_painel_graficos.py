@@ -1103,4 +1103,65 @@ def gera_graficos_mapa_calor_por_tipo_veiculo(df_acidentes_geral_por_tipo_veicul
 
     return heatmap_with_text                                    
 # ==========================================================================
+#alt.data_transformers.enable("vegafusion")
+
+def plotar_brs(lista_brs):
+
+    import pandas as pd
+    import geopandas as gpd
+    import altair as alt
+    from altair_saver import save
+    import json
+
+    # Carregando os dados do arquivo JSON
+    with open('br_states.json') as f:
+        geojson = json.load(f)
+        
+    # Convertendo para um GeoDataFrame
+    gdf = gpd.GeoDataFrame.from_features(geojson['features'])
+
+    # Criando o mapa
+    chart1 = alt.Chart(gdf).mark_geoshape(
+        filled=True,
+        stroke='black'
+    ).properties(
+        width=1024,
+        height=768,
+        title='Mapa das BRs do Brasil'
+    ).project(
+        type='mercator'  # Altere para a projeção desejada
+    )
+
+    # Carregar o arquivo SHP
+    df_info = gpd.read_file('202404A/SNV_202404A.dbf')
+
+    lista_df_info = []
+    for item in lista_brs:
+        df_info_filtrado_item = df_info[(df_info['ds_jurisdi'] == 'Federal') & (df_info['vl_br'] == str(item))]        
+        df_info_filtrado_item_geometry = df_info_filtrado_item[['geometry','vl_br']]
+        lista_df_info.append(df_info_filtrado_item_geometry)
+
+    df_info_filtrado = pd.concat(lista_df_info, ignore_index=True)
+
+    df_info_filtrado_geometry = df_info_filtrado['geometry'].simplify(tolerance=0.01)
     
+    # Criar o gráfico básico
+    chart2 = alt.Chart(df_info_filtrado_geometry).mark_geoshape(
+        filled=True,
+        stroke='yellow'
+    ).properties(
+        width=1024,
+        height=768,
+    ).encode(
+        #tooltip=['vl_br:N']
+    ).project(
+        type='mercator'  # Altere para a projeção desejada
+    )
+
+    juntos = chart1 + chart2
+
+    juntos.save('mapa_brasil_com_brs.png')
+
+    return juntos
+
+# ==================================================
