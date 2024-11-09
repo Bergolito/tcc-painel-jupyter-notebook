@@ -3,9 +3,12 @@
 # =======================================================
 import pandas as pd
 import streamlit as st
+import folium
+
+from branca.element import Template, MacroElement
+
 
 from PIL import Image
-from vega_datasets import data
 from tcc_painel_graficos import *
 
 # =======================================================
@@ -26,12 +29,7 @@ df_acidentes_geral_por_br_40 = pd.read_csv('datasets/gerais/acidentes_geral_por_
 df_acidentes_geral_por_br_50 = pd.read_csv('datasets/gerais/acidentes_geral_por_br_50.csv', sep=',', encoding="UTF-8") 
 
 df_acidentes_geral_por_causa = pd.read_csv('datasets/gerais/acidentes_geral_por_causa.csv', sep=',', encoding="UTF-8") 
-#df_acidentes_geral_por_classificacao = pd.read_csv('datasets/acidentes_geral_por_classificacao.csv', sep=',', encoding="UTF-8") 
 df_acidentes_geral_por_classificacao = pd.read_csv('datasets/gerais/acidentes_geral_por_classificacao_concatenados.csv', sep=',', encoding="UTF-8") 
-print(f"Tipo => {df_acidentes_geral_por_classificacao['classificacao_acidente'].dtype}")
-# Verificando valores nulos
-print(df_acidentes_geral_por_classificacao.isna())
-
 
 df_acidentes_geral_por_fasedia = pd.read_csv('datasets/gerais/acidentes_geral_por_fase_dia.csv', sep=',', encoding="UTF-8") 
 df_acidentes_geral_por_condicao_metereologica = pd.read_csv('datasets/gerais/acidentes_geral_por_condicao_metereologica.csv', sep=',', encoding="UTF-8") 
@@ -73,7 +71,7 @@ ano_selecionado = st.sidebar.selectbox(
 print(f'Ano Selecionado = {ano_selecionado}')
 
 # Definição de abas
-tab01, tab02, tab05, tab06, tab07, tab09, tab04 = st.tabs(
+tab01, tab02, tab03, tab06, tab07, tab09, tab04 = st.tabs(
   [
     "Acidentes por Critérios",
     "Rankings Diversos",   
@@ -353,7 +351,7 @@ with tab02:
         st.altair_chart(gera_grafico_ranking_tipoveiculo_02(df_acidentes_geral_por_tipo_veiculo))
 
 # ==============================================================================
-with tab05:
+with tab03:
 
     titulo = f'<H2> Gráficos de Fluxo por UF / Tipo / BR / Causa / Classificação / Fase do Dia / Condição Metereológica / Dia da Semana / Tipo de Veículo'
     st.markdown(titulo, unsafe_allow_html=True)
@@ -537,37 +535,50 @@ with tab09:
     # ================================
     escala_cores = [
         # min, max, cor
-        ( 1,  10, '#ffffcc'),
-        (11,  20, '#ffeda0'),
-        (21,  30, '#fed976'),
-        (31,  40, '#feb24c'),
-        (41,  50, '#fd8d3c'),
-        (51,  60, '#fc4e2a'),
-        (61,  70, '#e31a1c'),
-        (71,  80, '#bd0026'),
-        (81, 999, '#800026'),
-        
+        ( 1,  10, '#f7fcf0'),
+        (11,  20, '#e0f3db'),
+        (21,  30, '#ccebc5'),
+        (31,  40, '#a8ddb5'),
+        (41,  50, '#7bccc4'),
+        (51,  60, '#4eb3d3'),
+        (61,  70, '#2b8cbe'),
+        (71,  80, '#0868ac'),
+        (81, 999, '#084081'),
     ]
+
+    # Conteúdo HTML das legendas
+    # solid
+    legendas = ['<br><br>', 
+                '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#f7fcf0;margin-right:5px;"></span> Entre  1 e  10 acidentes',
+                '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#e0f3db;margin-right:5px;"></span> Entre 11 e  20 acidentes',
+                '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#ccebc5;margin-right:5px;"></span> Entre 21 e  30 acidentes',
+                '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#a8ddb5;margin-right:5px;"></span> Entre 31 e  40 acidentes',
+                '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#7bccc4;margin-right:5px;"></span> Entre 41 e  50 acidentes',
+                '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#4eb3d3;margin-right:5px;"></span> Entre 51 e  60 acidentes',
+                '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#2b8cbe;margin-right:5px;"></span> Entre 61 e  70 acidentes',
+                '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#0868ac;margin-right:5px;"></span> Entre 71 e  80 acidentes',
+                '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#084081;margin-right:5px;"></span> 81 acidentes ou mais',                    
+            ]
+
+    # ===========================
+    # Funções
+    # ===========================
+    def definir_cor(acidentes):
+        cor_secionada = ''
+        for i,item in enumerate(escala_cores):
+            if item[0] <= acidentes <= item[1]:
+                cor_secionada = item[2]
+                break
+                
+        return cor_secionada
+    # ===========================
+    def definir_tamanho(acidentes):
+        return acidentes * 10
+    # ===========================
 
     with tab09_sub1:
 
         lista_brs = [101, 116, 381,  40, 153, 163, 364, 376, 262, 230, 470, 316, 282, 70,  60,  20, 158, 369,  50]
-
-        # ===========================
-        # Funções
-        # ===========================
-        def definir_cor(acidentes):
-            cor_secionada = ''
-            for i,item in enumerate(escala_cores):
-                if item[0] <= acidentes <= item[1]:
-                    cor_secionada = item[2]
-                    break
-                    
-            return cor_secionada
-        # ===========================
-        def definir_tamanho(acidentes):
-            return acidentes * 10
-        # ===========================
 
         left, middle, right = st.columns(3)
         
@@ -618,20 +629,6 @@ with tab09:
 
         with col2:
 
-            # Conteúdo HTML das legendas
-            # solid
-            legendas = ['<br><br>', 
-                        '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#ffffcc;margin-right:5px;"></span> Entre  1 e  10 acidentes',
-                        '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#ffeda0;margin-right:5px;"></span> Entre 11 e  20 acidentes',
-                        '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#fed976;margin-right:5px;"></span> Entre 21 e  30 acidentes',
-                        '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#feb24c;margin-right:5px;"></span> Entre 31 e  40 acidentes',
-                        '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#fd8d3c;margin-right:5px;"></span> Entre 41 e  50 acidentes',
-                        '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#fc4e2a;margin-right:5px;"></span> Entre 51 e  60 acidentes',
-                        '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#e31a1c;margin-right:5px;"></span> Entre 61 e  70 acidentes',
-                        '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#bd0026;margin-right:5px;"></span> Entre 71 e  80 acidentes',
-                        '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#800026;margin-right:5px;"></span> 81 acidentes ou mais',                    
-                    ]
-                    
             # Exibir o quadro com as legendas
             st.markdown('<br>'.join(legendas), unsafe_allow_html=True)     
 
@@ -641,18 +638,6 @@ with tab09:
 
         # ===========================
         # Funções
-        # ===========================
-        def definir_cor(acidentes):
-            cor_secionada = ''
-            for i,item in enumerate(escala_cores):
-                if item[0] <= acidentes <= item[1]:
-                    cor_secionada = item[2]
-                    break
-                    
-            return cor_secionada
-        # ===========================
-        def definir_tamanho(acidentes):
-            return acidentes * 10
         # ===========================
         def lista_ufs_por_br(br, df):
             df_filtrado = df[(df['br'] == int(br))]
@@ -715,20 +700,6 @@ with tab09:
 
         with col2:
 
-            # Conteúdo HTML das legendas
-            # solid
-            legendas = ['<br><br>', 
-                        '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#ffffcc;margin-right:5px;"></span> Entre  1 e  10 acidentes',
-                        '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#ffeda0;margin-right:5px;"></span> Entre 11 e  20 acidentes',
-                        '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#fed976;margin-right:5px;"></span> Entre 21 e  30 acidentes',
-                        '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#feb24c;margin-right:5px;"></span> Entre 31 e  40 acidentes',
-                        '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#fd8d3c;margin-right:5px;"></span> Entre 41 e  50 acidentes',
-                        '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#fc4e2a;margin-right:5px;"></span> Entre 51 e  60 acidentes',
-                        '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#e31a1c;margin-right:5px;"></span> Entre 61 e  70 acidentes',
-                        '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#bd0026;margin-right:5px;"></span> Entre 71 e  80 acidentes',
-                        '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#800026;margin-right:5px;"></span> 81 acidentes ou mais',                    
-                    ]
-                    
             # Exibir o quadro com as legendas
             st.markdown('<br>'.join(legendas), unsafe_allow_html=True)     
 
