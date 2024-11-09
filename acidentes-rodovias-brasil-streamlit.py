@@ -533,47 +533,75 @@ with tab09:
     # ================================
     # Aba 09 - constantes
     # ================================
-    escala_cores = [
-        # min, max, cor
-        ( 1,  10, '#f7fcf0'),
-        (11,  20, '#e0f3db'),
-        (21,  30, '#ccebc5'),
-        (31,  40, '#a8ddb5'),
-        (41,  50, '#7bccc4'),
-        (51,  60, '#4eb3d3'),
-        (61,  70, '#2b8cbe'),
-        (71,  80, '#0868ac'),
-        (81, 999, '#084081'),
-    ]
 
-    # Conteúdo HTML das legendas
-    # solid
-    legendas = ['<br><br>', 
-                '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#f7fcf0;margin-right:5px;"></span> Entre  1 e  10 acidentes',
-                '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#e0f3db;margin-right:5px;"></span> Entre 11 e  20 acidentes',
-                '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#ccebc5;margin-right:5px;"></span> Entre 21 e  30 acidentes',
-                '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#a8ddb5;margin-right:5px;"></span> Entre 31 e  40 acidentes',
-                '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#7bccc4;margin-right:5px;"></span> Entre 41 e  50 acidentes',
-                '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#4eb3d3;margin-right:5px;"></span> Entre 51 e  60 acidentes',
-                '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#2b8cbe;margin-right:5px;"></span> Entre 61 e  70 acidentes',
-                '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#0868ac;margin-right:5px;"></span> Entre 71 e  80 acidentes',
-                '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#084081;margin-right:5px;"></span> 81 acidentes ou mais',                    
-            ]
+    escala_cores_mapa = [
+        '#f0f9e8', '#bae4bc', '#7bccc4', '#43a2ca', '#0868ac'
+    ]
 
     # ===========================
     # Funções
     # ===========================
-    def definir_cor(acidentes):
+    def retorna_cor_ponto(qtd_acidentes, min, max):
+
+        dif = int((max-min) // 5)
+
+        faixa1_min = min
+        faixa1_max = min+dif
+
+        faixa2_min = faixa1_max+1
+        faixa2_max = faixa2_min+dif
+
+        faixa3_min = faixa2_max+1
+        faixa3_max = faixa3_min+dif
+
+        faixa4_min = faixa3_max+1
+        faixa4_max = faixa4_min+dif
+
+        faixa5_min = faixa4_max+1
+        faixa5_max = max
+
         cor_secionada = ''
-        for i,item in enumerate(escala_cores):
-            if item[0] <= acidentes <= item[1]:
-                cor_secionada = item[2]
-                break
-                
+        if faixa1_min <= qtd_acidentes <= faixa1_max:
+            cor_secionada = escala_cores_mapa[0]
+        elif faixa2_min <= qtd_acidentes <= faixa2_max:
+            cor_secionada = escala_cores_mapa[1]
+        elif faixa3_min <= qtd_acidentes <= faixa3_max:
+            cor_secionada = escala_cores_mapa[2]
+        elif faixa4_min <= qtd_acidentes <= faixa4_max:
+            cor_secionada = escala_cores_mapa[3]
+        elif faixa5_min <= qtd_acidentes <= faixa5_max:
+            cor_secionada = escala_cores_mapa[4]
+
         return cor_secionada
     # ===========================
-    def definir_tamanho(acidentes):
-        return acidentes * 10
+    def monta_legenda_dinamica(min, max):
+
+        dif = int((max-min) // 5)
+
+        faixa1_min = min
+        faixa1_max = min+dif
+
+        faixa2_min = faixa1_max+1
+        faixa2_max = faixa2_min+dif
+
+        faixa3_min = faixa2_max+1
+        faixa3_max = faixa3_min+dif
+
+        faixa4_min = faixa3_max+1
+        faixa4_max = faixa4_min+dif
+
+        faixa5_min = faixa4_max+1
+        faixa5_max = max
+
+        texto_legendas = [
+            '<br><br>', 
+            f'<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#f0f9e8;margin-right:5px;"></span> Entre {faixa1_min} e {faixa1_max} acidentes',
+            f'<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#bae4bc;margin-right:5px;"></span> Entre {faixa2_min} e {faixa2_max} acidentes',
+            f'<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#7bccc4;margin-right:5px;"></span> Entre {faixa3_min} e {faixa3_max} acidentes',
+            f'<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#43a2ca;margin-right:5px;"></span> Entre {faixa4_min} e {faixa4_max} acidentes',
+            f'<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#0868ac;margin-right:5px;"></span> Entre {faixa5_min} e {faixa5_max} acidentes',
+        ]
+        return texto_legendas
     # ===========================
 
     with tab09_sub1:
@@ -610,10 +638,17 @@ with tab09:
         titulo = f'<H2>Acidentes reportados na BR {mapa_br_selecionada} no ano de {mapa_ano_selecionado}'
         st.markdown(titulo, unsafe_allow_html=True)    
 
-        df_coordenadas_filtrado = df_coordenadas[(df_coordenadas['br'] == int(mapa_br_selecionada))]       
-        df_coordenadas_filtrado['cor'] = df_coordenadas_filtrado['acidentes'].apply(definir_cor)    
-        df_coordenadas_filtrado['tamanho'] = df_coordenadas_filtrado['acidentes'].apply(definir_tamanho)
-        
+        df_coordenadas_filtrado = df_coordenadas[(df_coordenadas['br'] == int(mapa_br_selecionada))]     
+
+        min = df_coordenadas_filtrado['acidentes'].min()
+        max = df_coordenadas_filtrado['acidentes'].max()
+
+        for index, row in df_coordenadas_filtrado.iterrows():
+            qtd_acidentes = row['acidentes']
+            cor = retorna_cor_ponto(qtd_acidentes, min, max)
+            df_coordenadas_filtrado.at[index, 'cor'] = cor
+            df_coordenadas_filtrado.at[index, 'tamanho'] = qtd_acidentes * 10
+
         # Criar duas colunas para colocar os componentes lado a lado
         col1, col2 = st.columns([8,2])
         
@@ -629,6 +664,7 @@ with tab09:
 
         with col2:
 
+            legendas = monta_legenda_dinamica(min, max)
             # Exibir o quadro com as legendas
             st.markdown('<br>'.join(legendas), unsafe_allow_html=True)     
 
@@ -682,8 +718,15 @@ with tab09:
 
         df_br_uf = df_coordenadas_filtrado[(df_coordenadas_filtrado['br'] == int(mapa_br_selecionada)) & (df_coordenadas_filtrado['uf'] == mapa_uf_selecionada)]
 
-        df_br_uf['cor'] = df_br_uf['acidentes'].apply(definir_cor)    
-        df_br_uf['tamanho'] = df_br_uf['acidentes'].apply(definir_tamanho)
+        min = df_br_uf['acidentes'].min()
+        max = df_br_uf['acidentes'].max()
+
+        for index, row in df_br_uf.iterrows():
+
+            qtd_acidentes = row['acidentes']
+            cor = retorna_cor_ponto(qtd_acidentes, min, max)
+            df_br_uf.at[index, 'cor'] = cor
+            df_br_uf.at[index, 'tamanho'] = qtd_acidentes * 10
 
         # Criar duas colunas para colocar os componentes lado a lado
         col1, col2 = st.columns([8,2])
@@ -699,6 +742,10 @@ with tab09:
                 use_container_width=False)
 
         with col2:
+
+            min = df_br_uf['acidentes'].min()
+            max = df_br_uf['acidentes'].max()
+            legendas = monta_legenda_dinamica(min, max)
 
             # Exibir o quadro com as legendas
             st.markdown('<br>'.join(legendas), unsafe_allow_html=True)     
