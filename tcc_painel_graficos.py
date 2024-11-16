@@ -497,37 +497,6 @@ def gera_grafico_ranking_uf_02(df_acidentes_geral_por_uf):
 
     return  grafico2
 # ==========================================================================
-def gera_grafico_ranking_uf_02_interativo(df_acidentes_geral_por_uf):
-
-    selection = alt.selection_point(fields=['uf'])
-    color = alt.condition(
-        selection,
-        alt.Color('uf:N').legend(None).title('UF'),
-        alt.value('lightgray')
-    )
-
-    grafico2 = alt.Chart(df_acidentes_geral_por_uf).mark_line(point=True).encode(
-        x=alt.X('ano:N', axis=alt.Axis(title='Ano')),
-        y=alt.Y('qtd:Q', axis=alt.Axis(title='Quantidade de Acidentes')),
-        color=color,
-        tooltip=['uf', 'qtd', 'ano']
-    ).properties(
-        title='Evolução da Quantidade de Acidentes por UF  (2007 a 2024)',
-        width=800, height=600
-    ).add_selection(
-        alt.selection_point(fields=['uf'], bind='legend')
-        #selection
-    ).interactive()
-
-    legend = alt.Chart(df_acidentes_geral_por_uf).mark_point().encode(
-        alt.Y('uf:N').axis(orient='right'),
-        color=color
-    ).add_params(
-        selection
-    )
-    
-    return grafico2 + legend
-# ==========================================================================
 def gera_grafico_ranking_tipo_01(df_acidentes_geral_por_tipo):
 
     grafico1 = alt.Chart(df_acidentes_geral_por_tipo).mark_line(point=True).encode(
@@ -558,7 +527,6 @@ def gera_grafico_ranking_tipo_01_interativo(df_acidentes_geral_por_tipo):
     grafico1 = alt.Chart(df_acidentes_geral_por_tipo).mark_line(point=True).encode(
         x=alt.X('ano:O', title='Ano'),
         y=alt.Y("rank:O", title='Posição do Ranking'),
-        #color=alt.Color("tipo_acidente:N", title='Tipo de Acidente')
         color=color
     ).transform_window(
         rank="rank()",
