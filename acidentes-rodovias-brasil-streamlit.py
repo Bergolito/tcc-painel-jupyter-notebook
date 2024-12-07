@@ -3,10 +3,6 @@
 # =======================================================
 import pandas as pd
 import streamlit as st
-import folium
-
-from branca.element import Template, MacroElement
-
 
 from PIL import Image
 from tcc_painel_graficos import *
@@ -14,7 +10,6 @@ from tcc_painel_graficos import *
 # =======================================================
 # Datasets
 # =======================================================
-#df_acidentes_geral_por_uf    = pd.read_csv('datasets/acidentes_geral_por_uf.csv', sep=',', encoding="UTF-8") 
 df_acidentes_geral_por_uf    = pd.read_csv('datasets/gerais/acidentes_geral_por_uf_todos.csv', sep=',', encoding="UTF-8") 
 df_acidentes_geral_por_uf_10 = pd.read_csv('datasets/gerais/acidentes_geral_por_uf_10.csv', sep=',', encoding="UTF-8") 
 df_acidentes_geral_por_uf_20 = pd.read_csv('datasets/gerais/acidentes_geral_por_uf_20.csv', sep=',', encoding="UTF-8") 
@@ -75,8 +70,8 @@ tab01, tab02, tab03, tab06, tab07, tab09, tab04 = st.tabs(
   [
     "Acidentes por Critérios",
     "Rankings Diversos",   
-    "Gráficos Fluxo",
-    "Gráficos Barras Empilhadas",
+    "Gráficos de Fluxo",
+    "Gráficos de Barras Empilhadas",
     "Gráficos de Distribuição",    
     "Mapa dos Acidentes",
     "Mapa de Calor",  
@@ -277,7 +272,6 @@ with tab02:
         elif qtd_ufs_selecionadas == "Todas as UFs":    
             df_acidentes_geral_por_uf = df_acidentes_geral_por_uf_todos
 
-        #st.altair_chart(gera_grafico_ranking_uf_01(df_acidentes_geral_por_uf))   
         st.altair_chart(gera_grafico_ranking_uf_01_interativo(df_acidentes_geral_por_uf))   
         st.altair_chart(gera_grafico_ranking_uf_02(df_acidentes_geral_por_uf))
     
@@ -289,11 +283,30 @@ with tab02:
         titulo = f'<h2> Ranking dos Acidentes por Tipo (2007 e 2024)'
         st.markdown(titulo, unsafe_allow_html=True)   
        
-        #st.altair_chart(gera_grafico_ranking_tipo_01(df_acidentes_geral_por_tipo))  
         st.altair_chart(gera_grafico_ranking_tipo_01_interativo(df_acidentes_geral_por_tipo))   
         st.altair_chart(gera_grafico_ranking_tipo_02(df_acidentes_geral_por_tipo))
     
     with tab2_sub3:
+
+        # =====================================
+        # Filtro para a aba tab1_sub3 de BR
+        # =====================================
+        qtd_brs_selecionadas = tab2_sub3.radio(
+            "Selecione a quantidade de BR deseja visaulizar:",
+            ("Top 10 BRs", "Top 20 BRs", "Top 30 BRs", "Top 40 BRs", "Top 50 BRs"), index=0, horizontal=True, key='radio_br_ranking'
+        )
+        print(f'qtd_brs_selecionadas = {qtd_brs_selecionadas}')
+
+        if qtd_brs_selecionadas == "Top 10 BRs":
+            df_acidentes_geral_por_br = df_acidentes_geral_por_br_10
+        elif qtd_brs_selecionadas == "Top 20 BRs":
+            df_acidentes_geral_por_br = df_acidentes_geral_por_br_20
+        elif qtd_brs_selecionadas == "Top 30 BRs":
+            df_acidentes_geral_por_br = df_acidentes_geral_por_br_30
+        elif qtd_brs_selecionadas == "Top 40 BRs":
+            df_acidentes_geral_por_br = df_acidentes_geral_por_br_40
+        elif qtd_brs_selecionadas == "Top 50 BRs":
+            df_acidentes_geral_por_br = df_acidentes_geral_por_br_50
 
         # ========================================================
         # Aba 02 - Acidentes por BR
@@ -301,7 +314,6 @@ with tab02:
         titulo = f'<h2> Ranking dos Acidentes por BR (2007 e 2024)'
         st.markdown(titulo, unsafe_allow_html=True)
       
-        #st.altair_chart(gera_grafico_ranking_br_01(df_acidentes_geral_por_br))   
         st.altair_chart(gera_grafico_ranking_br_01_interativo(df_acidentes_geral_por_br))   
         st.altair_chart(gera_grafico_ranking_br_02(df_acidentes_geral_por_br))
     
@@ -529,6 +541,8 @@ with tab09:
         ]
     )
 
+    lista_brs = [101, 116, 381,  40, 153, 163, 364, 376, 262, 230, 470, 316, 282, 70,  60,  20, 158, 369,  50]
+
     # ================================
     # Aba 09 - constantes
     # ================================
@@ -605,7 +619,6 @@ with tab09:
 
     with tab09_sub1:
 
-        lista_brs = [101, 116, 381,  40, 153, 163, 364, 376, 262, 230, 470, 316, 282, 70,  60,  20, 158, 369,  50]
 
         left, middle, right = st.columns(3)
         
@@ -668,8 +681,6 @@ with tab09:
             st.markdown('<br>'.join(legendas), unsafe_allow_html=True)     
 
     with tab09_sub2:
-
-        lista_brs = [101, 116, 381,  40, 153, 163, 364, 376, 262, 230, 470, 316, 282, 70,  60,  20, 158, 369,  50]
 
         # ===========================
         # Funções
@@ -799,7 +810,5 @@ with tab04:
         st.altair_chart(gera_graficos_mapa_calor_por_dia_semana(df_acidentes_geral_por_dia_semana))
     with tab4_sub9:        
         st.altair_chart(gera_graficos_mapa_calor_por_tipo_veiculo(df_acidentes_geral_por_tipo_veiculo))                               
-
-# ==============================================================================      
 
 # ==============================================================================      

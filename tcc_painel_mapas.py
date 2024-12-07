@@ -5,7 +5,6 @@ import altair as alt
 import random
 import streamlit as st
 
-#lista_brs = [101, 116, 381,  40, 153, 163, 364, 376, 262, 230, 470, 316, 282, 70,  60,  20, 158, 369,  50]
 alt.data_transformers.enable("vegafusion")
 
 @st.cache_data
@@ -38,7 +37,9 @@ def plotar_brs(lista_brs):
     )
 
     # Carregar o arquivo SHP
-    df_info = gpd.read_file('202404A/SNV_202404A.dbf')
+    df_info = gpd.read_file('coordenadas-rodovias/SNV_202404A.dbf')
+    #https://github.com/Bergolito/tcc-painel-jupyter-notebook/blob/main/202404A/SNV_202404A.dbf
+    #df_info = gpd.read_file('https://github.com/Bergolito/tcc-painel-jupyter-notebook/blob/main/202404A/SNV_202404A.dbf')
 
     grafs = []
 

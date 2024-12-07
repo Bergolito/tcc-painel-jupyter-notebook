@@ -1,6 +1,6 @@
 pandas
-geopandas
 numpy
+geopandas
 streamlit
 altair
 altair_saver

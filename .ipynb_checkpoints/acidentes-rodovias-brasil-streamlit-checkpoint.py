@@ -4,12 +4,12 @@
 # Imports
 # =======================================================
 import pandas as pd
-import numpy as np
+#import numpy as np
 import streamlit as st
 import altair as alt
 import numpy as np
-import json  
-import geopandas as gpd
+#import json  
+#import geopandas as gpd
 
 from vega_datasets import data
 from urllib.request import urlopen
@@ -64,27 +64,11 @@ ano_selecionado = st.sidebar.selectbox(
 
 print(f'Ano Selecionado = {ano_selecionado}')
 
-#meses_selecionados = st.sidebar.multiselect(
-#    'Quais meses deseja visualizar?',
-#    [OPCAO_TODOS, 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro','Outubro','Novembro','Dezembro'],
-#  )
-
-#st.sidebar.write("Meses selecionados:", meses_selecionados)
-#print(f'Meses selecionados: {meses_selecionados}')
-
-# Add a slider to the sidebar:
-#horario_acidente = st.sidebar.slider(
-#    'Horário do acidente:',
-#    0, 24, (0, 24)
-#)
-
 # Definição de abas
 tab01, tab02, tab05, tab06, tab07, tab08, tab09, tab03, tab04 = st.tabs(
   [
     "Acidentes por Critérios",
     "Rankings Diversos",   
-    #"Mapa de Calor",
-    #"Gráficos de Dispersão",
     "Gráficos Fluxo",
     "Gráficos Barras Empilhadas",
     "Gráficos de Distribuição",    
