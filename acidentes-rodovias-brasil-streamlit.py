@@ -537,7 +537,7 @@ with tab09:
         [
             "Por Ano / Por Rodovia", 
             "Por Ano / Por Rodovia / Por UF", 
-            "Mapa 03", "Mapa 04", 
+            "Mapa BRs do Brasil", "Mapa Top 10 Brs", 
         ]
     )
 
