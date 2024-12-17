@@ -562,7 +562,7 @@ def gera_grafico_ranking_tipo_02(df_acidentes_geral_por_tipo):
 
     return grafico2
 # ==========================================================================
-def gera_grafico_ranking_br_01(df_acidentes_geral_por_br):
+def gera_grafico_ranking_br_01(qtd_brs, df_acidentes_geral_por_br):
     grafico_ranking_br_01 = alt.Chart(df_acidentes_geral_por_br).mark_line(point=True).encode(
         x=alt.X('ano:O', title='Ano'),
         y=alt.Y("rank:O", title='Posição do Ranking'),
@@ -572,7 +572,7 @@ def gera_grafico_ranking_br_01(df_acidentes_geral_por_br):
         sort=[alt.SortField("qtd", order="descending")],
         groupby=["ano"]
     ).properties(
-        title="Ranking das 20 BRs com mais acidentes  (2007 a 2024)",
+        title=f"Ranking das {qtd_brs} BRs com mais acidentes  (2007 a 2024)",
         width=800,
         height=600,
     )
@@ -610,14 +610,14 @@ def gera_grafico_ranking_br_01_interativo(df_acidentes_geral_por_br):
 
     return grafico_ranking_br_01 + legend
 # ==========================================================================
-def gera_grafico_ranking_br_02(df_acidentes_geral_por_br):
+def gera_grafico_ranking_br_02(qtd_brs, df_acidentes_geral_por_br):
     grafico_ranking_br_02 = alt.Chart(df_acidentes_geral_por_br).mark_line(point=True).encode(
         x=alt.X('ano:N', axis=alt.Axis(title='Ano')),
         y=alt.Y('qtd:Q', axis=alt.Axis(title='Quantidade de Acidentes')),
         color=alt.Color("br:N", title='BR'),
         tooltip=['br', 'qtd', 'ano']
     ).properties(
-        title='Evolução da Quantidade de Acidentes por BR (2007-2023)',
+        title=f'Evolução da Quantidade de Acidentes para as {qtd_brs} (2007-2024)',
         width=800, height=600
     ).add_selection(
         alt.selection_single(fields=['ano'], bind='legend')
@@ -755,6 +755,70 @@ def gera_grafico_ranking_tipoveiculo_02(df_acidentes_geral_por_tipo_veiculo):
     ).interactive()
 
     return grafico_ranking_tipo_veiculo_02
+# ==========================================================================
+def gera_grafico_ranking_causa_01(df_acidentes_geral_por_causa):
+
+    grafico_ranking_causa_01 = alt.Chart(df_acidentes_geral_por_causa).mark_line(point=True).encode(
+        x=alt.X('ano:O', title='Ano'),
+        y=alt.Y("rank:O", title='Posição do Ranking'),
+        color=alt.Color("causa_acidente:N", title='Causa do Acidente')
+    ).transform_window(
+        rank="rank()",
+        sort=[alt.SortField("qtd", order="descending")],
+        groupby=["ano"]
+    ).properties(
+        title="Ranking das Causas dos Acidentes (2007 a 2024)",
+        width=800, height=600,
+    )
+    return grafico_ranking_causa_01
+# ==========================================================================
+def gera_grafico_ranking_causa_02(df_acidentes_geral_por_causa):
+
+    grafico_ranking_classif_02 = alt.Chart(df_acidentes_geral_por_causa).mark_line(point=True).encode(
+        x=alt.X('ano:N', axis=alt.Axis(title='Ano')),
+        y=alt.Y('qtd:Q', axis=alt.Axis(title='Quantidade de Acidentes')),
+        color=alt.Color("causa_acidente:N", title='Causa do Acidente'),
+        tooltip=['causa_acidente', 'qtd', 'ano']
+    ).properties(
+        title='Evolução da Quantidade de Acidentes por Causa (2007-2024)',
+        width=800, height=600
+    ).add_selection(
+        alt.selection_single(fields=['ano'], bind='legend')
+    ).interactive()
+
+    return grafico_ranking_classif_02
+# ==========================================================================
+def gera_grafico_ranking_condicao_metereologica_01(df_acidentes_geral_por_condicaometereologica):
+
+    grafico_ranking_cond = alt.Chart(df_acidentes_geral_por_condicaometereologica).mark_line(point=True).encode(
+        x=alt.X('ano:O', title='Ano'),
+        y=alt.Y("rank:O", title='Posição do Ranking'),
+        color=alt.Color("condicao_metereologica:N", title='Condição Metereológica')
+    ).transform_window(
+        rank="rank()",
+        sort=[alt.SortField("qtd", order="descending")],
+        groupby=["ano"]
+    ).properties(
+        title="Ranking das Condições Metereológicas dos Acidentes (2007 a 2024)",
+        width=800, height=600,
+    )
+    return grafico_ranking_cond
+# ==========================================================================
+def gera_grafico_ranking_condicao_metereologica_02(df_acidentes_geral_por_condicaometereologica):
+
+    grafico_ranking_cond = alt.Chart(df_acidentes_geral_por_condicaometereologica).mark_line(point=True).encode(
+        x=alt.X('ano:N', axis=alt.Axis(title='Ano')),
+        y=alt.Y('qtd:Q', axis=alt.Axis(title='Quantidade de Acidentes')),
+        color=alt.Color("condicao_metereologica:N", title='Condição Metereológica'),
+        tooltip=['condicao_metereologica', 'qtd', 'ano']
+    ).properties(
+        title='Evolução da Quantidade de Acidentes por Condição Metereológica (2007-2024)',
+        width=800, height=600
+    ).add_selection(
+        alt.selection_single(fields=['ano'], bind='legend')
+    ).interactive()
+
+    return grafico_ranking_cond
 # ==========================================================================
 
 # ==========================================================================

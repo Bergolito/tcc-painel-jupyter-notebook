@@ -159,7 +159,6 @@ with tab01:
     st.markdown(titulo, unsafe_allow_html=True)  
 
     titulo2 = f'<h4> ano_selecionado => {ano_selecionado} | exibir_filtro_periodo_anos => {exibir_filtro_periodo_anos} | ano_inicio => {ano_inicio} | ano_fim => {ano_fim}'
-    #st.markdown(titulo2, unsafe_allow_html=True)  
     print(f'titulo2 = {titulo2}')
 
     tab1_sub1, tab1_sub2, tab1_sub3, tab1_sub4, tab1_sub5, tab1_sub6, tab1_sub7, tab1_sub8, tab1_sub9  = st.tabs(
@@ -362,10 +361,12 @@ with tab01:
 # ==============================================================================
 with tab02:    
 
-    tab2_sub1, tab2_sub2, tab2_sub3, tab2_sub4, tab2_sub5, tab2_sub6, tab2_sub7  = st.tabs(
+    tab2_sub1, tab2_sub2, tab2_sub3, tab2_sub8, tab2_sub4, tab2_sub5, tab2_sub9, tab2_sub6, tab2_sub7 = st.tabs(
         ["Ranking por UF", "Ranking por Tipo", 
-         "Ranking por BR", "Ranking por Classificação", 
-         "Ranking por Fase do Dia", "Ranking por Dia da Semana",
+         "Ranking por BR", "Ranking por Causa", 
+         "Ranking por Classificação", 
+         "Ranking por Fase do Dia", "Ranking por Condição Metereológica", 
+         "Ranking por Dia da Semana",
          "Ranking por Tipo de Veículo"
         ]
     )
@@ -433,9 +434,20 @@ with tab02:
         titulo = f'<h2> Ranking dos Acidentes por BR (2007 e 2024)'
         st.markdown(titulo, unsafe_allow_html=True)
       
-        st.altair_chart(gera_grafico_ranking_br_01_interativo(df_acidentes_geral_por_br))   
-        st.altair_chart(gera_grafico_ranking_br_02(df_acidentes_geral_por_br))
+        st.altair_chart(gera_grafico_ranking_br_01(qtd_brs_selecionadas, df_acidentes_geral_por_br))   
+        st.altair_chart(gera_grafico_ranking_br_02(qtd_brs_selecionadas, df_acidentes_geral_por_br))
     
+    with tab2_sub8:
+
+        # ========================================================
+        # Aba 02 - Acidentes por Dia da Semana
+        # ========================================================               
+        titulo = f'<H2> Ranking por Causa de Acidente'
+        st.markdown(titulo, unsafe_allow_html=True)
+    
+        st.altair_chart(gera_grafico_ranking_causa_01(df_acidentes_geral_por_causa))   
+        st.altair_chart(gera_grafico_ranking_causa_02(df_acidentes_geral_por_causa))
+
     with tab2_sub4:
 
         # ========================================================
@@ -458,6 +470,17 @@ with tab02:
         st.altair_chart(gera_grafico_ranking_fasedia_01(df_acidentes_geral_por_fasedia))   
         st.altair_chart(gera_grafico_ranking_fasedia_02(df_acidentes_geral_por_fasedia))
 
+    with tab2_sub9:
+
+        # ========================================================
+        # Aba 02 - Acidentes por Condição Metereológica
+        # ========================================================               
+        titulo = f'<H2> Ranking por Condicao Metereológica'
+        st.markdown(titulo, unsafe_allow_html=True)
+    
+        st.altair_chart(gera_grafico_ranking_condicao_metereologica_01(df_acidentes_geral_por_condicao_metereologica))   
+        st.altair_chart(gera_grafico_ranking_condicao_metereologica_02(df_acidentes_geral_por_condicao_metereologica))
+
     with tab2_sub6:
 
         # ========================================================
@@ -479,6 +502,42 @@ with tab02:
     
         st.altair_chart(gera_grafico_ranking_tipoveiculo_01(df_acidentes_geral_por_tipo_veiculo))   
         st.altair_chart(gera_grafico_ranking_tipoveiculo_02(df_acidentes_geral_por_tipo_veiculo))
+
+
+
+# ==========================================================================
+def gera_grafico_ranking_classificacao_01(df_acidentes_geral_por_classificacao):
+
+    grafico_ranking_classif_01 = alt.Chart(df_acidentes_geral_por_classificacao).mark_line(point=True).encode(
+        x=alt.X('ano:O', title='Ano'),
+        y=alt.Y("rank:O", title='Posição do Ranking'),
+        color=alt.Color("classificacao_acidente:N", title='Classificação')
+    ).transform_window(
+        rank="rank()",
+        sort=[alt.SortField("qtd", order="descending")],
+        groupby=["ano"]
+    ).properties(
+        title="Ranking das Classificações dos Acidentes (2007 a 2024)",
+        width=800, height=600,
+    )
+    return grafico_ranking_classif_01
+# ==========================================================================
+def gera_grafico_ranking_classificacao_02(df_acidentes_geral_por_classificacao):
+
+    grafico_ranking_classif_02 = alt.Chart(df_acidentes_geral_por_classificacao).mark_line(point=True).encode(
+        x=alt.X('ano:N', axis=alt.Axis(title='Ano')),
+        y=alt.Y('qtd:Q', axis=alt.Axis(title='Quantidade de Acidentes')),
+        color=alt.Color("classificacao_acidente:N", title='Classificação'),
+        tooltip=['classificacao_acidente', 'qtd', 'ano']
+    ).properties(
+        title='Evolução da Quantidade de Acidentes por Classificação (2007-2024)',
+        width=800, height=600
+    ).add_selection(
+        alt.selection_single(fields=['ano'], bind='legend')
+    ).interactive()
+
+    return grafico_ranking_classif_02
+# ==========================================================================
 
 # ==============================================================================
 with tab03:
@@ -527,11 +586,7 @@ with tab03:
             titulo='Fluxo Acidentes por Tipo de Veículo (2007 a 2024)'
             st.altair_chart(gera_graficos_fluxo_por_tipo_veiculo(titulo, df_acidentes_geral_por_tipo_veiculo))
 
-        st.title(f'exibir_filtro_periodo_anos => {exibir_filtro_periodo_anos} | ano_inicio => {ano_inicio} | ano_fim => {ano_fim}')
-
     elif exibir_filtro_periodo_anos and (ano_inicio is not None and ano_fim is not None):
-      print(f'Entrou no Grafico de Fluxo')  
-      st.title(f'exibir_filtro_periodo_anos => {exibir_filtro_periodo_anos} | ano_inicio => {ano_inicio} | ano_fim => {ano_fim}')
 
       df_filtrado_uf = df_acidentes_geral_por_uf[
           (df_acidentes_geral_por_uf[COLUNA_ANO] >= int(ano_inicio)) & 
