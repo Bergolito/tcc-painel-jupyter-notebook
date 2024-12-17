@@ -53,7 +53,6 @@ COLUNA_ANO = 'ano'
 
 OPCAO_FILTRO_POR_UM_ANO = "Filtro por Um Ano"
 OPCAO_FILTRO_POR_PERIODO = "Filtro por Período"
-
 opcoes = [OPCAO_FILTRO_POR_UM_ANO, OPCAO_FILTRO_POR_PERIODO]
 
 ano_inicio = None
@@ -75,10 +74,11 @@ with st.sidebar:
     opcao_selecionada = st.radio(
         "Selecione uma opção:",
         opcoes,
-        index=0 if st.session_state.opcao_selecionada.index == 0 else 1, # Mantém o estado entre as iterações
+        index=0,
         disabled=False # Inicialmente habilitado
     )
     indice_selecionado = opcoes.index(opcao_selecionada)
+    print(f'indice_selecionado => {indice_selecionado}')
 
     st.session_state.opcao_selecionada = opcao_selecionada
 
@@ -112,14 +112,6 @@ with st.sidebar:
 
 
 st.sidebar.write(f"Opção selecionada: {st.session_state.opcao_selecionada}")
-
-# Exemplo de uso da opção selecionada:
-if st.session_state.opcao_selecionada == "opcao1":
-    st.sidebar.write("Executando ações para a Opção 1...")
-    # Coloque aqui o código específico para a Opção 1
-elif st.session_state.opcao_selecionada == "opcao2":
-    st.sidebar.write("Executando ações para a Opção 2...")
-    # Coloque aqui o código específico para a Opção 2
 
 # Definição de abas
 tab01, tab02, tab03, tab06, tab07, tab09, tab04 = st.tabs(
@@ -167,7 +159,8 @@ with tab01:
     st.markdown(titulo, unsafe_allow_html=True)  
 
     titulo2 = f'<h4> ano_selecionado => {ano_selecionado} | exibir_filtro_periodo_anos => {exibir_filtro_periodo_anos} | ano_inicio => {ano_inicio} | ano_fim => {ano_fim}'
-    st.markdown(titulo2, unsafe_allow_html=True)  
+    #st.markdown(titulo2, unsafe_allow_html=True)  
+    print(f'titulo2 = {titulo2}')
 
     tab1_sub1, tab1_sub2, tab1_sub3, tab1_sub4, tab1_sub5, tab1_sub6, tab1_sub7, tab1_sub8, tab1_sub9  = st.tabs(
         [
