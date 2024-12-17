@@ -445,7 +445,8 @@ with tab02:
         titulo = f'<H2> Ranking por Causa de Acidente'
         st.markdown(titulo, unsafe_allow_html=True)
     
-        st.altair_chart(gera_grafico_ranking_causa_01(df_acidentes_geral_por_causa))   
+        #st.altair_chart(gera_grafico_ranking_causa_01(df_acidentes_geral_por_causa))   
+        st.altair_chart(gera_grafico_ranking_causa_01_interativo(df_acidentes_geral_por_causa))   
         st.altair_chart(gera_grafico_ranking_causa_02(df_acidentes_geral_por_causa))
 
     with tab2_sub4:
@@ -478,7 +479,8 @@ with tab02:
         titulo = f'<H2> Ranking por Condicao Metereológica'
         st.markdown(titulo, unsafe_allow_html=True)
     
-        st.altair_chart(gera_grafico_ranking_condicao_metereologica_01(df_acidentes_geral_por_condicao_metereologica))   
+        #st.altair_chart(gera_grafico_ranking_condicao_metereologica_01(df_acidentes_geral_por_condicao_metereologica))   
+        st.altair_chart(gera_grafico_ranking_condicao_metereologica_01_interativo(df_acidentes_geral_por_condicao_metereologica))   
         st.altair_chart(gera_grafico_ranking_condicao_metereologica_02(df_acidentes_geral_por_condicao_metereologica))
 
     with tab2_sub6:
@@ -489,7 +491,8 @@ with tab02:
         titulo = f'<H2> Ranking por Dia da Semana'
         st.markdown(titulo, unsafe_allow_html=True)
     
-        st.altair_chart(gera_grafico_ranking_diasemana_01(df_acidentes_geral_por_dia_semana))   
+        #st.altair_chart(gera_grafico_ranking_diasemana_01(df_acidentes_geral_por_dia_semana))   
+        st.altair_chart(gera_grafico_ranking_diasemana_01_interativo(df_acidentes_geral_por_dia_semana))   
         st.altair_chart(gera_grafico_ranking_diasemana_02(df_acidentes_geral_por_dia_semana))
 
     with tab2_sub7:
@@ -500,10 +503,9 @@ with tab02:
         titulo = f'<H2> Ranking por Tipo de Veículo'
         st.markdown(titulo, unsafe_allow_html=True)
     
-        st.altair_chart(gera_grafico_ranking_tipoveiculo_01(df_acidentes_geral_por_tipo_veiculo))   
+        #st.altair_chart(gera_grafico_ranking_tipoveiculo_01(df_acidentes_geral_por_tipo_veiculo))   
+        st.altair_chart(gera_grafico_ranking_tipoveiculo_01_interativo(df_acidentes_geral_por_tipo_veiculo))   
         st.altair_chart(gera_grafico_ranking_tipoveiculo_02(df_acidentes_geral_por_tipo_veiculo))
-
-
 
 # ==========================================================================
 def gera_grafico_ranking_classificacao_01(df_acidentes_geral_por_classificacao):
