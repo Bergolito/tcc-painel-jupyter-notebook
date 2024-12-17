@@ -48,22 +48,78 @@ df_acid_local_2024 = pd.read_csv('geo/acidentes_localizacao_processado_2024.csv'
 # Constantes do dashboard
 # =======================================================
 OPCAO_TODOS = 'Todos'
+OPCAO_NONE = None
 COLUNA_ANO = 'ano'
+
+OPCAO_FILTRO_POR_UM_ANO = "Filtro por Um Ano"
+OPCAO_FILTRO_POR_PERIODO = "Filtro por Período"
+
+opcoes = [OPCAO_FILTRO_POR_UM_ANO, OPCAO_FILTRO_POR_PERIODO]
+
+ano_inicio = None
+ano_fim = None
 
 st.set_page_config(layout="wide")
 
 # Definir o título fixo para o painel
 st.title("Acidentes nas Rodovias Federais do Brasil (2007 a 2024)")
 
-st.sidebar.markdown("# Filtros:")
+exibir_filtro_periodo_anos = False
 
-# Adiciona uma caixa de seleção no sidebar
-ano_selecionado = st.sidebar.selectbox(
-    'Qual o ano deseja visualizar?',
-    (OPCAO_TODOS, '2024', '2023', '2022', '2021', '2020', '2019', '2018', '2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010', '2009', '2008', '2007')
-)
+if 'opcao_selecionada' not in st.session_state:
+    st.session_state.opcao_selecionada = OPCAO_FILTRO_POR_UM_ANO  # Define "opcao1" como padrão
 
-print(f'Ano Selecionado = {ano_selecionado}')
+with st.sidebar:
+    st.header("Filtros:")
+    
+    opcao_selecionada = st.radio(
+        "Selecione uma opção:",
+        opcoes,
+        index=0 if st.session_state.opcao_selecionada.index == 0 else 1, # Mantém o estado entre as iterações
+        disabled=False # Inicialmente habilitado
+    )
+    indice_selecionado = opcoes.index(opcao_selecionada)
+
+    st.session_state.opcao_selecionada = opcao_selecionada
+
+    if st.session_state.opcao_selecionada == OPCAO_FILTRO_POR_UM_ANO:
+
+        ano_selecionado = st.sidebar.selectbox(
+            'Qual o ano deseja visualizar?',
+            (OPCAO_TODOS, '2024', '2023', '2022', '2021', '2020', '2019', '2018', '2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010', '2009', '2008', '2007'),
+            key="ano_selecionado"
+        )
+
+        print(f'Ano Selecionado = {ano_selecionado}')
+        exibir_filtro_periodo_anos = False
+    else:
+        exibir_filtro_periodo_anos = True
+        st.sidebar.title("Filtro por Período de Anos:")
+        ano_selecionado = None
+
+        col1, col2 = st.sidebar.columns(2)  # Divide a linha em duas colunas para melhor layout
+
+        with col1:
+            ano_inicio = st.sidebar.number_input("Ano de Início", key=ano_inicio, min_value=2007, max_value=2024, step=1, value=2020)
+        with col2:
+            ano_fim = st.sidebar.number_input("Ano de Fim", key=ano_fim, min_value=2007, max_value=2024, step=1, value=2024)
+
+        # Validação básica para garantir que o ano de início não seja posterior ao ano de fim
+        if ano_inicio > ano_fim:
+            st.sidebar.error("Erro: O ano de início não pode ser posterior ao ano de fim.")
+            ano_inicio = None  # Reseta os valores para evitar processamento incorreto
+            ano_fim = None
+
+
+st.sidebar.write(f"Opção selecionada: {st.session_state.opcao_selecionada}")
+
+# Exemplo de uso da opção selecionada:
+if st.session_state.opcao_selecionada == "opcao1":
+    st.sidebar.write("Executando ações para a Opção 1...")
+    # Coloque aqui o código específico para a Opção 1
+elif st.session_state.opcao_selecionada == "opcao2":
+    st.sidebar.write("Executando ações para a Opção 2...")
+    # Coloque aqui o código específico para a Opção 2
 
 # Definição de abas
 tab01, tab02, tab03, tab06, tab07, tab09, tab04 = st.tabs(
@@ -110,6 +166,9 @@ with tab01:
     titulo = f'<h3> Acidentes por UF / Tipo / BR / Causa / Classificação / Fase do Dia / Condição Metereológica / Dia da Semana / Tipo de Veículo'
     st.markdown(titulo, unsafe_allow_html=True)  
 
+    titulo2 = f'<h4> ano_selecionado => {ano_selecionado} | exibir_filtro_periodo_anos => {exibir_filtro_periodo_anos} | ano_inicio => {ano_inicio} | ano_fim => {ano_fim}'
+    st.markdown(titulo2, unsafe_allow_html=True)  
+
     tab1_sub1, tab1_sub2, tab1_sub3, tab1_sub4, tab1_sub5, tab1_sub6, tab1_sub7, tab1_sub8, tab1_sub9  = st.tabs(
         [
             "Acidentes por UF", "Acidentes por Tipo", "Acidentes por BR", 
@@ -154,8 +213,8 @@ with tab01:
     elif qtd_brs_selecionadas == "Top 50 BRs":
         df_acidentes_geral_por_br = df_acidentes_geral_por_br_50
 
-    if ano_selecionado != OPCAO_TODOS:
-        
+    if ano_selecionado != OPCAO_TODOS and ano_selecionado != None:
+
       df_filtrado_uf = df_acidentes_geral_por_uf[(df_acidentes_geral_por_uf[COLUNA_ANO] == int(ano_selecionado))]
       titulo = f'Acidentes por UF em {ano_selecionado}'
       grafico_aba_01 = gera_grafico_barras_horizontal_por_uf(titulo, df_filtrado_uf)
@@ -192,7 +251,8 @@ with tab01:
       titulo = f'Acidentes por Tipo de Veículo em {ano_selecionado}'  
       grafico_aba_09 = gera_grafico_por_tipo_veiculo(titulo, df_filtrado_tipo_veiculo)
     
-    else:
+    elif ano_selecionado == OPCAO_TODOS:
+
       titulo = f'Acidentes por UF (Geral)'    
       grafico_aba_01 = gera_grafico_barras_horizontal_por_uf(titulo, df_acidentes_geral_por_uf)
 
@@ -219,7 +279,73 @@ with tab01:
 
       titulo = f'Acidentes por Tipo de Veículo (Geral)'  
       grafico_aba_09 = gera_grafico_por_tipo_veiculo(titulo, df_acidentes_geral_por_tipo_veiculo)
-    
+
+    elif exibir_filtro_periodo_anos and (ano_inicio is not None and ano_fim is not None):
+
+      df_filtrado_uf = df_acidentes_geral_por_uf[
+          (df_acidentes_geral_por_uf[COLUNA_ANO] >= int(ano_inicio)) & 
+          (df_acidentes_geral_por_uf[COLUNA_ANO] <= int(ano_fim))
+      ]
+      titulo = f'Acidentes por UF entre {ano_inicio} e {ano_fim}'
+      grafico_aba_01 = gera_grafico_barras_horizontal_por_uf(titulo, df_filtrado_uf)
+
+      df_filtrado_tipo = df_acidentes_geral_por_tipo[
+          (df_acidentes_geral_por_tipo[COLUNA_ANO] >= int(ano_inicio)) &
+          (df_acidentes_geral_por_tipo[COLUNA_ANO] <= int(ano_fim))
+      ]
+      titulo = f'Acidentes por Tipo entre {ano_inicio} e {ano_fim}'  
+      grafico_aba_02 = gera_grafico_barras_horizontal_por_tipo(titulo, df_filtrado_tipo)
+
+      df_filtrado_br = df_acidentes_geral_por_br[
+          (df_acidentes_geral_por_br[COLUNA_ANO] >= int(ano_inicio)) &
+          (df_acidentes_geral_por_br[COLUNA_ANO] <= int(ano_fim))
+      ]
+      titulo = f'Acidentes por BR entre {ano_inicio} e {ano_fim}'  
+      grafico_aba_03 = gera_grafico_barras_horizontal_por_br(titulo, df_filtrado_br)
+
+      df_filtrado_causa = df_acidentes_geral_por_causa[
+          (df_acidentes_geral_por_causa[COLUNA_ANO] >= int(ano_inicio)) &
+          (df_acidentes_geral_por_causa[COLUNA_ANO] <= int(ano_fim))
+      ]
+      titulo = f'Acidentes por Causa entre {ano_inicio} e {ano_fim}'  
+      grafico_aba_04 = gera_grafico_barras_horizontal_por_causa(titulo, df_filtrado_causa)
+
+      df_filtrado_classificacao = df_acidentes_geral_por_classificacao[
+          (df_acidentes_geral_por_classificacao[COLUNA_ANO] >= int(ano_inicio)) &
+          (df_acidentes_geral_por_classificacao[COLUNA_ANO] <= int(ano_fim)) 
+      ]
+      titulo = f'Acidentes por Classificacao entre {ano_inicio} e {ano_fim}'  
+      grafico_aba_05 = gera_grafico_por_classificacao(titulo, df_filtrado_classificacao)
+
+      df_filtrado_fasedia = df_acidentes_geral_por_fasedia[
+          (df_acidentes_geral_por_fasedia[COLUNA_ANO] >= int(ano_inicio)) &
+          (df_acidentes_geral_por_fasedia[COLUNA_ANO] <= int(ano_fim))
+      ] 
+      titulo = f'Acidentes por Fase do Dia entre {ano_inicio} e {ano_fim}'  
+      grafico_aba_06 = gera_grafico_por_fase_dia(titulo, df_filtrado_fasedia)
+
+      df_filtrado_condicaometereologica = df_acidentes_geral_por_condicao_metereologica[
+          (df_acidentes_geral_por_condicao_metereologica[COLUNA_ANO] >= int(ano_inicio)) &
+          (df_acidentes_geral_por_condicao_metereologica[COLUNA_ANO] <= int(ano_fim))
+      ]
+      titulo = f'Acidentes por Condição Metereológica entre {ano_inicio} e {ano_fim}'  
+      grafico_aba_07 = gera_grafico_por_condicao_metereologica(titulo, df_filtrado_condicaometereologica)
+
+      df_filtrado_dia_semana = df_acidentes_geral_por_dia_semana[
+          (df_acidentes_geral_por_dia_semana[COLUNA_ANO] >= int(ano_inicio)) &
+          (df_acidentes_geral_por_dia_semana[COLUNA_ANO] <= int(ano_fim))
+      ]
+      titulo = f'Acidentes por Dia da Semana entre {ano_inicio} e {ano_fim}'  
+      grafico_aba_08 = gera_grafico_por_dia_semana(titulo, df_filtrado_dia_semana)
+
+      df_filtrado_tipo_veiculo = df_acidentes_geral_por_tipo_veiculo[
+          (df_acidentes_geral_por_tipo_veiculo[COLUNA_ANO] >= int(ano_inicio))  &
+            (df_acidentes_geral_por_tipo_veiculo[COLUNA_ANO] <= int(ano_fim))  
+      ]
+      titulo = f'Acidentes por Tipo de Veículo entre {ano_inicio} e {ano_fim}'  
+      grafico_aba_09 = gera_grafico_por_tipo_veiculo(titulo, df_filtrado_tipo_veiculo)
+    # =====================================================================================
+
     # Exibir o gráfico de barras empilhadas
     with tab1_sub1:
         st.altair_chart(grafico_aba_01)
@@ -377,26 +503,128 @@ with tab03:
             "Fluxo por Tipo de Veículo",
         ])   
 
-    
-    # Exibir o gráfico de barras empilhadas
-    with tab5_sub1:
-        st.altair_chart(gera_graficos_fluxo_por_uf(df_acidentes_geral_por_uf))
-    with tab5_sub2:    
-        st.altair_chart(gera_graficos_fluxo_por_tipo(df_acidentes_geral_por_tipo))
-    with tab5_sub3:            
-        st.altair_chart(gera_graficos_fluxo_por_br(df_acidentes_geral_por_br))
-    with tab5_sub4:    
-        st.altair_chart(gera_graficos_fluxo_por_causa(df_acidentes_geral_por_causa))
-    with tab5_sub5:        
-        st.altair_chart(gera_graficos_fluxo_por_classificacao(df_acidentes_geral_por_classificacao))
-    with tab5_sub6:        
-        st.altair_chart(gera_graficos_fluxo_por_fasedia(df_acidentes_geral_por_fasedia))
-    with tab5_sub7:        
-        st.altair_chart(gera_graficos_fluxo_por_condicao_metereologica(df_acidentes_geral_por_condicao_metereologica))
-    with tab5_sub8:        
-        st.altair_chart(gera_graficos_fluxo_por_dia_semana(df_acidentes_geral_por_dia_semana))
-    with tab5_sub9:        
-        st.altair_chart(gera_graficos_fluxo_por_tipo_veiculo(df_acidentes_geral_por_tipo_veiculo))
+    # Exibir o gráfico de fluxo
+    if ano_selecionado != None:
+        print(f'Entrou no Grafico de Fluxo')        
+        with tab5_sub1:
+            titulo='Fluxo de Acidentes por UF (2007 a 2024)'
+            st.altair_chart(gera_graficos_fluxo_por_uf(titulo, df_acidentes_geral_por_uf))
+        with tab5_sub2:    
+            titulo='Fluxo de Acidentes por Tipo (2007 a 2024)'
+            st.altair_chart(gera_graficos_fluxo_por_tipo(titulo, df_acidentes_geral_por_tipo))
+        with tab5_sub3: 
+            titulo='Fluxo Acidentes por BR (2007 a 2024)'           
+            st.altair_chart(gera_graficos_fluxo_por_br(titulo, df_acidentes_geral_por_br))
+        with tab5_sub4:    
+            titulo='Fluxo Acidentes por Causa (2007 a 2024)'
+            st.altair_chart(gera_graficos_fluxo_por_causa(titulo, df_acidentes_geral_por_causa))
+        with tab5_sub5:        
+            titulo='Fluxo Acidentes por Classificação (2007 a 2024)'
+            st.altair_chart(gera_graficos_fluxo_por_classificacao(titulo, df_acidentes_geral_por_classificacao))
+        with tab5_sub6:        
+            titulo='Fluxo Acidentes por Fase do Dia (2007 a 2024)'
+            st.altair_chart(gera_graficos_fluxo_por_fasedia(titulo, df_acidentes_geral_por_fasedia))
+        with tab5_sub7:        
+            titulo='Fluxo Acidentes por Condição Metereológica (2007 a 2024)'
+            st.altair_chart(gera_graficos_fluxo_por_condicao_metereologica(titulo, df_acidentes_geral_por_condicao_metereologica))
+        with tab5_sub8:        
+            titulo='Fluxo Acidentes por Dia da Semana (2007 a 2024)'
+            st.altair_chart(gera_graficos_fluxo_por_dia_semana(titulo, df_acidentes_geral_por_dia_semana))
+        with tab5_sub9:        
+            titulo='Fluxo Acidentes por Tipo de Veículo (2007 a 2024)'
+            st.altair_chart(gera_graficos_fluxo_por_tipo_veiculo(titulo, df_acidentes_geral_por_tipo_veiculo))
+
+        st.title(f'exibir_filtro_periodo_anos => {exibir_filtro_periodo_anos} | ano_inicio => {ano_inicio} | ano_fim => {ano_fim}')
+
+    elif exibir_filtro_periodo_anos and (ano_inicio is not None and ano_fim is not None):
+      print(f'Entrou no Grafico de Fluxo')  
+      st.title(f'exibir_filtro_periodo_anos => {exibir_filtro_periodo_anos} | ano_inicio => {ano_inicio} | ano_fim => {ano_fim}')
+
+      df_filtrado_uf = df_acidentes_geral_por_uf[
+          (df_acidentes_geral_por_uf[COLUNA_ANO] >= int(ano_inicio)) & 
+          (df_acidentes_geral_por_uf[COLUNA_ANO] <= int(ano_fim))
+      ]
+      titulo=f'Fluxo de Acidentes por UF entre {ano_inicio} e {ano_fim}'
+      grafico_aba_01 = gera_graficos_fluxo_por_uf(titulo, df_filtrado_uf)
+
+      df_filtrado_tipo = df_acidentes_geral_por_tipo[
+          (df_acidentes_geral_por_tipo[COLUNA_ANO] >= int(ano_inicio)) &
+          (df_acidentes_geral_por_tipo[COLUNA_ANO] <= int(ano_fim))
+      ]
+      titulo=f'Fluxo de Acidentes por Tipo entre {ano_inicio} e {ano_fim}'
+      grafico_aba_02 = gera_graficos_fluxo_por_tipo(titulo, df_filtrado_tipo)
+
+      df_filtrado_br = df_acidentes_geral_por_br[
+          (df_acidentes_geral_por_br[COLUNA_ANO] >= int(ano_inicio)) &
+          (df_acidentes_geral_por_br[COLUNA_ANO] <= int(ano_fim))
+      ]
+      titulo=f'Fluxo de Acidentes por BR entre {ano_inicio} e {ano_fim}'
+      grafico_aba_03 = gera_graficos_fluxo_por_br(titulo, df_filtrado_br)
+
+      df_filtrado_causa = df_acidentes_geral_por_causa[
+          (df_acidentes_geral_por_causa[COLUNA_ANO] >= int(ano_inicio)) &
+          (df_acidentes_geral_por_causa[COLUNA_ANO] <= int(ano_fim))
+      ]
+      titulo=f'Fluxo de Acidentes por Causa entre {ano_inicio} e {ano_fim}'
+      grafico_aba_04 = gera_graficos_fluxo_por_causa(titulo, df_filtrado_causa)
+
+      df_filtrado_classificacao = df_acidentes_geral_por_classificacao[
+          (df_acidentes_geral_por_classificacao[COLUNA_ANO] >= int(ano_inicio)) &
+          (df_acidentes_geral_por_classificacao[COLUNA_ANO] <= int(ano_fim)) 
+      ]
+      titulo=f'Fluxo de Acidentes por Classificação entre {ano_inicio} e {ano_fim}'
+      grafico_aba_05 = gera_graficos_fluxo_por_classificacao(titulo, df_filtrado_classificacao)
+
+      df_filtrado_fasedia = df_acidentes_geral_por_fasedia[
+          (df_acidentes_geral_por_fasedia[COLUNA_ANO] >= int(ano_inicio)) &
+          (df_acidentes_geral_por_fasedia[COLUNA_ANO] <= int(ano_fim))
+      ] 
+      titulo=f'Fluxo de Acidentes por Fase do Dia entre {ano_inicio} e {ano_fim}'
+      grafico_aba_06 = gera_graficos_fluxo_por_fasedia(titulo, df_filtrado_fasedia)
+
+      df_filtrado_condicaometereologica = df_acidentes_geral_por_condicao_metereologica[
+          (df_acidentes_geral_por_condicao_metereologica[COLUNA_ANO] >= int(ano_inicio)) &
+          (df_acidentes_geral_por_condicao_metereologica[COLUNA_ANO] <= int(ano_fim))
+      ]
+      titulo=f'Fluxo de Acidentes por Condição Metereológica entre {ano_inicio} e {ano_fim}'
+      grafico_aba_07 = gera_graficos_fluxo_por_condicao_metereologica(titulo, df_filtrado_condicaometereologica)
+
+      df_filtrado_dia_semana = df_acidentes_geral_por_dia_semana[
+          (df_acidentes_geral_por_dia_semana[COLUNA_ANO] >= int(ano_inicio)) &
+          (df_acidentes_geral_por_dia_semana[COLUNA_ANO] <= int(ano_fim))
+      ]
+      titulo=f'Fluxo de Acidentes por Dia da Semana entre {ano_inicio} e {ano_fim}'
+      grafico_aba_08 = gera_graficos_fluxo_por_dia_semana(titulo, df_filtrado_dia_semana)
+
+      df_filtrado_tipo_veiculo = df_acidentes_geral_por_tipo_veiculo[
+          (df_acidentes_geral_por_tipo_veiculo[COLUNA_ANO] >= int(ano_inicio))  &
+            (df_acidentes_geral_por_tipo_veiculo[COLUNA_ANO] <= int(ano_fim))  
+      ]
+      titulo=f'Fluxo de Acidentes por Tipo de Veículo entre {ano_inicio} e {ano_fim}'
+      grafico_aba_09 = gera_graficos_fluxo_por_tipo_veiculo(titulo, df_filtrado_tipo_veiculo)
+
+      # Exibir o gráfico de barras empilhadas
+      with tab5_sub1:
+            st.altair_chart(grafico_aba_01)
+      with tab5_sub2:    
+            st.altair_chart(grafico_aba_02)
+      with tab5_sub3: 
+            st.altair_chart(grafico_aba_03)
+      with tab5_sub4:    
+            st.altair_chart(grafico_aba_04)
+      with tab5_sub5:        
+            st.altair_chart(grafico_aba_05)
+      with tab5_sub6:        
+            st.altair_chart(grafico_aba_06)
+      with tab5_sub7:        
+            st.altair_chart(grafico_aba_07)
+      with tab5_sub8:        
+            st.altair_chart(grafico_aba_08)
+      with tab5_sub9:        
+            st.altair_chart(grafico_aba_09)
+
+    # =====================================================================================
+
     
 # ==============================================================================  
 with tab06:
@@ -404,7 +632,7 @@ with tab06:
     titulo = f'<H2> Gráficos de Barras Empilhadas'
     st.markdown(titulo, unsafe_allow_html=True)    
 
-    if ano_selecionado != OPCAO_TODOS:
+    if ano_selecionado != OPCAO_TODOS and ano_selecionado != None:
 
       # por UF      
       df_filtrado_uf = df_acidentes_geral_por_uf[(df_acidentes_geral_por_uf[COLUNA_ANO] == int(ano_selecionado))]
@@ -451,7 +679,7 @@ with tab06:
       titulo = f'Barras Empilhadas por Dia da Semana em {ano_selecionado}'
       grafico9 = grafico_barras_empilhadas_por_tipo_veiculo(titulo, df_filtrado_tipo_veiculo)  
     
-    else:
+    elif ano_selecionado == OPCAO_TODOS:
       grafico1 = grafico_barras_empilhadas_por_uf('Barras Empilhadas por UF (2007 a 2024)', df_acidentes_geral_por_uf)            
       grafico2 = grafico_barras_empilhadas_por_br('Barras Empilhadas por BR (2007 a 2024)', df_acidentes_geral_por_br)  
       grafico3 = grafico_barras_empilhadas_por_tipo('Barras Empilhadas por Tipos de Acidentes (2007-2024)', df_acidentes_geral_por_tipo)    
@@ -461,6 +689,81 @@ with tab06:
       grafico7 = grafico_barras_empilhadas_por_condicao_metereologica('Barras Empilhadas por Condição Metereológica de Acidentes (2007-2024)',                                                          df_acidentes_geral_por_condicao_metereologica)      
       grafico8 = grafico_barras_empilhadas_por_dia_semana('Barras Empilhadas por Dia da Semana de Acidentes (2007-2024)', df_acidentes_geral_por_dia_semana)      
       grafico9 = grafico_barras_empilhadas_por_tipo_veiculo('Barras Empilhadas por Tipo de Veículo (2007-2024)', df_acidentes_geral_por_tipo_veiculo)      
+
+    if exibir_filtro_periodo_anos and (ano_inicio is not None and ano_fim is not None):
+
+      # por UF      
+      df_filtrado_uf = df_acidentes_geral_por_uf[
+          (df_acidentes_geral_por_uf[COLUNA_ANO] >= int(ano_inicio)) &
+          (df_acidentes_geral_por_uf[COLUNA_ANO] <= int(ano_fim))
+      ]
+      titulo = f'Barras Empilhadas por UF entre {ano_inicio} e {ano_fim}'
+      grafico1 = grafico_barras_empilhadas_por_uf(titulo, df_filtrado_uf)        
+
+      # por BR    
+      df_filtrado_br = df_acidentes_geral_por_br[
+          (df_acidentes_geral_por_br[COLUNA_ANO] >= int(ano_inicio)) &
+          (df_acidentes_geral_por_br[COLUNA_ANO] <= int(ano_fim))
+      ]
+      titulo = f'Barras Empilhadas por BR entre {ano_inicio} e {ano_fim}'
+      grafico2 = grafico_barras_empilhadas_por_br(titulo, df_filtrado_br)  
+
+      # por Tipo 
+      df_filtrado_tipo = df_acidentes_geral_por_tipo[
+          (df_acidentes_geral_por_tipo[COLUNA_ANO] >= int(ano_inicio)) &
+          (df_acidentes_geral_por_tipo[COLUNA_ANO] <= int(ano_fim))  
+      ]
+      titulo = f'Barras Empilhadas por Tipo entre {ano_inicio} e {ano_fim}'
+      grafico3 = grafico_barras_empilhadas_por_tipo(titulo, df_filtrado_tipo)  
+
+      # por Causa 
+      df_filtrado_causa = df_acidentes_geral_por_causa[
+          (df_acidentes_geral_por_causa[COLUNA_ANO] >= int(ano_inicio)) &
+          (df_acidentes_geral_por_causa[COLUNA_ANO] <= int(ano_fim))
+      ]
+      titulo = f'Barras Empilhadas por Causa de Acidente entre {ano_inicio} e {ano_fim}'
+      grafico4 = grafico_barras_empilhadas_por_causa(titulo, df_filtrado_causa)  
+
+      # por Classificacao
+      df_filtrado_classificacao = df_acidentes_geral_por_classificacao[
+          (df_acidentes_geral_por_classificacao[COLUNA_ANO] >= int(ano_inicio)) &
+          (df_acidentes_geral_por_classificacao[COLUNA_ANO] <= int(ano_fim))
+      ]    
+      titulo = f'Barras Empilhadas por Classificação de Acidente entre {ano_inicio} e {ano_fim}'
+      grafico5 = grafico_barras_empilhadas_por_classificacao(titulo, df_filtrado_classificacao)  
+
+      # por Fase do Dia
+      df_filtrado_fase_dia = df_acidentes_geral_por_fasedia[
+          (df_acidentes_geral_por_fasedia[COLUNA_ANO] >= int(ano_inicio)) &
+          (df_acidentes_geral_por_fasedia[COLUNA_ANO] <= int(ano_fim))   
+      ]
+      titulo = f'Barras Empilhadas por Fase do Dia de Acidente entre {ano_inicio} e {ano_fim}'
+      grafico6 = grafico_barras_empilhadas_por_fase_dia(titulo, df_filtrado_fase_dia)  
+
+      # Condição Metereológica
+      df_filtrado_condicaometereologica = df_acidentes_geral_por_condicao_metereologica[
+          (df_acidentes_geral_por_condicao_metereologica[COLUNA_ANO] >= int(ano_inicio)) &
+          (df_acidentes_geral_por_condicao_metereologica[COLUNA_ANO] <= int(ano_fim))
+      ]
+      titulo = f'Barras Empilhadas por Condição Metereológica entre {ano_inicio} e {ano_fim}'
+      grafico7 = grafico_barras_empilhadas_por_condicao_metereologica(titulo, df_filtrado_condicaometereologica)  
+
+      # Dia da Semana
+      df_filtrado_dia_semana = df_acidentes_geral_por_dia_semana[
+          (df_acidentes_geral_por_dia_semana[COLUNA_ANO] >= int(ano_inicio)) &
+          (df_acidentes_geral_por_dia_semana[COLUNA_ANO] <= int(ano_fim))
+      ]
+      titulo = f'Barras Empilhadas por Dia da Semana entre {ano_inicio} e {ano_fim}'
+      grafico8 = grafico_barras_empilhadas_por_dia_semana(titulo, df_filtrado_dia_semana)  
+
+      # Tipo de Veículo
+      df_filtrado_tipo_veiculo = df_acidentes_geral_por_tipo_veiculo[
+          (df_acidentes_geral_por_tipo_veiculo[COLUNA_ANO] >= int(ano_inicio)) &
+          (df_acidentes_geral_por_tipo_veiculo[COLUNA_ANO] <= int(ano_fim))
+      ]
+      titulo = f'Barras Empilhadas por Dia da Semana entre {ano_inicio} e {ano_fim}'
+      grafico9 = grafico_barras_empilhadas_por_tipo_veiculo(titulo, df_filtrado_tipo_veiculo)  
+
 
     tab6_sub1, tab6_sub2, tab6_sub3, tab6_sub4, tab6_sub5, tab6_sub6, tab6_sub7, tab6_sub8, tab6_sub9  = st.tabs(
         [
