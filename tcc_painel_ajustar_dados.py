@@ -187,10 +187,10 @@ def ajusta_causa_acidente(value):
 # main 
 # =======================================================
 
-#ajusta_dados_dia_semana()
+ajusta_dados_dia_semana()
 
-#ajusta_dados_fase_dia()
+ajusta_dados_fase_dia()
 
-#ajusta_dados_condicao_metereologica()
+ajusta_dados_condicao_metereologica()
 
 ajusta_dados_causas_acidentes()
