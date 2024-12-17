@@ -1,203 +1,203 @@
-causa_acidente,qtd,ano
-Falta de atenção,94264,2007
-Falta de atenção,104291,2008
-Falta de atenção,117342,2009
-Falta de atenção,138575,2010
-Falta de atenção,144406,2011
-Falta de atenção,138483,2012
-Falta de atenção,142691,2013
-Falta de atenção,125350,2014
-Falta de atenção,85996,2015
-Falta de atenção,64049,2016
-Outras,92061,2007
-Outras,100218,2008
-Outras,111412,2009
-Outras,114528,2010
-Outras,112948,2011
-Outras,99136,2012
-Outras,87577,2013
-Outras,78090,2014
-Outras,58312,2015
-Outras,50179,2016
-Não guardar distância de segurança,19959,2007
-Não guardar distância de segurança,24120,2008
-Não guardar distância de segurança,29054,2009
-Não guardar distância de segurança,39616,2010
-Não guardar distância de segurança,43667,2011
-Não guardar distância de segurança,47608,2012
-Não guardar distância de segurança,55535,2013
-Não guardar distância de segurança,50457,2014
-Não guardar distância de segurança,30528,2015
-Não guardar distância de segurança,18299,2016
-Não guardar distância de segurança,18024,2017
-Não guardar distância de segurança,13027,2018
-Não guardar distância de segurança,12909,2019
-Não guardar distância de segurança,11449,2020
-Velocidade incompatível,11538,2007
-Velocidade incompatível,14356,2008
-Velocidade incompatível,18664,2009
-Velocidade incompatível,24888,2010
-Velocidade incompatível,29473,2011
-Velocidade incompatível,30309,2012
-Velocidade incompatível,35275,2013
-Velocidade incompatível,33466,2014
-Velocidade incompatível,27369,2015
-Velocidade incompatível,24231,2016
-Defeito mecânico em veículo,10351,2007
-Defeito mecânico em veículo,11311,2008
-Defeito mecânico em veículo,11409,2009
-Defeito mecânico em veículo,13745,2010
-Defeito mecânico em veículo,13521,2011
-Defeito mecânico em veículo,13181,2012
-Defeito mecânico em veículo,13894,2013
-Defeito mecânico em veículo,13228,2014
-Defeito mecânico em veículo,10995,2015
-Defeito mecânico em veículo,10278,2016
-Desobediência à sinalização,9828,2007
-Desobediência à sinalização,11262,2008
-Desobediência à sinalização,12679,2009
-Desobediência à sinalização,17677,2010
-Desobediência à sinalização,19280,2011
-Desobediência à sinalização,19451,2012
-Desobediência à sinalização,20038,2013
-Desobediência à sinalização,20334,2014
-Desobediência à sinalização,15344,2015
-Desobediência à sinalização,12888,2016
-Ultrapassagem indevida,7936,2007
-Ultrapassagem indevida,8470,2008
-Ultrapassagem indevida,8720,2009
-Ultrapassagem indevida,11247,2010
-Ultrapassagem indevida,12071,2011
-Ultrapassagem indevida,11947,2012
-Ultrapassagem indevida,12627,2013
-Ultrapassagem indevida,11945,2014
-Ultrapassagem indevida,8797,2015
-Ultrapassagem indevida,7142,2016
-Ingestão de álcool,6915,2007
-Ingestão de álcool,7809,2008
-Ingestão de álcool,10554,2009
-Ingestão de álcool,15024,2010
-Ingestão de álcool,16416,2011
-Ingestão de álcool,16501,2012
-Ingestão de álcool,16600,2013
-Ingestão de álcool,16102,2014
-Ingestão de álcool,14631,2015
-Ingestão de álcool,14216,2016
-Animais na Pista,6089,2007
-Animais na Pista,6861,2008
-Animais na Pista,6226,2009
-Animais na Pista,7434,2010
-Animais na Pista,7429,2011
-Animais na Pista,7266,2012
-Animais na Pista,7469,2013
-Animais na Pista,5858,2014
-Animais na Pista,4980,2015
-Animais na Pista,4447,2016
-Animais na Pista,4933,2017
-Animais na Pista,3100,2018
-Animais na Pista,2959,2019
-Animais na Pista,2784,2020
-Animais na Pista,2258,2021
-Animais na Pista,2483,2022
-Animais na Pista,2579,2023
-Animais na Pista,2027,2024
-Dormindo,5963,2007
-Dormindo,6198,2008
-Dormindo,6260,2009
-Dormindo,8187,2010
-Dormindo,7891,2011
-Dormindo,8673,2012
-Dormindo,9276,2013
-Dormindo,9033,2014
-Dormindo,8103,2015
-Dormindo,7612,2016
-Defeito na via,4235,2007
-Defeito na via,3995,2008
-Defeito na via,4823,2009
-Defeito na via,4478,2010
-Defeito na via,5183,2011
-Defeito na via,4359,2012
-Defeito na via,4838,2013
-Defeito na via,4643,2014
-Defeito na via,3997,2015
-Defeito na via,2920,2016
-Falta de Atenção à Condução,88746,2017
-Falta de Atenção à Condução,67578,2018
-Falta de Atenção à Condução,65323,2019
-Falta de Atenção à Condução,56451,2020
-Velocidade Incompatível,23614,2017
-Velocidade Incompatível,16931,2018
-Velocidade Incompatível,15352,2019
-Velocidade Incompatível,14371,2020
-Velocidade Incompatível,16365,2021
-Velocidade Incompatível,12493,2022
-Velocidade Incompatível,10926,2023
-Velocidade Incompatível,7192,2024
-Ingestão de Álcool,15708,2017
-Ingestão de Álcool,12647,2018
-Ingestão de Álcool,13274,2019
-Ingestão de Álcool,11683,2020
-Desobediência às normas de trânsito pelo condutor,14721,2017
-Desobediência às normas de trânsito pelo condutor,20814,2018
-Desobediência às normas de trânsito pelo condutor,23492,2019
-Desobediência às normas de trânsito pelo condutor,25042,2020
-Defeito Mecânico no Veículo,10667,2017
-Defeito Mecânico no Veículo,9041,2018
-Defeito Mecânico no Veículo,8548,2019
-Defeito Mecânico no Veículo,8638,2020
-Condutor Dormindo,8960,2017
-Condutor Dormindo,6847,2018
-Condutor Dormindo,6469,2019
-Condutor Dormindo,5161,2020
-Condutor Dormindo,5832,2021
-Condutor Dormindo,5598,2022
-Condutor Dormindo,5421,2023
-Condutor Dormindo,3529,2024
-Pista Escorregadia,8955,2017
-Pista Escorregadia,5774,2018
-Pista Escorregadia,4841,2019
-Pista Escorregadia,4730,2020
-Pista Escorregadia,1604,2021
-Pista Escorregadia,1384,2022
-Pista Escorregadia,1199,2023
-Pista Escorregadia,877,2024
-Ultrapassagem Indevida,6927,2017
-Ultrapassagem Indevida,4635,2018
-Ultrapassagem Indevida,4431,2019
-Ultrapassagem Indevida,4161,2020
-Ultrapassagem Indevida,5897,2021
-Ultrapassagem Indevida,5995,2022
-Ultrapassagem Indevida,6150,2023
-Ultrapassagem Indevida,4169,2024
-Falta de Atenção do Pedestre,5925,2017
-Falta de Atenção do Pedestre,5080,2018
-Falta de Atenção do Pedestre,4802,2019
-Falta de Atenção do Pedestre,4006,2020
-Avarias e/ou desgaste excessivo no pneu,3463,2017
-Avarias e/ou desgaste excessivo no pneu,2256,2018
-Avarias e/ou desgaste excessivo no pneu,1771,2019
-Avarias e/ou desgaste excessivo no pneu,2052,2020
-Avarias e/ou desgaste excessivo no pneu,2526,2021
-Avarias e/ou desgaste excessivo no pneu,2592,2022
-Avarias e/ou desgaste excessivo no pneu,2789,2023
-Avarias e/ou desgaste excessivo no pneu,1664,2024
-Defeito na Via,3137,2017
-Defeito na Via,2679,2018
-Defeito na Via,2263,2019
-Defeito na Via,2249,2020
-Restrição de Visibilidade,2352,2017
-Restrição de Visibilidade,1542,2018
-Restrição de Visibilidade,1413,2019
-Restrição de Visibilidade,1331,2020
-Mal Súbito,2146,2017
-Mal Súbito,1532,2018
-Mal Súbito,1575,2019
-Mal Súbito,1130,2020
-Objeto estático sobre o leito carroçável,1778,2017
-Objeto estático sobre o leito carroçável,1289,2018
-Objeto estático sobre o leito carroçável,1123,2019
-Objeto estático sobre o leito carroçável,1052,2020
-Objeto estático sobre o leito carroçável,855,2021
-Objeto estático sobre o leito carroçável,716,2022
-Objeto estático sobre o leito carroçável,755,2023
-Objeto estático sobre o leito carroçável,611,2024
+,Unnamed: 0,causa_acidente,qtd,ano
+0,0,Falta de Atenção à Condução,94264,2007
+1,1,Falta de Atenção à Condução,104291,2008
+2,2,Falta de Atenção à Condução,117342,2009
+3,3,Falta de Atenção à Condução,138575,2010
+4,4,Falta de Atenção à Condução,144406,2011
+5,5,Falta de Atenção à Condução,138483,2012
+6,6,Falta de Atenção à Condução,142691,2013
+7,7,Falta de Atenção à Condução,125350,2014
+8,8,Falta de Atenção à Condução,85996,2015
+9,9,Falta de Atenção à Condução,64049,2016
+10,10,Outras,92061,2007
+11,11,Outras,100218,2008
+12,12,Outras,111412,2009
+13,13,Outras,114528,2010
+14,14,Outras,112948,2011
+15,15,Outras,99136,2012
+16,16,Outras,87577,2013
+17,17,Outras,78090,2014
+18,18,Outras,58312,2015
+19,19,Outras,50179,2016
+20,20,Não guardar distância de segurança,19959,2007
+21,21,Não guardar distância de segurança,24120,2008
+22,22,Não guardar distância de segurança,29054,2009
+23,23,Não guardar distância de segurança,39616,2010
+24,24,Não guardar distância de segurança,43667,2011
+25,25,Não guardar distância de segurança,47608,2012
+26,26,Não guardar distância de segurança,55535,2013
+27,27,Não guardar distância de segurança,50457,2014
+28,28,Não guardar distância de segurança,30528,2015
+29,29,Não guardar distância de segurança,18299,2016
+30,30,Não guardar distância de segurança,18024,2017
+31,31,Não guardar distância de segurança,13027,2018
+32,32,Não guardar distância de segurança,12909,2019
+33,33,Não guardar distância de segurança,11449,2020
+34,34,Velocidade Incompatível,11538,2007
+35,35,Velocidade Incompatível,14356,2008
+36,36,Velocidade Incompatível,18664,2009
+37,37,Velocidade Incompatível,24888,2010
+38,38,Velocidade Incompatível,29473,2011
+39,39,Velocidade Incompatível,30309,2012
+40,40,Velocidade Incompatível,35275,2013
+41,41,Velocidade Incompatível,33466,2014
+42,42,Velocidade Incompatível,27369,2015
+43,43,Velocidade Incompatível,24231,2016
+44,44,Defeito Mecânico no Veículo,10351,2007
+45,45,Defeito Mecânico no Veículo,11311,2008
+46,46,Defeito Mecânico no Veículo,11409,2009
+47,47,Defeito Mecânico no Veículo,13745,2010
+48,48,Defeito Mecânico no Veículo,13521,2011
+49,49,Defeito Mecânico no Veículo,13181,2012
+50,50,Defeito Mecânico no Veículo,13894,2013
+51,51,Defeito Mecânico no Veículo,13228,2014
+52,52,Defeito Mecânico no Veículo,10995,2015
+53,53,Defeito Mecânico no Veículo,10278,2016
+54,54,Desobediência à sinalização,9828,2007
+55,55,Desobediência à sinalização,11262,2008
+56,56,Desobediência à sinalização,12679,2009
+57,57,Desobediência à sinalização,17677,2010
+58,58,Desobediência à sinalização,19280,2011
+59,59,Desobediência à sinalização,19451,2012
+60,60,Desobediência à sinalização,20038,2013
+61,61,Desobediência à sinalização,20334,2014
+62,62,Desobediência à sinalização,15344,2015
+63,63,Desobediência à sinalização,12888,2016
+64,64,Ultrapassagem Indevida,7936,2007
+65,65,Ultrapassagem Indevida,8470,2008
+66,66,Ultrapassagem Indevida,8720,2009
+67,67,Ultrapassagem Indevida,11247,2010
+68,68,Ultrapassagem Indevida,12071,2011
+69,69,Ultrapassagem Indevida,11947,2012
+70,70,Ultrapassagem Indevida,12627,2013
+71,71,Ultrapassagem Indevida,11945,2014
+72,72,Ultrapassagem Indevida,8797,2015
+73,73,Ultrapassagem Indevida,7142,2016
+74,74,Ingestão de Álcool,6915,2007
+75,75,Ingestão de Álcool,7809,2008
+76,76,Ingestão de Álcool,10554,2009
+77,77,Ingestão de Álcool,15024,2010
+78,78,Ingestão de Álcool,16416,2011
+79,79,Ingestão de Álcool,16501,2012
+80,80,Ingestão de Álcool,16600,2013
+81,81,Ingestão de Álcool,16102,2014
+82,82,Ingestão de Álcool,14631,2015
+83,83,Ingestão de Álcool,14216,2016
+84,84,Animais na Pista,6089,2007
+85,85,Animais na Pista,6861,2008
+86,86,Animais na Pista,6226,2009
+87,87,Animais na Pista,7434,2010
+88,88,Animais na Pista,7429,2011
+89,89,Animais na Pista,7266,2012
+90,90,Animais na Pista,7469,2013
+91,91,Animais na Pista,5858,2014
+92,92,Animais na Pista,4980,2015
+93,93,Animais na Pista,4447,2016
+94,94,Animais na Pista,4933,2017
+95,95,Animais na Pista,3100,2018
+96,96,Animais na Pista,2959,2019
+97,97,Animais na Pista,2784,2020
+98,98,Animais na Pista,2258,2021
+99,99,Animais na Pista,2483,2022
+100,100,Animais na Pista,2579,2023
+101,101,Animais na Pista,2027,2024
+102,102,Dormindo,5963,2007
+103,103,Dormindo,6198,2008
+104,104,Dormindo,6260,2009
+105,105,Dormindo,8187,2010
+106,106,Dormindo,7891,2011
+107,107,Dormindo,8673,2012
+108,108,Dormindo,9276,2013
+109,109,Dormindo,9033,2014
+110,110,Dormindo,8103,2015
+111,111,Dormindo,7612,2016
+112,112,Defeito na Via,4235,2007
+113,113,Defeito na Via,3995,2008
+114,114,Defeito na Via,4823,2009
+115,115,Defeito na Via,4478,2010
+116,116,Defeito na Via,5183,2011
+117,117,Defeito na Via,4359,2012
+118,118,Defeito na Via,4838,2013
+119,119,Defeito na Via,4643,2014
+120,120,Defeito na Via,3997,2015
+121,121,Defeito na Via,2920,2016
+122,122,Falta de Atenção à Condução,88746,2017
+123,123,Falta de Atenção à Condução,67578,2018
+124,124,Falta de Atenção à Condução,65323,2019
+125,125,Falta de Atenção à Condução,56451,2020
+126,126,Velocidade Incompatível,23614,2017
+127,127,Velocidade Incompatível,16931,2018
+128,128,Velocidade Incompatível,15352,2019
+129,129,Velocidade Incompatível,14371,2020
+130,130,Velocidade Incompatível,16365,2021
+131,131,Velocidade Incompatível,12493,2022
+132,132,Velocidade Incompatível,10926,2023
+133,133,Velocidade Incompatível,7192,2024
+134,134,Ingestão de Álcool,15708,2017
+135,135,Ingestão de Álcool,12647,2018
+136,136,Ingestão de Álcool,13274,2019
+137,137,Ingestão de Álcool,11683,2020
+138,138,Desobediência às normas de trânsito pelo condutor,14721,2017
+139,139,Desobediência às normas de trânsito pelo condutor,20814,2018
+140,140,Desobediência às normas de trânsito pelo condutor,23492,2019
+141,141,Desobediência às normas de trânsito pelo condutor,25042,2020
+142,142,Defeito Mecânico no Veículo,10667,2017
+143,143,Defeito Mecânico no Veículo,9041,2018
+144,144,Defeito Mecânico no Veículo,8548,2019
+145,145,Defeito Mecânico no Veículo,8638,2020
+146,146,Condutor Dormindo,8960,2017
+147,147,Condutor Dormindo,6847,2018
+148,148,Condutor Dormindo,6469,2019
+149,149,Condutor Dormindo,5161,2020
+150,150,Condutor Dormindo,5832,2021
+151,151,Condutor Dormindo,5598,2022
+152,152,Condutor Dormindo,5421,2023
+153,153,Condutor Dormindo,3529,2024
+154,154,Pista Escorregadia,8955,2017
+155,155,Pista Escorregadia,5774,2018
+156,156,Pista Escorregadia,4841,2019
+157,157,Pista Escorregadia,4730,2020
+158,158,Pista Escorregadia,1604,2021
+159,159,Pista Escorregadia,1384,2022
+160,160,Pista Escorregadia,1199,2023
+161,161,Pista Escorregadia,877,2024
+162,162,Ultrapassagem Indevida,6927,2017
+163,163,Ultrapassagem Indevida,4635,2018
+164,164,Ultrapassagem Indevida,4431,2019
+165,165,Ultrapassagem Indevida,4161,2020
+166,166,Ultrapassagem Indevida,5897,2021
+167,167,Ultrapassagem Indevida,5995,2022
+168,168,Ultrapassagem Indevida,6150,2023
+169,169,Ultrapassagem Indevida,4169,2024
+170,170,Falta de Atenção do Pedestre,5925,2017
+171,171,Falta de Atenção do Pedestre,5080,2018
+172,172,Falta de Atenção do Pedestre,4802,2019
+173,173,Falta de Atenção do Pedestre,4006,2020
+174,174,Avarias e/ou desgaste excessivo no pneu,3463,2017
+175,175,Avarias e/ou desgaste excessivo no pneu,2256,2018
+176,176,Avarias e/ou desgaste excessivo no pneu,1771,2019
+177,177,Avarias e/ou desgaste excessivo no pneu,2052,2020
+178,178,Avarias e/ou desgaste excessivo no pneu,2526,2021
+179,179,Avarias e/ou desgaste excessivo no pneu,2592,2022
+180,180,Avarias e/ou desgaste excessivo no pneu,2789,2023
+181,181,Avarias e/ou desgaste excessivo no pneu,1664,2024
+182,182,Defeito na Via,3137,2017
+183,183,Defeito na Via,2679,2018
+184,184,Defeito na Via,2263,2019
+185,185,Defeito na Via,2249,2020
+186,186,Restrição de Visibilidade,2352,2017
+187,187,Restrição de Visibilidade,1542,2018
+188,188,Restrição de Visibilidade,1413,2019
+189,189,Restrição de Visibilidade,1331,2020
+190,190,Mal Súbito,2146,2017
+191,191,Mal Súbito,1532,2018
+192,192,Mal Súbito,1575,2019
+193,193,Mal Súbito,1130,2020
+194,194,Objeto estático sobre o leito carroçável,1778,2017
+195,195,Objeto estático sobre o leito carroçável,1289,2018
+196,196,Objeto estático sobre o leito carroçável,1123,2019
+197,197,Objeto estático sobre o leito carroçável,1052,2020
+198,198,Objeto estático sobre o leito carroçável,855,2021
+199,199,Objeto estático sobre o leito carroçável,716,2022
+200,200,Objeto estático sobre o leito carroçável,755,2023
+201,201,Objeto estático sobre o leito carroçável,611,2024

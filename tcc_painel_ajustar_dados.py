@@ -141,11 +141,56 @@ def ajusta_dados_condicao_metereologica():
   df_limpo.to_csv('datasets/gerais/acidentes_geral_por_condicao_metereologica-2.csv', sep=',', encoding="UTF-8")  
 
 # =======================================================
+def ajusta_dados_causas_acidentes():
+  df_acidentes_geral_por_causa = pd.read_csv('datasets/gerais/acidentes_geral_por_causa.csv', sep=',', encoding="UTF-8") 
+
+  df = df_acidentes_geral_por_causa
+
+  df['causa_acidente'] = df['causa_acidente'].str.strip()
+  df['causa_acidente'] = df['causa_acidente'].str.lstrip()
+  df['causa_acidente'] = df['causa_acidente'].apply(ajusta_causa_acidente)
+
+  df.to_csv('datasets/gerais/acidentes_geral_por_causa.csv', sep=',', encoding="UTF-8")  
+
+# =======================================================      
+def ajusta_causa_acidente(value):
+    # Defeito mecânico em veículo / Defeito Mecânico no Veículo
+    if value == 'Defeito mecânico em veículo':
+        return 'Defeito Mecânico no Veículo'
+
+    # Defeito na via
+    elif value == 'Defeito na via':
+        return 'Defeito na Via'
+
+    # Falta de atenção / Falta de Atenção à Condução
+    elif value == 'Falta de atenção':
+        return 'Falta de Atenção à Condução'
+    
+    # Ingestão de álcool / Ingestão de Álcool
+    elif value == 'Ingestão de álcool':
+        return 'Ingestão de Álcool'
+    
+    # Defeito na via / Defeito na Via
+    elif value == 'Defeito na via':
+        return 'Defeito na Via'
+    
+    # Ultrapassagem indevida / Ultrapassagem Indevida
+    elif value == 'Ultrapassagem indevida':
+        return 'Ultrapassagem Indevida'
+    
+    # Velocidade incompatível / Velocidade Incompatível
+    elif value == 'Velocidade incompatível':
+        return 'Velocidade Incompatível'
+
+    return value
+# =======================================================
 # main 
 # =======================================================
 
-ajusta_dados_dia_semana()
+#ajusta_dados_dia_semana()
 
-ajusta_dados_fase_dia()
+#ajusta_dados_fase_dia()
 
-ajusta_dados_condicao_metereologica()
+#ajusta_dados_condicao_metereologica()
+
+ajusta_dados_causas_acidentes()
