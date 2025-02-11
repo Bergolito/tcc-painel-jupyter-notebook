@@ -58,8 +58,11 @@ opcoes = [OPCAO_FILTRO_POR_UM_ANO, OPCAO_FILTRO_POR_PERIODO]
 ano_inicio = None
 ano_fim = None
 
-st.set_page_config(layout="wide")
-#st.set_page_config(layout="centered")
+st.set_page_config(
+    page_title="AVATAR - Painel de Acidentes de Trânsito",
+    page_icon="favicon.ico",  # Nome do arquivo do ícone na pasta "static"
+    layout="wide"
+)
 
 # Definir o título fixo para o painel
 st.title("Acidentes nas Rodovias Federais do Brasil (2007 a 2024)")
