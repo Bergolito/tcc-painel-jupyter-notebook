@@ -59,6 +59,7 @@ ano_inicio = None
 ano_fim = None
 
 st.set_page_config(layout="wide")
+#st.set_page_config(layout="centered")
 
 # Definir o título fixo para o painel
 st.title("Acidentes nas Rodovias Federais do Brasil (2007 a 2024)")
@@ -392,9 +393,9 @@ with tab02:
         elif qtd_ufs_selecionadas == "Todas as UFs":    
             df_acidentes_geral_por_uf = df_acidentes_geral_por_uf_todos
 
-        st.altair_chart(gera_grafico_ranking_uf_01_interativo(df_acidentes_geral_por_uf))   
-        st.altair_chart(gera_grafico_ranking_uf_02(df_acidentes_geral_por_uf))
-    
+        st_altair_chart_fixed_width(gera_grafico_ranking_uf_01_interativo(df_acidentes_geral_por_uf))  
+        st_altair_chart_fixed_width(gera_grafico_ranking_uf_02(df_acidentes_geral_por_uf))
+
     with tab2_sub2:
 
         # ========================================================
@@ -403,8 +404,8 @@ with tab02:
         titulo = f'<h2> Ranking dos Acidentes por Tipo (2007 e 2024)'
         st.markdown(titulo, unsafe_allow_html=True)   
        
-        st.altair_chart(gera_grafico_ranking_tipo_01_interativo(df_acidentes_geral_por_tipo))   
-        st.altair_chart(gera_grafico_ranking_tipo_02(df_acidentes_geral_por_tipo))
+        st_altair_chart_fixed_width(gera_grafico_ranking_tipo_01_interativo(df_acidentes_geral_por_tipo))   
+        st_altair_chart_fixed_width(gera_grafico_ranking_tipo_02(df_acidentes_geral_por_tipo))
     
     with tab2_sub3:
 
@@ -434,8 +435,8 @@ with tab02:
         titulo = f'<h2> Ranking dos Acidentes por BR (2007 e 2024)'
         st.markdown(titulo, unsafe_allow_html=True)
       
-        st.altair_chart(gera_grafico_ranking_br_01(qtd_brs_selecionadas, df_acidentes_geral_por_br))   
-        st.altair_chart(gera_grafico_ranking_br_02(qtd_brs_selecionadas, df_acidentes_geral_por_br))
+        st_altair_chart_fixed_width(gera_grafico_ranking_br_01(qtd_brs_selecionadas, df_acidentes_geral_por_br))   
+        st_altair_chart_fixed_width(gera_grafico_ranking_br_02(qtd_brs_selecionadas, df_acidentes_geral_por_br))
     
     with tab2_sub8:
 
@@ -445,9 +446,8 @@ with tab02:
         titulo = f'<H2> Ranking por Causa de Acidente'
         st.markdown(titulo, unsafe_allow_html=True)
     
-        #st.altair_chart(gera_grafico_ranking_causa_01(df_acidentes_geral_por_causa))   
-        st.altair_chart(gera_grafico_ranking_causa_01_interativo(df_acidentes_geral_por_causa))   
-        st.altair_chart(gera_grafico_ranking_causa_02(df_acidentes_geral_por_causa))
+        st_altair_chart_fixed_width(gera_grafico_ranking_causa_01_interativo(df_acidentes_geral_por_causa))   
+        st_altair_chart_fixed_width(gera_grafico_ranking_causa_02(df_acidentes_geral_por_causa))
 
     with tab2_sub4:
 
@@ -457,8 +457,8 @@ with tab02:
         titulo = f'<H2> Ranking por Classificação'
         st.markdown(titulo, unsafe_allow_html=True)
     
-        st.altair_chart(gera_grafico_ranking_classificacao_01(df_acidentes_geral_por_classificacao))
-        st.altair_chart(gera_grafico_ranking_classificacao_02(df_acidentes_geral_por_classificacao))
+        st_altair_chart_fixed_width(gera_grafico_ranking_classificacao_01(df_acidentes_geral_por_classificacao))
+        st_altair_chart_fixed_width(gera_grafico_ranking_classificacao_02(df_acidentes_geral_por_classificacao))
     
     with tab2_sub5:
 
@@ -468,8 +468,8 @@ with tab02:
         titulo = f'<H2> Ranking por Fase do Dia'
         st.markdown(titulo, unsafe_allow_html=True)
     
-        st.altair_chart(gera_grafico_ranking_fasedia_01(df_acidentes_geral_por_fasedia))   
-        st.altair_chart(gera_grafico_ranking_fasedia_02(df_acidentes_geral_por_fasedia))
+        st_altair_chart_fixed_width(gera_grafico_ranking_fasedia_01(df_acidentes_geral_por_fasedia))   
+        st_altair_chart_fixed_width(gera_grafico_ranking_fasedia_02(df_acidentes_geral_por_fasedia))
 
     with tab2_sub9:
 
@@ -479,9 +479,8 @@ with tab02:
         titulo = f'<H2> Ranking por Condicao Metereológica'
         st.markdown(titulo, unsafe_allow_html=True)
     
-        #st.altair_chart(gera_grafico_ranking_condicao_metereologica_01(df_acidentes_geral_por_condicao_metereologica))   
-        st.altair_chart(gera_grafico_ranking_condicao_metereologica_01_interativo(df_acidentes_geral_por_condicao_metereologica))   
-        st.altair_chart(gera_grafico_ranking_condicao_metereologica_02(df_acidentes_geral_por_condicao_metereologica))
+        st_altair_chart_fixed_width(gera_grafico_ranking_condicao_metereologica_01_interativo(df_acidentes_geral_por_condicao_metereologica))   
+        st_altair_chart_fixed_width(gera_grafico_ranking_condicao_metereologica_02(df_acidentes_geral_por_condicao_metereologica))
 
     with tab2_sub6:
 
@@ -491,9 +490,8 @@ with tab02:
         titulo = f'<H2> Ranking por Dia da Semana'
         st.markdown(titulo, unsafe_allow_html=True)
     
-        #st.altair_chart(gera_grafico_ranking_diasemana_01(df_acidentes_geral_por_dia_semana))   
-        st.altair_chart(gera_grafico_ranking_diasemana_01_interativo(df_acidentes_geral_por_dia_semana))   
-        st.altair_chart(gera_grafico_ranking_diasemana_02(df_acidentes_geral_por_dia_semana))
+        st_altair_chart_fixed_width(gera_grafico_ranking_diasemana_01_interativo(df_acidentes_geral_por_dia_semana))   
+        st_altair_chart_fixed_width(gera_grafico_ranking_diasemana_02(df_acidentes_geral_por_dia_semana))
 
     with tab2_sub7:
 
@@ -503,9 +501,8 @@ with tab02:
         titulo = f'<H2> Ranking por Tipo de Veículo'
         st.markdown(titulo, unsafe_allow_html=True)
     
-        #st.altair_chart(gera_grafico_ranking_tipoveiculo_01(df_acidentes_geral_por_tipo_veiculo))   
-        st.altair_chart(gera_grafico_ranking_tipoveiculo_01_interativo(df_acidentes_geral_por_tipo_veiculo))   
-        st.altair_chart(gera_grafico_ranking_tipoveiculo_02(df_acidentes_geral_por_tipo_veiculo))
+        st_altair_chart_fixed_width(gera_grafico_ranking_tipoveiculo_01_interativo(df_acidentes_geral_por_tipo_veiculo))   
+        st_altair_chart_fixed_width(gera_grafico_ranking_tipoveiculo_02(df_acidentes_geral_por_tipo_veiculo))
 
 # ==========================================================================
 def gera_grafico_ranking_classificacao_01(df_acidentes_geral_por_classificacao):
@@ -559,34 +556,34 @@ with tab03:
 
     # Exibir o gráfico de fluxo
     if ano_selecionado != None:
-        print(f'Entrou no Grafico de Fluxo')        
+
         with tab5_sub1:
             titulo='Fluxo de Acidentes por UF (2007 a 2024)'
-            st.altair_chart(gera_graficos_fluxo_por_uf(titulo, df_acidentes_geral_por_uf))
+            st_altair_chart_fixed_width(gera_graficos_fluxo_por_uf(titulo, df_acidentes_geral_por_uf))
         with tab5_sub2:    
             titulo='Fluxo de Acidentes por Tipo (2007 a 2024)'
-            st.altair_chart(gera_graficos_fluxo_por_tipo(titulo, df_acidentes_geral_por_tipo))
+            st_altair_chart_fixed_width(gera_graficos_fluxo_por_tipo(titulo, df_acidentes_geral_por_tipo))
         with tab5_sub3: 
             titulo='Fluxo Acidentes por BR (2007 a 2024)'           
-            st.altair_chart(gera_graficos_fluxo_por_br(titulo, df_acidentes_geral_por_br))
+            st_altair_chart_fixed_width(gera_graficos_fluxo_por_br(titulo, df_acidentes_geral_por_br))
         with tab5_sub4:    
             titulo='Fluxo Acidentes por Causa (2007 a 2024)'
-            st.altair_chart(gera_graficos_fluxo_por_causa(titulo, df_acidentes_geral_por_causa))
+            st_altair_chart_fixed_width(gera_graficos_fluxo_por_causa(titulo, df_acidentes_geral_por_causa))
         with tab5_sub5:        
             titulo='Fluxo Acidentes por Classificação (2007 a 2024)'
-            st.altair_chart(gera_graficos_fluxo_por_classificacao(titulo, df_acidentes_geral_por_classificacao))
+            st_altair_chart_fixed_width(gera_graficos_fluxo_por_classificacao(titulo, df_acidentes_geral_por_classificacao))
         with tab5_sub6:        
             titulo='Fluxo Acidentes por Fase do Dia (2007 a 2024)'
-            st.altair_chart(gera_graficos_fluxo_por_fasedia(titulo, df_acidentes_geral_por_fasedia))
+            st_altair_chart_fixed_width(gera_graficos_fluxo_por_fasedia(titulo, df_acidentes_geral_por_fasedia))
         with tab5_sub7:        
             titulo='Fluxo Acidentes por Condição Metereológica (2007 a 2024)'
-            st.altair_chart(gera_graficos_fluxo_por_condicao_metereologica(titulo, df_acidentes_geral_por_condicao_metereologica))
+            st_altair_chart_fixed_width(gera_graficos_fluxo_por_condicao_metereologica(titulo, df_acidentes_geral_por_condicao_metereologica))
         with tab5_sub8:        
             titulo='Fluxo Acidentes por Dia da Semana (2007 a 2024)'
-            st.altair_chart(gera_graficos_fluxo_por_dia_semana(titulo, df_acidentes_geral_por_dia_semana))
+            st_altair_chart_fixed_width(gera_graficos_fluxo_por_dia_semana(titulo, df_acidentes_geral_por_dia_semana))
         with tab5_sub9:        
             titulo='Fluxo Acidentes por Tipo de Veículo (2007 a 2024)'
-            st.altair_chart(gera_graficos_fluxo_por_tipo_veiculo(titulo, df_acidentes_geral_por_tipo_veiculo))
+            st_altair_chart_fixed_width(gera_graficos_fluxo_por_tipo_veiculo(titulo, df_acidentes_geral_por_tipo_veiculo))
 
     elif exibir_filtro_periodo_anos and (ano_inicio is not None and ano_fim is not None):
 
@@ -655,23 +652,23 @@ with tab03:
 
       # Exibir o gráfico de barras empilhadas
       with tab5_sub1:
-            st.altair_chart(grafico_aba_01)
+            st_altair_chart_fixed_width(grafico_aba_01)
       with tab5_sub2:    
-            st.altair_chart(grafico_aba_02)
+            st_altair_chart_fixed_width(grafico_aba_02)
       with tab5_sub3: 
-            st.altair_chart(grafico_aba_03)
+            st_altair_chart_fixed_width(grafico_aba_03)
       with tab5_sub4:    
-            st.altair_chart(grafico_aba_04)
+            st_altair_chart_fixed_width(grafico_aba_04)
       with tab5_sub5:        
-            st.altair_chart(grafico_aba_05)
+            st_altair_chart_fixed_width(grafico_aba_05)
       with tab5_sub6:        
-            st.altair_chart(grafico_aba_06)
+            st_altair_chart_fixed_width(grafico_aba_06)
       with tab5_sub7:        
-            st.altair_chart(grafico_aba_07)
+            st_altair_chart_fixed_width(grafico_aba_07)
       with tab5_sub8:        
-            st.altair_chart(grafico_aba_08)
+            st_altair_chart_fixed_width(grafico_aba_08)
       with tab5_sub9:        
-            st.altair_chart(grafico_aba_09)
+            st_altair_chart_fixed_width(grafico_aba_09)
 
     # =====================================================================================
 
@@ -827,23 +824,23 @@ with tab06:
     )
 
     with tab6_sub1:
-        st.altair_chart(grafico1)                  
+        st_altair_chart_fixed_width(grafico1)                  
     with tab6_sub2:        
-        st.altair_chart(grafico2)    
+        st_altair_chart_fixed_width(grafico2)    
     with tab6_sub3:        
-        st.altair_chart(grafico3)        
+        st_altair_chart_fixed_width(grafico3)        
     with tab6_sub4:        
-        st.altair_chart(grafico4)           
+        st_altair_chart_fixed_width(grafico4)           
     with tab6_sub5:        
-        st.altair_chart(grafico5)           
+        st_altair_chart_fixed_width(grafico5)           
     with tab6_sub6:        
-        st.altair_chart(grafico6)           
+        st_altair_chart_fixed_width(grafico6)           
     with tab6_sub7:        
-        st.altair_chart(grafico7)           
+        st_altair_chart_fixed_width(grafico7)           
     with tab6_sub8:        
-        st.altair_chart(grafico8) 
+        st_altair_chart_fixed_width(grafico8) 
     with tab6_sub9:        
-        st.altair_chart(grafico9)           
+        st_altair_chart_fixed_width(grafico9)           
 
 # ==============================================================================
 with tab07:
@@ -862,23 +859,23 @@ with tab07:
     )
 
     with tab7_sub1:
-        st.altair_chart(gera_graficos_distribuicao_por_uf(df_acidentes_geral_por_uf))
+        st_altair_chart_fixed_width(gera_graficos_distribuicao_por_uf(df_acidentes_geral_por_uf))
     with tab7_sub2:    
-        st.altair_chart(gera_graficos_distribuicao_por_tipo(df_acidentes_geral_por_tipo))
+        st_altair_chart_fixed_width(gera_graficos_distribuicao_por_tipo(df_acidentes_geral_por_tipo))
     with tab7_sub3:    
-        st.altair_chart(gera_graficos_distribuicao_por_br(df_acidentes_geral_por_br))
+        st_altair_chart_fixed_width(gera_graficos_distribuicao_por_br(df_acidentes_geral_por_br))
     with tab7_sub4:    
-        st.altair_chart(gera_graficos_distribuicao_por_classificacao(df_acidentes_geral_por_classificacao))
+        st_altair_chart_fixed_width(gera_graficos_distribuicao_por_classificacao(df_acidentes_geral_por_classificacao))
     with tab7_sub5:        
-        st.altair_chart(gera_graficos_distribuicao_por_causa(df_acidentes_geral_por_causa))
+        st_altair_chart_fixed_width(gera_graficos_distribuicao_por_causa(df_acidentes_geral_por_causa))
     with tab7_sub6:    
-        st.altair_chart(gera_graficos_distribuicao_por_fasedia(df_acidentes_geral_por_fasedia))
+        st_altair_chart_fixed_width(gera_graficos_distribuicao_por_fasedia(df_acidentes_geral_por_fasedia))
     with tab7_sub7:    
-        st.altair_chart(gera_graficos_distribuicao_por_condicao_metereologica(df_acidentes_geral_por_condicao_metereologica))
+        st_altair_chart_fixed_width(gera_graficos_distribuicao_por_condicao_metereologica(df_acidentes_geral_por_condicao_metereologica))
     with tab7_sub8:    
-        st.altair_chart(gera_graficos_distribuicao_por_dia_semana(df_acidentes_geral_por_dia_semana))
+        st_altair_chart_fixed_width(gera_graficos_distribuicao_por_dia_semana(df_acidentes_geral_por_dia_semana))
     with tab7_sub9:    
-        st.altair_chart(gera_graficos_distribuicao_por_tipo_veiculo(df_acidentes_geral_por_tipo_veiculo))
+        st_altair_chart_fixed_width(gera_graficos_distribuicao_por_tipo_veiculo(df_acidentes_geral_por_tipo_veiculo))
     
 # ==============================================================================  
 with tab09:    
@@ -1121,13 +1118,13 @@ with tab09:
         # Caminho da imagem
         image_path = "mapas/mapa_rodovias_federais.png"
         image = Image.open(image_path)
-        st.image(image, caption='Mapa das BRs do Brasil', use_column_width=True)
+        st.image(image, caption='Mapa das BRs do Brasil')
 
     with tab09_sub4:
 
         image_path = 'mapas/mapa_brasil_brs_10.png'
         image = Image.open(image_path)
-        st.image(image, caption='Mapa das BRs do Brasil', use_column_width=True)
+        st.image(image, caption='Mapa das BRs do Brasil')
 
 # ==============================================================================  
 with tab04:
@@ -1146,22 +1143,22 @@ with tab04:
     )    
 
     with tab4_sub1:
-        st.altair_chart(gera_graficos_mapa_calor_por_uf(df_acidentes_geral_por_uf))
+        st_altair_chart_fixed_width(gera_graficos_mapa_calor_por_uf(df_acidentes_geral_por_uf))
     with tab4_sub2:        
-        st.altair_chart(gera_graficos_mapa_calor_por_tipo(df_acidentes_geral_por_tipo))
+        st_altair_chart_fixed_width(gera_graficos_mapa_calor_por_tipo(df_acidentes_geral_por_tipo))
     with tab4_sub3:        
-        st.altair_chart(gera_graficos_mapa_calor_por_br(df_acidentes_geral_por_br))    
+        st_altair_chart_fixed_width(gera_graficos_mapa_calor_por_br(df_acidentes_geral_por_br))    
     with tab4_sub4:        
-        st.altair_chart(gera_graficos_mapa_calor_por_classificacao(df_acidentes_geral_por_classificacao))
+        st_altair_chart_fixed_width(gera_graficos_mapa_calor_por_classificacao(df_acidentes_geral_por_classificacao))
     with tab4_sub5:        
-        st.altair_chart(gera_graficos_mapa_calor_por_causa(df_acidentes_geral_por_causa))
+        st_altair_chart_fixed_width(gera_graficos_mapa_calor_por_causa(df_acidentes_geral_por_causa))
     with tab4_sub6:        
-        st.altair_chart(gera_graficos_mapa_calor_por_fasedia(df_acidentes_geral_por_fasedia))
+        st_altair_chart_fixed_width(gera_graficos_mapa_calor_por_fasedia(df_acidentes_geral_por_fasedia))
     with tab4_sub7:        
-        st.altair_chart(gera_graficos_mapa_calor_por_condicao_metereologica(df_acidentes_geral_por_condicao_metereologica))
+        st_altair_chart_fixed_width(gera_graficos_mapa_calor_por_condicao_metereologica(df_acidentes_geral_por_condicao_metereologica))
     with tab4_sub8:        
-        st.altair_chart(gera_graficos_mapa_calor_por_dia_semana(df_acidentes_geral_por_dia_semana))
+        st_altair_chart_fixed_width(gera_graficos_mapa_calor_por_dia_semana(df_acidentes_geral_por_dia_semana))
     with tab4_sub9:        
-        st.altair_chart(gera_graficos_mapa_calor_por_tipo_veiculo(df_acidentes_geral_por_tipo_veiculo))                               
+        st_altair_chart_fixed_width(gera_graficos_mapa_calor_por_tipo_veiculo(df_acidentes_geral_por_tipo_veiculo))                               
 
 # ==============================================================================      

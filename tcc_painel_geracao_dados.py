@@ -96,11 +96,11 @@ def gera_dados_gerais_tipo():
 # =======================================================
 def gera_dados_gerais_br():
 
-  processa_acidentes_geral_br(10)
-  processa_acidentes_geral_br(20)
-  processa_acidentes_geral_br(30)
+  #processa_acidentes_geral_br(10)
+  #processa_acidentes_geral_br(20)
+  #processa_acidentes_geral_br(30)
   processa_acidentes_geral_br(40)
-  processa_acidentes_geral_br(50)
+  #processa_acidentes_geral_br(50)
 
 # =======================================================
 def gera_dados_gerais_causa():
@@ -137,5 +137,6 @@ def gera_dados_gerais_tipo_veiculo():
 # =======================================================
 # main 
 # =======================================================
-gera_dados_gerais()
+#gera_dados_gerais()
+gera_dados_gerais_br()
 

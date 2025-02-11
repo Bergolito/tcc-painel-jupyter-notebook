@@ -395,7 +395,10 @@ def processa_acidentes_geral_br(qtd_brs):
 
     # listar as brs por ordem de acidentes    
     if qtd_brs is not None:
-      lista_brs = grouped['br'].head(qtd_brs).tolist()    
+      #lista_brs = grouped['br'].head(qtd_brs).tolist()    
+      lista_brs = grouped['br'].tolist()    
+      lista_brs = lista_brs[:qtd_brs]
+      print(f"Lista de brs ({len(lista_brs)}) = {lista_brs}")
     
     df_geral_br = pd.DataFrame(columns=['br', 'qtd', 'ano'])
     

@@ -18,6 +18,9 @@ lista_cores_graficos = [
 # =======================================================
 # Gráficos
 # =======================================================
+def st_altair_chart_fixed_width(chart, **kwargs):
+    st.altair_chart(chart, use_container_width=False, **kwargs)
+# =======================================================    
 def gera_grafico_barras_horizontal_por_uf(titulo, contagem_por_uf_ano):
 
     lista_cores = alt.Scale(domain=contagem_por_uf_ano['uf'].unique(), range=lista_cores_graficos)
@@ -490,7 +493,8 @@ def gera_grafico_ranking_uf_02(df_acidentes_geral_por_uf):
         tooltip=['uf', 'qtd', 'ano']
     ).properties(
         title='Evolução da Quantidade de Acidentes por UF  (2007 a 2024)',
-        width=800, height=600
+        width=800, 
+        height=600
     ).add_selection(
         alt.selection_single(fields=['uf'], bind='legend')
     ).interactive()
@@ -555,7 +559,8 @@ def gera_grafico_ranking_tipo_02(df_acidentes_geral_por_tipo):
         tooltip=['tipo_acidente', 'qtd', 'ano']
     ).properties(
         title='Evolução da Quantidade de Acidentes por Tipo  (2007 a 2024)',
-        width=800, height=600
+        width=800, 
+        height=600
     ).add_selection(
         alt.selection_single(fields=['ano'], bind='legend')
     ).interactive()
