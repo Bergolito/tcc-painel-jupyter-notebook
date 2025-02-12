@@ -60,7 +60,7 @@ ano_fim = None
 
 st.set_page_config(
     page_title="AVATAR - Painel de Acidentes de Trânsito",
-    page_icon="favicon.ico",  # Nome do arquivo do ícone na pasta "static"
+    page_icon="static/favicon.ico",  # Nome do arquivo do ícone na pasta "static"
     layout="wide"
 )
 
